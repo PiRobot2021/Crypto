@@ -12,11 +12,10 @@ to encrypt a plaintext: -e ROT "plaintext"
 to decrypt through all possible letter rotations: -d "ciphertext"
 """
 
+
 from sys import argv
 import string
 from collections import deque
-
-
 
 
 def encrypt(rot, plaintext):
@@ -30,6 +29,7 @@ def encrypt(rot, plaintext):
     rotation_tab= cipher.maketrans(string.ascii_uppercase, ''.join(SHIFT))
     print(cipher.translate(rotation_tab))
 
+    
 def decrypt(cipher):
     for rot in range(26):
         shift= deque([l for l in string.ascii_lowercase])
@@ -41,7 +41,6 @@ def decrypt(cipher):
         SHIFT.rotate(rot)
         rotation_tab= cipher.maketrans(string.ascii_uppercase, ''.join(SHIFT))
         print(rot, '\t', cipher.translate(rotation_tab))
-
 
 
 def main():
