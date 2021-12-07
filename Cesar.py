@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 CESAR CIPHER
-First historical cipher (substitution cipher).
+First historical cipher (substitution cipher) used by Julius Cesar.
 Obtained by shifting all letters of plaintext by 3 positions on the right.
 This algorithm let define the amplitude of the rotation.
 
