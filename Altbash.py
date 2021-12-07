@@ -7,7 +7,7 @@ It reverses the order of the letters in the alphabet (single substitution).
 Key space: 26
 
 Usage:
-to encrypt a plaintext: -e ROT plaintext
+to encrypt a plaintext: -e plaintext
 to decrypt through all possible letter rotations: -d ciphertext
 """
 
