@@ -8,8 +8,8 @@ This algorithm let define the amplitude of the rotation.
 Key space = 26
 
 Usage:
-to encrypt a plaintext: -e ROT plaintext
-to decrypt through all possible letter rotations: -d ciphertext
+to encrypt a plaintext: -e ROT "plaintext"
+to decrypt through all possible letter rotations: -d "ciphertext"
 """
 
 from sys import argv
@@ -45,12 +45,12 @@ def decrypt(cipher):
 
 
 def main():
-    if argv[1] == '-e' and len(argv) == 4:
-        encrypt(int(argv[2]), argv[3])
-    elif argv[1] == '-d' and len(argv) == 3:
-        decrypt(argv[2])
+    if argv[1] == '-e' and len(argv) > 3:
+        encrypt(int(argv[2]), ' '.join(argv[i] for i in range(2, len(argv))))
+    elif argv[1] == '-d' and len(argv) > 2:
+        decrypt(' '.join(argv[i] for i in range(2, len(argv))))
     else:
-        print('To encrypt a plaintext with rotation (example 13): Cesar.py -e 13 plaintext')
+        print('To encrypt a plaintext with rotation (example 13): Cesar.py -e 13 "plaintext and more plaintext"')
         print('To decrypt through all possible 26 rotations: Cesar.py -d ciphertext')
 
 main()
