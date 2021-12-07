@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 AFFINE CIPHERS
-Elaborated substitution ciphers with key pairs, following the formula
+Class of substitution ciphers with key pairs, following the formula.
+Common rotation ciphers (e.g. ROT13) fall in this category.
 
 L * a + b (mod N)
 
