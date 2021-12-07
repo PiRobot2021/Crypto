@@ -4,6 +4,8 @@ First historical cipher (substitution cipher).
 Obtained by shifting all letters of plaintext by 3 positions on the right.
 This algorithm let define the amplitude of the rotation.
 
+Key space = 26
+
 Usage:
 to encrypt a plaintext: -e ROT plaintext
 to decrypt through all possible letter rotations: -d ciphertext
