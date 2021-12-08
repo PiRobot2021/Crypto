@@ -45,10 +45,10 @@ def decrypt(cipher):
 
 
 def main():
-    if argv[1] == '-e' and len(argv) > 2:                                       # Encrypting with -e option
+    if argv[1] == '-e':                                                         # Encrypting with -e option
         plaintext= ' '.join(argv[i] for i in range(2, len(argv)))               # If multiple words are given, they are merged into a string
         encrypt(plaintext.lower())                           
-    elif argv[1] == '-d' and len(argv) > 2:                                     # Decrypting with -d option
+    elif argv[1] == '-d':                                                       # Decrypting with -d option
         cipher= ' '.join(argv[i] for i in range(2, len(argv)))                  # If the ciphertext contains multiple words, they are mergeed into a string
         decrypt(cipher)                                                         
     else:
