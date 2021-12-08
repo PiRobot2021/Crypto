@@ -75,7 +75,7 @@ def main():
             encrypt(int(argv[2]), int(argv[3]), plaintext)                      # Encrypt using the KEY1 (argv[2]) and KEY2 (argv[3]), casted as integers. 
         else:
             print('KEY1 must be coprime of the modulus, check for possible values with -k')
-    elif argv[1] == '-d' and len(argv) > 2:                                     # Decrypting with -d option
+    elif argv[1] == '-d':                                                       # Decrypting with -d option
         cipher= ' '.join(argv[i] for i in range(2, len(argv)))                  # If the ciphertext contains multiple words, they are mergeed into a string
         decrypt(cipher)                                                         
     elif argv[1] == '-k':
