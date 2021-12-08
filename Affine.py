@@ -72,7 +72,7 @@ def main():
     
     # Decryption
     i= input('Want to try decrypting? [y/n]: ')
-    if i:
+    if i == 'y':
         decrypt(cipher)                                                         
 
 main()
