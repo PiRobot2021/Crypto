@@ -48,7 +48,7 @@ def main():
     
     # Decryption
     i= input('Do you want to tyr decrypting? [y/n]: ')
-    if i:
+    if i == 'y':
         decrypt(cipher)
 
 main()
