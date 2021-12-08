@@ -5,15 +5,12 @@ First historical cipher (substitution cipher) used by Julius Cesar.
 Obtained by shifting all letters of plaintext by 3 positions on the right.
 This algorithm let define the amplitude of the rotation.
 
-Key space = 26
-
 Usage:
 to encrypt a plaintext with a numeric key: -e KEY "plaintext"
 to decrypt through all possible letter rotations: -d "ciphertext"
 """
 
 
-from sys import argv
 import string
 from collections import deque
 
@@ -29,7 +26,7 @@ def encrypt(rot, plaintext):
     SHIFT= deque(AZ)
     SHIFT.rotate(rot)
     rotation_tab= cipher.maketrans(string.ascii_uppercase, ''.join(SHIFT))
-    print(cipher.translate(rotation_tab))
+    return cipher.translate(rotation_tab)
 
     
 def decrypt(cipher):
@@ -46,15 +43,12 @@ def decrypt(cipher):
 
 
 def main():
-    if argv[1] == '-e' and len(argv) > 2:
-        text= ' '.join(argv[i] for i in range(2, len(argv)))                            # Merge multiple words with spaces into one string
-        key= int(argv[2])
-        encrypt(key, text)
-    elif argv[1] == '-d':
-        cipher= ' '.join(argv[i] for i in range(2, len(argv)))                          # Merge multiple words with spaces into one string
-        decrypt(cipher)
-    else:
-        print('To encrypt a plaintext (example with rotation 13): Cesar.py -e 13 "plaintext and more plaintext"')
-        print('To decrypt through all possible rotations: Cesar.py -d ciphertext')
+    text= input('Type your text: ')
+    
+    key= input('Enter a numeric key: ')
+    cipher= encrypt(int(key), text)
+    print(cipher)
+    
+    #decrypt(cipher)
 
 main()
