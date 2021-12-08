@@ -67,7 +67,9 @@ def main():
     print(f'\nCipher: {cipher}\n')
 
     # Decryption
-    decrypt(key, cipher)
+    i= input('Do you want to decrypt with known key? [y/n]:')
+    if i == 'y':
+        decrypt(key, cipher)
     #brute_force(cipher)
 
 main()
