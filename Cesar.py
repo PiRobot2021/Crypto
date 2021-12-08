@@ -44,7 +44,7 @@ def decrypt(cipher):
 
 
 def main():
-    if argv[1] == '-e' and len(argv) > 3:
+    if argv[1] == '-e' and len(argv) > 2:
         encrypt(int(argv[2]), ' '.join(argv[i] for i in range(2, len(argv))))
     elif argv[1] == '-d' and len(argv) > 2:
         decrypt(' '.join(argv[i] for i in range(2, len(argv))))
