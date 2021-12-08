@@ -4,10 +4,6 @@ CESAR CIPHER
 First historical cipher (substitution cipher) used by Julius Cesar.
 Obtained by shifting all letters of plaintext by 3 positions on the right.
 This algorithm let define the amplitude of the rotation.
-
-Usage:
-to encrypt a plaintext with a numeric key: -e KEY "plaintext"
-to decrypt through all possible letter rotations: -d "ciphertext"
 """
 
 
@@ -43,12 +39,13 @@ def decrypt(cipher):
 
 
 def main():
+    # Encryption
     text= input('Type your text: ')
-    
     key= input('Enter a numeric key: ')
     cipher= encrypt(int(key), text)
-    print(cipher)
+    print(f'{cipher}\n')
     
+    # Decryption
     #decrypt(cipher)
 
 main()
