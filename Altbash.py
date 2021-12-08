@@ -21,7 +21,7 @@ def encrypt_decrypt(text):
     rotation_tab= text.maketrans(string.ascii_lowercase, za)
     reverse= text.translate(rotation_tab)
     rotation_tab= text.maketrans(string.ascii_uppercase, ZA)
-    print(reverse.translate(rotation_tab))
+    print(reverse.translate(rotation_tab).replace(' ', ''))
 
 
 def main():
