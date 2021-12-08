@@ -4,8 +4,6 @@
 ALTBASH CIPHER
 Used by Hebrew scribes to encrypt the biblical book of Jeremiah.
 It simply reverses the order of the letters in the alphabet (single substitution).
-
-Key space: 26
 """
 
 import string
