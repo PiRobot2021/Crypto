@@ -2,7 +2,7 @@
 """
 ALTBASH CIPHER
 Used by Hebrew scribes to encrypt the biblical book of Jeremiah.
-It reverses the order of the letters in the alphabet (single substitution).
+It simply reverses the order of the letters in the alphabet (single substitution).
 
 Key space: 26
 
@@ -13,38 +13,30 @@ to decrypt through all possible letter rotations: -d ciphertext
 
 from sys import argv
 import string
-from collections import deque
 
 
-def encrypt(plaintext):
-    shift= deque([l for l in string.ascii_lowercase])
-    shift.reverse()
-    rotation_tab= plaintext.maketrans(string.ascii_lowercase, ''.join(shift))
-    cipher= plaintext.translate(rotation_tab)
-    
-    SHIFT= deque([L for L in string.ascii_uppercase])
-    SHIFT.reverse()
-    rotation_tab= cipher.maketrans(string.ascii_uppercase, ''.join(SHIFT))
-    print(cipher.translate(rotation_tab))
+def encrypt_decrypt(text):
+    az= [l for l in string.ascii_lowercase]
+    az.reverse()
+    za= ''.join(az)
 
+    AZ= [l for l in string.ascii_uppercase]
+    AZ.reverse()
+    ZA= ''.join(AZ)
 
-def decrypt(cipher):
-    shift= deque([l for l in string.ascii_lowercase])
-    shift.reverse()
-    rotation_tab= cipher.maketrans(string.ascii_lowercase, ''.join(shift))
-    cipher= cipher.translate(rotation_tab)
-    
-    SHIFT= deque([L for L in string.ascii_uppercase])
-    SHIFT.reverse()
-    rotation_tab= cipher.maketrans(string.ascii_uppercase, ''.join(SHIFT))
-    print(cipher.translate(rotation_tab))
+    rotation_tab= text.maketrans(string.ascii_lowercase, za)
+    reverse= ext.translate(rotation_tab)
+    rotation_tab= text.maketrans(string.ascii_uppercase, ZA)
+    print(reverse.translate(rotation_tab))
 
 
 def main():
     if argv[1] == '-e':
-        encrypt(' '.join(argv[i] for i in range(2, len(argv))))
+        text= ' '.join(argv[i] for i in range(2, len(argv)))                
+        encrypt_decrypt(text)
     elif argv[1] == '-d':
-        decrypt(' '.join(argv[i] for i in range(2, len(argv))))
+        cipher= ' '.join(argv[i] for i in range(2, len(argv)))
+        decrypt_decrypt(cipher)
     else:
         print('To encrypt a plaintext : Altbash.py -e plaintext')
         print('To decrypt a cipher: Altbash.py -d ciphertext')
