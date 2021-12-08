@@ -46,7 +46,7 @@ def decrypt(cipher):
 def main():
     if argv[1] == '-e' and len(argv) > 2:
         encrypt(int(argv[2]), ' '.join(argv[i] for i in range(2, len(argv))))
-    elif argv[1] == '-d' and len(argv) > 2:
+    elif argv[1] == '-d':
         decrypt(' '.join(argv[i] for i in range(2, len(argv))))
     else:
         print('To encrypt a plaintext with rotation (example 13): Cesar.py -e 13 "plaintext and more plaintext"')
