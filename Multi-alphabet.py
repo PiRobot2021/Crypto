@@ -28,7 +28,7 @@ def encrypt(key, plaintext):
             cipher+= AZ[(i + key_rot) % len(AZ)]                    # Apply the key rotation to the letter in the alphabet (upper ascii)
         else:
             cipher+= l                                              # Leave all the other characters (digits, punctuations, etc.) untouched
-    return cipher
+    return cipher.replace(' ', '')
     
     
 def decrypt(cipher):
@@ -43,6 +43,8 @@ def main():
     print(f'{cipher}\n')
     
     # Decryption
-    #decrypt(cipher)
+    i= input('Do you want to try decrypting? [y/n]: ')
+    if i == 'y':
+        decrypt(cipher)
 
 main()
