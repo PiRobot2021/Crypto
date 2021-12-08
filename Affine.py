@@ -43,6 +43,7 @@ def encrypt(key1, key2, plaintext):
 
 
 def decrypt(cipher):
+    print('K1\tK2\tTENTATIVE')
     for key1 in coprimes():
         for key2 in range(mod):
             plaintext= ''
@@ -55,7 +56,7 @@ def decrypt(cipher):
                     plaintext+= ALPHABET[rot]
                 else:
                     plaintext+= l
-            print(key1, key2, plaintext)
+            print(f'{key1}\t{key2}\t{plaintext}')
 
 
 def main():
@@ -70,6 +71,8 @@ def main():
     print(f'{cipher}\n')
     
     # Decryption
-    #decrypt(cipher)                                                         
+    i= input('Want to try decrypting? [y/n]: ')
+    if i:
+        decrypt(cipher)                                                         
 
 main()
