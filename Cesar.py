@@ -22,7 +22,7 @@ def encrypt(rot, plaintext):
     SHIFT= deque(AZ)
     SHIFT.rotate(rot)
     rotation_tab= cipher.maketrans(string.ascii_uppercase, ''.join(SHIFT))
-    return cipher.translate(rotation_tab)
+    return cipher.translate(rotation_tab).replace(' ', '')
 
     
 def decrypt(cipher):
@@ -42,10 +42,13 @@ def main():
     # Encryption
     text= input('Type your text: ')
     key= input('Enter a numeric key: ')
+    assert(key.isdigit())
     cipher= encrypt(int(key), text)
     print(f'{cipher}\n')
     
     # Decryption
-    #decrypt(cipher)
+    i= input('Do you want to tyr decrypting? [y/n]: ')
+    if i:
+        decrypt(cipher)
 
 main()
