@@ -14,10 +14,13 @@ This cipher obfuscates frequency analysis effectively.
 Knowing the keyword, the cipher is decrypted by obtaining the row index of the cipher letter in the column indicated by the key character.
 The plaintext letter is row index of it.
 
+A variation of this cipher, the "running key cipher" uses a random string of random characters
+
 """
 
 
 import string
+import random
 import pandas as pd
 from collections import deque
 
@@ -61,13 +64,14 @@ def decrypt(key, cipher):
 def main():
     # Encryption
     text= input('Type your text: ')
-    key= input('Type a secret keyword: ')
-    assert(key.isascii())                                                       # The cipher only works if the keyword contains only ascii characters
+    #key= input('Type a secret keyword: ')
+    #assert(key.isascii())                                                      # The cipher only works if the keyword contains only ascii characters
+    key= ''.join(random.choices(string.ascii_lowercase, k=256))                 # A stronger variation with random key, called "running key cipher"
     cipher= encrypt(key.lower(), text.lower())                                  # The tabula recta is not case sensitive, all letters are turned lower case
     print(f'\nCipher: {cipher}\n')
 
     # Decryption
-    i= input('Do you want to decrypt with known key? [y/n]:')
+    i= input(f'Do you want to decrypt with the key {key}? [y/n]:')
     if i == 'y':
         decrypt(key, cipher)
     #brute_force(cipher)
