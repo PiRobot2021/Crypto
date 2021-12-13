@@ -2,16 +2,15 @@
 
 """
 COLUMNAR CIPHER
-A transposition cipher where the encryption proceeds through columns.
-The text is split in chunks as long as the leght of the key, then padded with a defined character, 
-and tabled, so that each chunk fits in a row of the table.
+A classic transposition cipher where the encryption proceeds through columns.
+First, the text is split in chunks of the leght of the key, then padded with a defined character. 
+Finally each chunk is inserted row by row into a table.
 
-By tabling the text this way, the amount of columns in the table are equal to the lenght of the key.
+By tabling the text this way, the amount of columns is equal to the lenght of the key.
 
-The encryption proceeds now by appending to the cipher the letters flowing through each column.
-
-The order of columns follows the the order to the chacters in the secret key ordered by their values,
-where the lowest value is zero, and the others increase by steps of 1.
+The encryption proceeds now by appending to the cipher the letter in the table column by column.
+The order of columns follows the the order to the chacters in the secret key, sorted by their ascending value,
+where the lowest char value is zero, then increasing by steps of 1.
 
 Example of key conversion to column order:
 Password: Post45
