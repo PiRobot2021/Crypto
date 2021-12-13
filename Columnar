@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+
+"""
+COLUMNAR CIPHER
+A transposition cipher where the encryption proceeds through columns.
+The text is split in chunks as long as the leght of the key, then padded with a defined character, 
+and tabled, so that each chunk fits in a row of the table.
+
+By tabling the text this way, the amount of columns in the table are equal to the lenght of the key.
+
+The encryption proceeds now by appending to the cipher the letters flowing through each column.
+
+The order of columns follows the the order to the chacters in the secret key ordered by their values,
+where the lowest value is zero, and the others increase by steps of 1.
+
+Example of key conversion to column order:
+Password: Post45
+Key: [(P, 2), (o, 3), (s, 4), (t, 5), (4, 0), (5, 1)]
+Columns are then encrypted in the order: [2, 3, 4, 5, 0, 1]
+
+This cipher has branched several variations and improvements over the years.
+"""
+
+import pandas as pd
+
+# Setup values for padding                                              
+PADDING_CHAR= '_'                                                                                                          
+
+
+def to_table(text, key):
+    table= pd.DataFrame(columns= [i for i in range(len(key))])                      # Create empty table, with columns from "0" to the length of the key
+    while len(text) % len(key) != 0:                                                # Pad the text and the tail, to fit into the table
+        text+= PADDING_CHAR
+    j= 0
+    for i in range(0, len(text), len(key)):                                         # Split the text in chunks as long as the key length, and load them into the rows of the table
+        chunk= [i for i in text[i: i + len(key)]]
+        table.loc[j]= chunk
+        j+= 1
+    return table
+
+
+def to_index(key):
+    template= tuple(zip(sorted(key), [i for i in range(len(key))]))                 # Create a tuple with the characters in the key sorted by their ascii values, coupled with int values from "0" to len(key)
+    key= [i for i in key]                                                           # Create a list of key chars in the original order
+    return set([tuple for x in key for tuple in template if tuple[0] == x])         # Sort the template according to the order of chars in the key. Cast into set to avoid redundancies if the key contains char duplicates 
+        
+
+def columnar_encrypt(text, key):
+    text= text.replace(' ', '')                                                     # Remove string spaces from the plaintext
+    table= to_table(text, key)                                                      # Table the text
+    key = to_index(key)                                                             # Convert the key from string into sorted tuples containing the ordered values of the key chars
+    cipher= ''
+    for column in key:
+        cipher+= ''.join(table[column[1]])                                          # Encrypt by proceeding through each column, in the order given by the ranked key chars
+    return cipher.replace(PADDING_CHAR, '')                                         # Remove the padding chars
+
+    
+def main():
+    text= input('Type your text: ')
+    key= input('Type your secret key: ')
+    
+    # Encryption
+    cipher= columnar_encrypt(text, key)
+    print(f'Encrypted: {cipher}')
+
+main()
