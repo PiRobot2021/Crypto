@@ -46,7 +46,7 @@ def squaring(text):
     return table
 
 
-def snake(text, table):
+def snake(text):
     cipher= ''
     table=squaring(text)                                                # Square the text
     for y in range(len(table)):
@@ -76,12 +76,12 @@ def diagonal(text):
 
 
 def geometric_encrypt(text):                                            # I created two examples, one following diagonal path, the other snaking through from left to right
-    cipher1= diagonal(text)                                             
-    cipher2= snake(cipher1)
+    cipher= diagonal(text)                                             
+    cipher= snake(cipher)
     if REMOVE_PADDING:
-        return cipher2.replace(PADDING_CHAR, '')
+        return cipher.replace(PADDING_CHAR, '')
     else:
-        return cipher2
+        return cipher
 
     
 def main():
