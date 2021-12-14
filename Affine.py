@@ -68,7 +68,7 @@ def main():
 
     key2= input('Type the second numeric key: ')
     cipher= encrypt(int(key1), int(key2), text)                                 # Encrypt using the keys casted as integers 
-    print(f'{cipher}\n')
+    print(f'\nCipher: {cipher}\n')
     
     # Decryption
     i= input('Want to try decrypting? [y/n]: ')
