@@ -88,6 +88,6 @@ def main():
     text= input('Type your text: ')
     # Encryption
     cipher= geometric_encrypt(text)
-    print(f'Encrypted: {cipher}')
+    print(f'\nCipher: {cipher}')
 
 main()
