@@ -39,8 +39,9 @@ def main():
     # Encryption
     text= input('Type your text: ')
     key= input('Type a numeric key: ')
+    assert(key.isdigit())
     cipher= encrypt(key, text)
-    print(f'{cipher}\n')
+    print(f'\nCipher: {cipher}\n')
     
     # Decryption
     i= input('Do you want to try decrypting? [y/n]: ')
