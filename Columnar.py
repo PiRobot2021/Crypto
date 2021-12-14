@@ -68,6 +68,6 @@ def main():
     
     # Encryption
     cipher= columnar_encrypt(text, key)
-    print(f'Encrypted: {cipher}')
+    print(f'\nCipher: {cipher}')
 
 main()
