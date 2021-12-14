@@ -26,6 +26,6 @@ def main():
     
     # Encryption
     cipher= encrypt(text)
-    print(f'Encrypted: {cipher}')
+    print(f'\nCipher: {cipher}')
 
 main()
