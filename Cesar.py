@@ -47,7 +47,7 @@ def main():
     print(f'\nCipher: {cipher}\n')
     
     # Decryption
-    i= input('Do you want to tyr decrypting? [y/n]: ')
+    i= input('Do you want to try decrypting? [y/n]: ')
     if i == 'y':
         decrypt(cipher)
 
