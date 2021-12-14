@@ -44,7 +44,7 @@ def main():
     key= input('Enter a numeric key: ')
     assert(key.isdigit())
     cipher= encrypt(int(key), text)
-    print(f'{cipher}\n')
+    print(f'\nCipher: {cipher}\n')
     
     # Decryption
     i= input('Do you want to tyr decrypting? [y/n]: ')
