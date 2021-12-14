@@ -43,7 +43,7 @@ def main():
     # Encryption
     text= input('Type your text: ')
     cipher= encrypt(text.lower())                           
-    print(f'{cipher}\n')
+    print(f'\nCipher: {cipher}\n')
     
     # Decryption
     i= input('Do you wnat to try decrypting? [y/n]: ')
