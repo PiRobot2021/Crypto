@@ -71,16 +71,10 @@ def play_fair_process(table, a, b):
         text+= chunk
     else:
         if (a[0] < b [0] and a[1] < b[1]) or (a[0] > b[0] and a[1] > b[1]):             # If the letters form a diagonal top-left to down-right
-            if a[0] < b[0]:                                                             # this check guarantees that the encryption flows top-right to down-left
-                chunk= table.loc[a[0], b[1]] + table.loc[b[0], a[1]]
-            else:
-                chunk= table.loc[a[0], b[1]] + table.loc[b[0], a[1]]
+            chunk= table.loc[a[0], b[1]] + table.loc[b[0], a[1]]
             text+= chunk
         else:                                                                           # Else the letters form a diagonal top-right to down-left
-            if a[0] < b[0]:                                                             # this check guarantees that the encryption flows top-right to down-left
-                chunk= table.loc[b[0], a[1]] + table.loc[a[0], b[1]]
-            else:
-                chunk= table.loc[b[0], a[1]] + table.loc[a[0], b[1]]
+            chunk= table.loc[b[0], a[1]] + table.loc[a[0], b[1]]
             text+= chunk
     return text
         
