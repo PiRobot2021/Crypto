@@ -22,7 +22,7 @@ This cipher disrupts the letter and word frequencies by encrypting letters by pa
 
 """
 
-import pandas as pd
+import pandas as pd                                                                     # I decided to use pandas, for two square and four square variations I use numpy to compare the codes
 import string
 
 PADDING_CHAR= 'z'
@@ -60,19 +60,19 @@ def find_coords(table, value):
 
 
 def play_fair_process(table, a, b):
-    text= ''
+    cipher= ''
     if a[0] == b[0]:                                                                    # If the letters of the plaintext chunk sit in the same row
         rotate_down= (max(a[1], b[1]) + 1) % len(table)
-        text+= table.loc[a[0], max(a[1], b[1])] + table.loc[a[0], rotate_down]          # Add to the cipher the two letters rotated by one position downwards
+        cipher+= table.loc[a[0], max(a[1], b[1])] + table.loc[a[0], rotate_down]        # Add to the cipher the two letters rotated by one position downwards
     elif a[1] == b[1]:                                                                  # If the letters of the plaintext chunk sit in the same column
         rotate_right= (max(a[0], b[0]) + 1) % len(table)
-        text+= table.loc[max(a[0], b[0]), a[1]] + table.loc[rotate_right, a[1]]         # Add to the cipher the two letters rotated by one position rightwards
+        cipher+= table.loc[max(a[0], b[0]), a[1]] + table.loc[rotate_right, a[1]]       # Add to the cipher the two letters rotated by one position rightwards
     else:
         if (a[0] < b [0] and a[1] < b[1]) or (a[0] > b[0] and a[1] > b[1]):             # If the letters form a diagonal top-left to down-right
-            text+= table.loc[a[0], b[1]] + table.loc[b[0], a[1]]                        # Add to the cipher the letters at the edges of the opposite diagonal top-right to down-left 
+            cipher+= table.loc[a[0], b[1]] + table.loc[b[0], a[1]]                      # Add to the cipher the letters at the edges of the opposite diagonal top-right to down-left 
         else:                                                                           # Else the letters form a diagonal top-right to down-left
-            text+= table.loc[b[0], a[1]] + table.loc[a[0], b[1]]                        # Add to the cipher the letters at the edges of the opposite diagonal top-left to down-right
-    return text
+            cipher+= table.loc[b[0], a[1]] + table.loc[a[0], b[1]]                      # Add to the cipher the letters at the edges of the opposite diagonal top-left to down-right
+    return cipher
         
 
 def encrypt(text, key):
