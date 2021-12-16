@@ -79,7 +79,7 @@ def two_square_process(tables, a, b):
 
 def encrypt(text, key1, key2):
     cipher= ''
-    tables= list(map(map_key, [key1.lower(), key2.lower()]))
+    tables= list(map(map_key, [key1, key2]))
     text= prep(text)
     if VARIANT == 'V':
         print(f'\nFirst key map:\n{tables[0]}\n\nSecond key map:\n{tables[1]}\n')
@@ -94,16 +94,16 @@ def encrypt(text, key1, key2):
 
 def main():
     text= input('Type your text: ')
-    text= re.sub('[\t\s]', '', text) 
-    assert(text.islower() or text.isupper())                                        # Two_square cipher can encrypt only letters
+    text= re.sub('[\t\s]', '', text.lower()) 
+    assert(text.islower())                                                          # Two_square cipher can encrypt only letters
     
     key1= input('Type a password (only ascii chars): ')
-    key1= re.sub('[\t\s]', '', key1)
-    assert(key1.islower() or key1.isupper())                                        # Playfair accepts keywords containing only letters
+    key1= re.sub('[\t\s]', '', key1.lower())
+    assert(key1.islower())                                                          # Playfair accepts keywords containing only letters
     
     key2= input('Type a password (only ascii chars): ')
-    key2= re.sub('[\t\s]', '', key2)
-    assert(key2.islower() or key2.isupper())                                        # Playfair accepts keywords containing only letters
+    key2= re.sub('[\t\s]', '', key2.lower())
+    assert(key2.islower())                                                          # Playfair accepts keywords containing only letters
     
     cipher= encrypt(text, key1, key2)
     print(f'Cipher: {cipher}')
