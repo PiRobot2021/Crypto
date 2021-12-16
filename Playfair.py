@@ -24,6 +24,7 @@ This cipher disrupts the letter and word frequencies by encrypting letters by pa
 
 import pandas as pd                                                                     # I decided to use pandas, for two square and four square variations I use numpy to compare the codes
 import string
+import re
 
 PADDING_CHAR= 'z'
 
@@ -39,8 +40,7 @@ def map_key(key):
     return table
 
 
-def prep(text):
-    text= text.replace(' ', '')                                                         # Playfair cipher does not allow spaces between words
+def prep(text):                                                      
     if len(text) % 2 != 0:                                                              # If the length of the text is odd, one pad char is appended
         text += PADDING_CHAR
     result= []
@@ -89,9 +89,13 @@ def encrypt(text, key):
 
 def main():
     text= input('Type your text: ')
-    key= input('Type a password (only ascii chars): ')
-    assert(key.islower() or key.isupper())                                              # Playfair accepts keywords containing only letters
+    text= re.sub('[\t\s]', '', text)                                                    # Playfair cipher does not allow spaces between words
     assert(text.islower() or text.isupper())                                            # Playfair can only encrypt letters 
+    
+    key= input('Type a password (only ascii chars): ')
+    key= re.sub('[\t\s]', '', key)
+    assert(key.islower() or key.isupper())                                              # Playfair accepts keywords containing only letters
+    
     cipher= encrypt(text, key)
     print(f'\nCipher: {cipher}')
 
