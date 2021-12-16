@@ -8,12 +8,12 @@ The keys are mapped using the same rules of Playfair: first, a 5x5 matrix is fil
 then all other letters of the alphabet are filled in ascending order, combining i/j in the same cell. A variation could be to remove the "q".
 
 
-Like Playfair, the plaintext is split into pairs of 2 letters.
-Text of odd length is padded with a "z".
-In this case, if a letter pair contains the same letter, the second letter is not replaced by "x".
+Like Playfair, the plaintext is split into pairs of 2 letters, and if the length of the text is odd length, the end is padded with a "z".
+In this case, it is allowed to have pairs contains the same letter.
 
-The same encryption rules of Playfair apply, but the two letters are mapped in two matrixes rather than one.
-The only exception is that is the letters line up on the same row or column, the pair is left unencrypted.
+The same encryption rules of Playfair apply, but the first letter is mapped in the first square, while the other letter in the second square.
+In this way the rectangles constructed by the positions of the letters stretch between the two matrixes.
+Additionally, if the letters line up on the same row or column between the two matrixes, the pair is added to the cipher as such (not transposed).
 
 """
 
