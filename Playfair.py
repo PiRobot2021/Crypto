@@ -96,7 +96,7 @@ def main():
     
     key= input('Type a password (only ascii chars): ')
     key= re.sub('[\t\s]', '', key.lower())
-    assert(key.isalpha())                                                               # Playfair accepts keywords containing only letters
+    assert(key.isalpha() or not key)                                                    # Playfair accepts keywords containing only letters
     
     cipher= encrypt(text, key)
     print(f'\nCipher: {cipher}')
