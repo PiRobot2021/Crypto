@@ -45,7 +45,9 @@ def map_key(key):
     return table
 
 
-def prep(text):                                                        
+def prep(text):  
+    text= text.replace('j', 'i')
+    #text= text.replace('q', '')    
     if len(text) % 2 != 0:                                                              
         text += 'z'
     result= []
