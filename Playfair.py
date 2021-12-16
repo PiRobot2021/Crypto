@@ -4,7 +4,7 @@ PLAYFAIR CIPHER
 Sometimes called the Wheatstone-Playfair cipher, or Playfair square.
 The cipher relies on a key mapped in a 5x5 matrix and four rules.
 
-First, a 5x5 matrix is filled with the keyword (removing duplicated letters), then all other letters are filled in ascending order, 
+First, a 5x5 matrix is filled with the keyword (removing duplicated letters), then all other letters of the alphabet are filled in ascending order, 
 combining "i/j" in the same cell. A variation could be to remove the "q".
 
 Then, the plaintext is split into chunks of 2 letters, and if the text length is odd, is padded with a "z" at the end.
