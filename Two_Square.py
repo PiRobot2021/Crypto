@@ -97,11 +97,11 @@ def main():
     text= re.sub('[\t\s]', '', text.lower()) 
     assert(text.isalpha())                                                          # Two_square cipher can encrypt only letters
     
-    key1= input('Type a password (only ascii chars): ')
+    key1= input('Enter the first key (only ascii chars): ')
     key1= re.sub('[\t\s]', '', key1.lower())
     assert(key1.isalpha() or not key1)                                              # Playfair accepts keywords containing only letters
     
-    key2= input('Type a password (only ascii chars): ')
+    key2= input('Ener the second key (only ascii chars): ')
     key2= re.sub('[\t\s]', '', key2.lower())
     assert(key2.isalpha() or not key2)                                              # Playfair accepts keywords containing only letters
     
