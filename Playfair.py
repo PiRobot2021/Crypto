@@ -58,24 +58,16 @@ def find_coords(table, value):
 def play_fair_process(table, a, b):
     text= ''
     if a[0] == b[0]:                                                                    # If the letters of the plaintext chunk sit in the same row
-        if a[1] < b[1]:                                                                 # this check guarantees that the text always shifts right
-            chunk= table.loc[b[0], b[1]] + table.loc[b[0], (b[1] + 1) % len(table)]
-        else:
-            chunk= table.loc[a[0], a[1]] + table.loc[a[0], (a[1] + 1) % len(table)]
-        text+= chunk
+        rotate_down= (max(a[1], b[1]) + 1) % len(table)
+        text+= table.loc[a[0], max(a[1], b[1])] + table.loc[a[0], rotate_down]          # Add to the cipher the two letters rotated by one position downwards
     elif a[1] == b[1]:                                                                  # If the letters of the plaintext chunk sit in the same column
-        if a[0] < b[0]:                                                                 # this check guarantees that the text always shifts down
-            chunk= table.loc[b[0], b[1]] + table.loc[(b[0] + 1) % len(table), b[1]]
-        else:
-            chunk= table.loc[a[0], a[1]] + table.loc[(a[0] + 1) % len(table), a[1]]
-        text+= chunk
+        rotate_right= (max(a[0], b[0]) + 1) % len(table)
+        text+= table.loc[max(a[0], b[0]), a[1]] + table.loc[rotate_right, a[1]]         # Add to the cipher the two letters rotated by one position rightwards
     else:
         if (a[0] < b [0] and a[1] < b[1]) or (a[0] > b[0] and a[1] > b[1]):             # If the letters form a diagonal top-left to down-right
-            chunk= table.loc[a[0], b[1]] + table.loc[b[0], a[1]]
-            text+= chunk
+            text+= table.loc[a[0], b[1]] + table.loc[b[0], a[1]]                        # Add to the cipher the letters at the edges of the opposite diagonal top-right to down-left 
         else:                                                                           # Else the letters form a diagonal top-right to down-left
-            chunk= table.loc[b[0], a[1]] + table.loc[a[0], b[1]]
-            text+= chunk
+            text+= table.loc[b[0], a[1]] + table.loc[a[0], b[1]]                        # Add to the cipher the letters at the edges of the opposite diagonal top-left to down-right
     return text
         
 
@@ -83,6 +75,7 @@ def encrypt(text, key):
     table= map_key(key.lower())
     text= prep(text.lower())
     cipher= ''
+    #print(table)
     for i in text:
         first= find_coords(table, i[0])
         second= find_coords(table, i[1])
@@ -91,8 +84,8 @@ def encrypt(text, key):
             
 
 def main():
-    text= input('Type your text: ')
-    key= input('Type a password (only ascii chars): ')
+    text= 'eccebffb' #input('Type your text: ')
+    key= 'feedthedeed' #input('Type a password (only ascii chars): ')
     assert(key.islower() or key.isupper())                                              # Playfair accepts keywords with only letters
     assert(text.islower() or text.isupper())                                            # Playfair can only encrypt letters 
     cipher= encrypt(text, key)
