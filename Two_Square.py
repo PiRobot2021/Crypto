@@ -62,17 +62,16 @@ def find_coords(table, value):
 
 def two_square_process(tables, a, b):
     cipher= ''
-    if VARIANT == 'V':
+    if VARIANT == 'V':                                                              # If encrypting using tables aligned vertically
         if a[1] == b[1]:
+            cipher+= tables[0][a] + tables[1][b]                                    # If the letters line up vertically in the tables, add to the cipher the pair as such
+        else:                                                                       # Else encrypt through a diagonal. In two_square cipher diagonals flow always top to bottom.
+            cipher+= tables[0][a[0], b[1]] + tables[1][b[0], a[1]]                  # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
+    else:                                                                           # Same logic for horizontally aligned tables
+        if a[0] == b[0]:                                                            # If the letters line up horizontally in the tables, add to the cipher the pair as such
             cipher+= tables[0][a] + tables[1][b]
         else:
-            cipher+= tables[0][a[0], b[1]] + tables[1][b[0], a[1]]
-    else:
-        if a[0] == b[0]:
-            cipher+= tables[0][a] + tables[1][b]
-        else:
-            cipher+= tables[0][b[0], a[1]] + tables[1][a[0], b[1]]
-
+            cipher+= tables[0][b[0], a[1]] + tables[1][a[0], b[1]]                  # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
     return cipher
         
 
@@ -94,15 +93,15 @@ def encrypt(text, key1, key2):
 def main():
     text= input('Type your text: ')
     text= re.sub('[\t\s]', '', text) 
-    assert(text.islower() or text.isupper())
+    assert(text.islower() or text.isupper())                                        # Two_square cipher can encrypt only letters
     
     key1= input('Type a password (only ascii chars): ')
     key1= re.sub('[\t\s]', '', key1)
-    assert(key1.islower() or key1.isupper())                                              # Playfair accepts keywords containing only letters
+    assert(key1.islower() or key1.isupper())                                        # Playfair accepts keywords containing only letters
     
     key2= input('Type a password (only ascii chars): ')
     key2= re.sub('[\t\s]', '', key2)
-    assert(key2.islower() or key2.isupper())                                              # Playfair accepts keywords containing only letters
+    assert(key2.islower() or key2.isupper())                                        # Playfair accepts keywords containing only letters
     
     cipher= encrypt(text, key1, key2)
     print(f'Cipher: {cipher}')
