@@ -78,8 +78,8 @@ def play_fair_process(table, a, b):
         
 
 def encrypt(text, key):
-    table= map_key(key.lower())
-    text= prep(text.lower())
+    table= map_key(key)
+    text= prep(text)
     cipher= ''
     #print(table)
     for i in text:
@@ -91,12 +91,12 @@ def encrypt(text, key):
 
 def main():
     text= input('Type your text: ')
-    text= re.sub('[\t\s]', '', text)                                                    # Playfair cipher does not allow spaces between words
-    assert(text.islower() or text.isupper())                                            # Playfair can only encrypt letters 
+    text= re.sub('[\t\s]', '', text.lower())                                            # Playfair cipher does not allow spaces between words
+    assert(text.islower())                                                              # Playfair can only encrypt letters 
     
     key= input('Type a password (only ascii chars): ')
-    key= re.sub('[\t\s]', '', key)
-    assert(key.islower() or key.isupper())                                              # Playfair accepts keywords containing only letters
+    key= re.sub('[\t\s]', '', key.lower())
+    assert(key.islower())                                                               # Playfair accepts keywords containing only letters
     
     cipher= encrypt(text, key)
     print(f'\nCipher: {cipher}')
