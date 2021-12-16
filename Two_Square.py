@@ -95,15 +95,15 @@ def encrypt(text, key1, key2):
 def main():
     text= input('Type your text: ')
     text= re.sub('[\t\s]', '', text.lower()) 
-    assert(text.islower())                                                          # Two_square cipher can encrypt only letters
+    assert(text.isalpha())                                                          # Two_square cipher can encrypt only letters
     
     key1= input('Type a password (only ascii chars): ')
     key1= re.sub('[\t\s]', '', key1.lower())
-    assert(key1.islower())                                                          # Playfair accepts keywords containing only letters
+    assert(key1.isalpha())                                                          # Playfair accepts keywords containing only letters
     
     key2= input('Type a password (only ascii chars): ')
     key2= re.sub('[\t\s]', '', key2.lower())
-    assert(key2.islower())                                                          # Playfair accepts keywords containing only letters
+    assert(key2.isalpha())                                                          # Playfair accepts keywords containing only letters
     
     cipher= encrypt(text, key1, key2)
     print(f'Cipher: {cipher}')
