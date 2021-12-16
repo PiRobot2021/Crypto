@@ -40,7 +40,9 @@ def map_key(key):
     return table
 
 
-def prep(text):                                                      
+def prep(text):    
+    text= text.replace('j', 'i')                                                        # The playfair square admits 25 values, here I combined "j" and "i" letters in the key
+    #text= text.replace('q', '')
     if len(text) % 2 != 0:                                                              # If the length of the text is odd, one pad char is appended
         text += PADDING_CHAR
     result= []
