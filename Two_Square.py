@@ -3,7 +3,7 @@
 TWO SQUARE CIPHER
 Sometimes called Double Playfair cipher.
 Instead of one 5x5 matrix, this cipher relies on two 5x5 matrixes, paired either horizontally or vertically.
-Each matrix is built on an independent key, so this cipher is biult on two keys.
+Each matrix is built on an independent key, so this cipher requires two keywords.
 The keys are mapped using the same rules of Playfair: first, a 5x5 matrix is filled with the keyword (removing duplicated letters), 
 then all other letters of the alphabet are filled in ascending order, combining i/j in the same cell. A variation could be to remove the "q".
 
@@ -21,11 +21,11 @@ import numpy as np
 import string
 import re
 
-VARIANT= 'V' # vertical
+VARIANT= 'V' # vertical                                                             # The Playfair squares can be aligned vertically or horizontally      
 #VARIANT= 'H' # horizontal
 assert(VARIANT in ('V', 'H'))
 
-az= {i for i in string.ascii_lowercase if i != 'j'}
+az= {i for i in string.ascii_lowercase if i != 'j'}                                 # To build a square, one letter of the alphabet is removed, normally "j" or "q" 
 #az= {i for i in string.ascii_lowercase if i != 'q'}
 
 
@@ -58,7 +58,7 @@ def prep(text):
 
 
 def find_coords(table, value):
-    index= np.where(table == value)
+    index= np.where(table == value)                                                 # numpy has a concise way to find coordinates of a value
     return (index[0][0], index[1][0])
 
 
