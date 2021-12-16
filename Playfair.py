@@ -5,7 +5,7 @@ Sometimes called the Wheatstone-Playfair cipher, or Playfair square.
 The cipher relies on a key mapped in a 5x5 matrix and four rules.
 
 First, a 5x5 matrix is filled with the keyword (removing duplicated letters), then all other letters are filled in ascending order, 
-combining i/j in the same cell.
+combining "i/j" in the same cell. A variation could be to remove the "q".
 
 Then, the plaintext is split into chunks of 2 chars, eventually padding with a "z" at the end.
 If same same letter duplicates in a cahr tuple, the second letter is replaced by "x".
@@ -24,11 +24,14 @@ This cipher disrupts the letter and word frequencies.
 import pandas as pd
 import string
 
-az= {i for i in string.ascii_lowercase if i != 'j'}
+PADDING_CHAR= 'z'
 
+az= {i for i in string.ascii_lowercase if i != 'j'}                                     # An alternative could be to remove the "q"
+#az= {i for i in string.ascii_lowercase if i != 'q'}                                     
 
 def map_key(key):                                                                       
-    key= key.replace('j', 'i')                                                          # The playfair square admits 25 values, so usualy "j" and "i" are combined
+    key= key.replace('j', 'i')                                                          # The playfair square admits 25 values, here I combined "j" and "i" letters in the key
+    #key= key.replace('q', '')
     key_letters= sorted(set(key))                                                       # Remove duplicate letters from the key, and sort them in ascending order
     key_letters.extend(sorted(az.difference(key_letters)))                              # attach the remaining alphabet letters, obtained by logical exclusion
     table= pd.DataFrame([key_letters[i:i+5] for i in range(0, len(key_letters), 5)])    # Load the newly ordered alphabet into a 5 x 5 matrix
@@ -37,8 +40,8 @@ def map_key(key):
 
 def prep(text):
     text= text.replace(' ', '')                                                         # Playfair cipher does not allow spaces between words
-    if len(text) % 2 != 0:                                                              # If the length of the text is odd, is padded with "z"
-        text += 'z'
+    if len(text) % 2 != 0:                                                              # If the length of the text is odd, one pad char is appended
+        text += PADDING_CHAR
     result= []
     for i in range(0, len(text), 2):                                                    # The text is split in chunks of two letters
         chunk= [text[i], text[i+1]]
