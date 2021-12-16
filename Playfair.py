@@ -92,11 +92,11 @@ def encrypt(text, key):
 def main():
     text= input('Type your text: ')
     text= re.sub('[\t\s]', '', text.lower())                                            # Playfair cipher does not allow spaces between words
-    assert(text.islower())                                                              # Playfair can only encrypt letters 
+    assert(text.isalpha())                                                              # Playfair can only encrypt letters 
     
     key= input('Type a password (only ascii chars): ')
     key= re.sub('[\t\s]', '', key.lower())
-    assert(key.islower())                                                               # Playfair accepts keywords containing only letters
+    assert(key.isalpha())                                                               # Playfair accepts keywords containing only letters
     
     cipher= encrypt(text, key)
     print(f'\nCipher: {cipher}')
