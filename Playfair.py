@@ -7,17 +7,18 @@ The cipher relies on a key mapped in a 5x5 matrix and four rules.
 First, a 5x5 matrix is filled with the keyword (removing duplicated letters), then all other letters are filled in ascending order, 
 combining "i/j" in the same cell. A variation could be to remove the "q".
 
-Then, the plaintext is split into chunks of 2 chars, eventually padding with a "z" at the end.
-If same same letter duplicates in a cahr tuple, the second letter is replaced by "x".
-Playfair does not encrypt puctuation marks and digits, so they have to be removed or left unencrypted.
+Then, the plaintext is split into chunks of 2 letters, and if the text length is odd, is padded with a "z" at the end.
+If a chunk consists of two same letters, the second is replaced by "x".
 
-Next, map each pair of letters in the 5x5 matrix 
-Depending on their relative position, the encryption follows different paths.
+Playfair does not encrypt chars other than letters, so punctiations and digits have to be removed or left unencrypted.
 
-1.) If they form a rectangle, take the opposite corners (top to bottom order) to form the cipher.
-2.) If the are aligned, shift by one position (right or down), wrap to top or left if needed.
+At last, map each pair of letters in the 5x5 matrix and begin the encryption. 
+Depending on the position of the letters, the encryption follows different rules.
+1.) If they form a diagonal, add to the cipher the opposite corners of the formed rectangle.
+2.) If the are aligned on the same row or column, rotate the pair by one position right or down (wrap to top or left if needed),
+    and add the new pair to the cipher.
 
-This cipher disrupts the letter and word frequencies.
+This cipher disrupts the letter and word frequencies by encrypting letters by pairs rather than individually.
 
 """
 
