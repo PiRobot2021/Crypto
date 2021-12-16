@@ -90,7 +90,7 @@ def encrypt(text, key):
 def main():
     text= input('Type your text: ')
     key= input('Type a password (only ascii chars): ')
-    assert(key.islower() or key.isupper())                                              # Playfair accepts keywords with only letters
+    assert(key.islower() or key.isupper())                                              # Playfair accepts keywords containing only letters
     assert(text.islower() or text.isupper())                                            # Playfair can only encrypt letters 
     cipher= encrypt(text, key)
     print(f'\nCipher: {cipher}')
