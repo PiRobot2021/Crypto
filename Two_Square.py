@@ -38,7 +38,6 @@ def print_horizontal_tables(tables):
 
 def map_key(key):                                                                       
     key= key.replace('j', 'i')
-    key= re.sub('[\t\s]', '', key)
     #key= key.replace('q', '')                                                          
     key_letters= sorted(set(key))                                                       
     key_letters.extend(sorted(az.difference(key_letters)))                              
@@ -98,8 +97,11 @@ def main():
     assert(text.islower() or text.isupper())
     
     key1= input('Type a password (only ascii chars): ')
+    key1= re.sub('[\t\s]', '', key1)
     assert(key1.islower() or key1.isupper())                                              # Playfair accepts keywords containing only letters
+    
     key2= input('Type a password (only ascii chars): ')
+    key2= re.sub('[\t\s]', '', key2)
     assert(key2.islower() or key2.isupper())                                              # Playfair accepts keywords containing only letters
     
     cipher= encrypt(text, key1, key2)
