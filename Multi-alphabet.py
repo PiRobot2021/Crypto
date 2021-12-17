@@ -1,51 +1,45 @@
 #!/usr/bin/env python3
 """
 MULTI-ALPHABET SUBSTITUTION CIPHER
+Similar to Cesar cipher, it adds an arbitrary shift of letters to obfuscate frequency analysis.
 
-Like a Cesar cipher, with an additional arbitrary shift of letters to obfuscate frequency analysis.
-A secret key is provided together with the plaintext and the two are overlapped.
-Each letter of the plaintext rotates by the corresponding digit in the key. 
-When the key reaches the end, it starts again from the first digit, until all the plaintext is encrypted.
-This way wach letter rotates independently from the others, preventing frequency analysis.
+A secret key is provided together with the plaintext.
+The encryption proceeds by rotating each letter of the plaintext by the corresponding digit in the key. 
+
+When the key reaches the end, it starts again, until all the plaintext is encrypted.
+Having each letter rotating by a different value, frequency analysis is obfuscated.
 """
 
 
-
 import string
+import random
 
-az= [i for i in string.ascii_lowercase]                             # Create a list of letters in lower ascii 
-AZ= [i for i in string.ascii_uppercase]                             # Create a list of letters in upper ascii
+LEN_KEY= 5
+
+az= [i for i in string.ascii_lowercase]                                 # Create a list of letters in lower ascii 
+AZ= [i for i in string.ascii_uppercase]                                 # Create a list of letters in upper ascii
 
 
 def encrypt(key, plaintext):
-    key= [int(i) for i in key]                                      # Split the input key into a list of digits
     cipher= ''
     for i, l in enumerate(plaintext):
-        key_rot= key[i % len(key)]                                  # Apply key rotation syncronized with the index "i" of the letter in the plaintext
+        key_rot= key[i % len(key)]                                      # Apply key rotation syncronized with the index "i" of the letter in the plaintext
         if l in az:
-            cipher+= az[(i + key_rot) % len(az)]                    # Apply the key rotation to the letter in the alphabet (lower ascii)
+            cipher+= az[(i + key_rot) % len(az)]                        # Apply the key rotation to the letter in the alphabet (lower ascii)
         elif l in AZ:
-            cipher+= AZ[(i + key_rot) % len(AZ)]                    # Apply the key rotation to the letter in the alphabet (upper ascii)
+            cipher+= AZ[(i + key_rot) % len(AZ)]                        # Apply the key rotation to the letter in the alphabet (upper ascii)
         else:
-            cipher+= l                                              # Leave all the other characters (digits, punctuations, etc.) untouched
+            cipher+= l                                                  # Leave all the other characters (digits, punctuations, etc.) untouched
     return cipher.replace(' ', '')
-    
-    
-def decrypt(cipher):
-    print('Work in progress')
 
 
 def main():
     # Encryption
     text= input('Type your text: ')
-    key= input('Type a numeric key: ')
-    assert(key.isdigit())
+    key= [random.randint(1, len(az)) for i in range(LEN_KEY)]           # I limited the random key within the modulus, excluding rotation 0
+    print(f'Random key: {key}')
+    
     cipher= encrypt(key, text)
     print(f'\nCipher: {cipher}\n')
     
-    # Decryption
-    i= input('Do you want to try decrypting? [y/n]: ')
-    if i == 'y':
-        decrypt(cipher)
-
 main()
