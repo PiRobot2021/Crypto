@@ -3,25 +3,23 @@
 """
 MYSKOWSKI COLUMNAR CIPHER
 A variation of the columnar transposition cipher.
-Also in this case, the text is first split in chunks of the leght of the key, then padded with a defined character. 
-Finally each chunk is inserted row by row in a table.
+Also in this case, the text is first split in chunks as long as the key, and the same padding rules apply.
 
-The encryption now proceeds with a slight variation.
-The order of columns still follows the the order to the chacters in the secret key, sorted by their values,
-but if a char is repeated, the encryption proceeds row by row between the columns containing the repeated char.
+For the encryption, the order of columns still follows the the order to the letters in the secret key, sorted by their values,
+but if a letter is repeated in the key, the encryption proceeds row by row between the columns containing the repeated letter.
 
 Example:
 Password: feed44
 Converted key: [('f', 5), ('e', 3), ('e', 4), ('d', 2), ('4', 0), ('4', 1)]
-Column order: 5, row by row between colums 3 and 4, 2, row by row between columns 0 and 1
-    
+Column order: 5, row by row between colums 3 and 4, 2, row by row between columns 0 and 1    
 """
 
 import pandas as pd
+import random
+import string
 
-# Setup values for padding                                              
 PADDING_CHAR= '_'                                                                                                          
-
+KEY_LEN= 5
 
 def to_table(text, key):
     table= pd.DataFrame(columns= [i for i in range(len(key))])                      # Create empty table, with columns from "0" to the length of the key
@@ -46,14 +44,14 @@ def to_index(key):
                 result.append(y)
                 ordered_key.remove(y)                                               # Removing the tuple from the ordered_key to avoid duplications in the next key values
                 break                                                               # Once value is found, stop rotating through the ordered_keys
-    print(result)
     return result
 
 
 def columnar_encrypt(text, key):
-    text= text.replace(' ', '')                                                     # Remove string spaces from the plaintext
     table= to_table(text, key)                                                      # Table the text
     indexed_key = to_index(key)                                                     # Convert the key from string into sorted tuples containing the key chars and their ascending int values
+    print(f'Indexed key: {indexed_key}')
+    print(f'Columnar table:\n{table}')
     cipher= ''
     while indexed_key:                                                              # To manage duplicates, I decided to remove items from the ordered key once the cipher processed through it
         for idx in indexed_key:
@@ -74,7 +72,11 @@ def columnar_encrypt(text, key):
     
 def main():
     text= input('Type your text: ')
-    key= input('Type your secret key: ')
+    text= text.replace(' ', '') 
+    assert(text.isalpha())
+    
+    key= ''.join(random.choices([i for i in string.digits + string.ascii_letters], k= KEY_LEN))
+    print(f'Random key: {key}')
     
     # Encryption
     cipher= columnar_encrypt(text, key)
