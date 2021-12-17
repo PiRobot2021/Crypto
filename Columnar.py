@@ -2,11 +2,10 @@
 
 """
 COLUMNAR CIPHER
-A classic transposition cipher where the encryption proceeds through columns.
-First, the text is split in chunks of the leght of the key, then padded with a defined character. 
-Finally each chunk is inserted row by row into a table.
+A classic transposition cipher where the encryption proceeds through columns of a square table containing the plaintext.
 
-By tabling the text this way, the amount of columns is equal to the lenght of the key.
+First, the plaintext is split into portions as long as a secret keyword, padded if necessary to reach a length that is multiple of the key. 
+Then, a table is built with the text portions, entered row by row.
 
 The encryption proceeds now by appending to the cipher the letter in the table column by column.
 The order of columns follows the the order to the chacters in the secret key, sorted by their ascending value,
@@ -17,12 +16,11 @@ Password: Post45
 Key: [(P, 2), (o, 3), (s, 4), (t, 5), (4, 0), (5, 1)]
 Columns are then encrypted in the order: [2, 3, 4, 5, 0, 1]
 
-This cipher has branched several variations and improvements over the years.
 """
 
-import pandas as pd
+import pandas as pd                                                                 # I have chosen pandas, numpy is a valuable alternative
 
-# Setup values for padding                                              
+# Setup values for padding the text                                             
 PADDING_CHAR= '_'                                                                                                          
 
 
