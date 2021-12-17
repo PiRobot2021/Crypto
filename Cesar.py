@@ -10,45 +10,47 @@ This algorithm let define the amplitude of the rotation.
 import string
 from collections import deque
 
-az= [l for l in string.ascii_lowercase]
-AZ= [L for L in string.ascii_uppercase]
 
+def encrypt(rot, text):
+    az_deque= deque([l for l in string.ascii_lowercase])                            # Create a deque of the lower ascii alphabet and rotate it
+    az_deque.rotate(rot)
+    new_alphabet= ''.join(az_deque)
+                                                                  
+    rot_tab= text.maketrans(string.ascii_lowercase, new_alphabet)                   # Bulid a translation table
+    cipher= text.translate(rot_tab)                                                 # Apply the alphabet translation
+    
+    AZ_deque= deque([L for L in string.ascii_uppercase])                            # Rotate separately the upper case ascii alphabet
+    AZ_deque.rotate(rot)
+    new_alphabet= ''.join(AZ_deque)
+    
+    rot_tab= cipher.maketrans(string.ascii_uppercase, new_alphabet)
+    return cipher.translate(rot_tab)
 
-def encrypt(rot, plaintext):
-    shift= deque(az)                                                                    # Create a deque of the alphabet
-    shift.rotate(rot)                                                                   # Shift the deque
-    rotation_tab= plaintext.maketrans(string.ascii_lowercase, ''.join(shift))           # Bulid a translation table
-    cipher= plaintext.translate(rotation_tab)                                           # Apply the alphabet shift
-    SHIFT= deque(AZ)
-    SHIFT.rotate(rot)
-    rotation_tab= cipher.maketrans(string.ascii_uppercase, ''.join(SHIFT))
-    return cipher.translate(rotation_tab).replace(' ', '')
 
     
-def decrypt(cipher):
+def decrypt(cipher, solution):
     for rot in range(26):
-        shift= deque(az)
-        shift.rotate(rot)
-        rotation_tab= cipher.maketrans(string.ascii_lowercase, ''.join(shift))
-        cipher= cipher.translate(rotation_tab)
-        
-        SHIFT= deque(AZ)
-        SHIFT.rotate(rot)
-        rotation_tab= cipher.maketrans(string.ascii_uppercase, ''.join(SHIFT))
-        print(rot, '\t', cipher.translate(rotation_tab))
-
-
+        text= encrypt(rot, cipher)
+        if text == solution:                                                        # Easier to visualize, just for the learning
+            print(rot, '\t', text, '<-')
+        else:
+            print(rot, '\t', text)
+            
+            
 def main():
     # Encryption
     text= input('Type your text: ')
+    text= text.replace(' ', '')
+    
     key= input('Enter a numeric key: ')
-    assert(key.isdigit())
+    assert(int(key).isdigit())
+    
     cipher= encrypt(int(key), text)
     print(f'\nCipher: {cipher}\n')
     
     # Decryption
     i= input('Do you want to try decrypting? [y/n]: ')
     if i == 'y':
-        decrypt(cipher)
+        decrypt(cipher, text)
 
 main()
