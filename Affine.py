@@ -15,7 +15,6 @@ import string
 from primePy import primes
 from sympy import mod_inverse
 import random
-import re
 
 alphabet= [i for i in string.ascii_lowercase]                                           # I decided to process lower case and upper case letters independently
 ALPHABET= [i for i in string.ascii_uppercase]
@@ -64,7 +63,7 @@ def decrypt(cipher, solution):
 def main():
     # Encryption
     text= input('Type your text: ')
-    text= re.sub('[\t\s]', '', text)
+    text= text.replace(' ', '')
     
     key1= random.choices(coprimes(), k= 1)[0]                                           # Generate a random key, chosen among coprimes of N
     print(f'First random key, coprime of {MOD}: {key1}')
