@@ -51,7 +51,6 @@ def to_index(key):
 
 
 def columnar_encrypt(text, key):
-    text= text.replace(' ', '')                                                     # Remove string spaces from the plaintext
     table= to_table(text, key)                                                      # Table the text
     key = to_index(key)                                                             # Convert the key from string into sorted tuples containing the ordered values of the key chars
     cipher= ''
@@ -62,6 +61,8 @@ def columnar_encrypt(text, key):
     
 def main():
     text= input('Type your text: ')
+    text= text.replace(' ', '')                                                     # Remove string spaces from the plaintext
+
     key= input('Type your secret key: ')
     
     # Encryption
