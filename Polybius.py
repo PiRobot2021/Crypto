@@ -20,20 +20,20 @@ square= np.char.array(az, unicode= True).reshape((5, 5))                        
 
 def encrypt(text):
     cipher= np.empty(0, dtype= 'int')                                           # Empty array to receive the encrypted letters
-    text= text.replace('j', 'i')                                                # Replacing all "j" from the text.
     for l in text:
         if l in az:
             xy= np.where(square == l)                                           # Find the coordinates of the letter
             cipher= np.append(cipher, xy[0])                                    # Append the coordinates to the cipher
             cipher= np.append(cipher, xy[1])
-        elif l.isdigit():       
-            cipher= np.append(cipher, l)                                        # It can be better obfuscated. I keep it simple here just to learn the process.
     return ''.join(cipher)
 
 
 def main():
-    # Encryption
     text= input('Type your text: ')
+    text= text.replace('j', 'i')                                                # Replacing all "j" from the text.
+    assert(text.isalpha())
+    
+    # Encryption
     print(f'\nRandom Polybius square:\n{square}')
     cipher= encrypt(text.lower())                           
     print(f'\nCipher: {cipher}\n')
