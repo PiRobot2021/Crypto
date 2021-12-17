@@ -14,8 +14,8 @@ This cipher obfuscates frequency analysis effectively.
 Knowing the keyword, the cipher is decrypted by obtaining the row index of the cipher letter in the column indicated by the key character.
 The plaintext letter is row index of it.
 
-A variation of this cipher, the "running key cipher" uses a random string of random characters.
-Another variation is the Beaufort cipher, where encryption and decryption processes are simply switched compared to Vigenere.
+A variation of this cipher, the "running key cipher" uses a string of random characters.
+Another variation is the Beaufort cipher, where encryption and decryption processes are simply switched.
 
 """
 
@@ -45,10 +45,6 @@ def encrypt(key, text):
     return cipher
     
     
-def brute_force(cipher):
-    print('Work in progress')
-
-
 def decrypt(key, cipher):
     text= ''
     key= [i for i in key]
@@ -63,11 +59,13 @@ def decrypt(key, cipher):
 
 
 def main():
-    # Encryption
+
     text= input('Type your text: ')
-    #key= input('Type a secret keyword: ')
-    #assert(key.isascii())                                                      # The cipher only works if the keyword contains only ascii characters
-    key= ''.join(random.choices(string.ascii_lowercase, k=256))                 # A stronger variation with random key, called "running key cipher"
+    key= ''.join(random.choices(string.ascii_lowercase, k=256))                 # This variation with random key is called "running key cipher"
+    print(f'Random key: {key}')
+    print(f'Vigenere table:\n{tabula}')
+    
+    # Encryption
     cipher= encrypt(key.lower(), text.lower())                                  # The tabula recta is not case sensitive, all letters are turned lower case
     print(f'\nCipher: {cipher}\n')
 
@@ -75,6 +73,6 @@ def main():
     i= input(f'Do you want to decrypt with the key {key}? [y/n]:')
     if i == 'y':
         decrypt(key, cipher)
-    #brute_force(cipher)
+
 
 main()
