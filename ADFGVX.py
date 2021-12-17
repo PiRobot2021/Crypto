@@ -39,10 +39,7 @@ def find_coords(square, letter):                                                
 def ADFGVX_encrypt(text):                                               
     square= create_square()
     print(f'\nADFGVX random square:\n{square}')
-    cipher= ''
-    for i in text:
-        cipher+= find_coords(square, i)
-    return cipher
+    return ''.join([find_coords(square, i) for i in text])
                                                                                                 
 
 def to_table(text, key):                                                            # Tables the plaintext before the columnar encryption
