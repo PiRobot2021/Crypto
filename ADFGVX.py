@@ -75,7 +75,9 @@ def columnar_encrypt(text, key):
     print(f'\nIntermediate cipher: {text}')
     table= to_table(text, key)                                                      # Table the text
     print(f'\nSquared intermediate cipher:\n{table}')
+    print(f'\nRandom key: {key}')
     key = to_index(key)                                                             # Convert the key from string into sorted tuples containing the ordered values of the key chars
+    print(f'Sorted key: {key}')  
     cipher= ''
     for column in key:
         cipher+= ''.join(table[column[1]])                                          # Encrypt by proceeding through each column, in the order given by the ranked key chars
@@ -94,7 +96,6 @@ def main():
     assert(text.isalnum())
 
     key= random.choices(string.ascii_lowercase, k= LEN_KEY)
-    print(f'Random key: {key}')
     
     cipher= encrypt(text, key)
     print(f'\nCipher: {cipher}')
