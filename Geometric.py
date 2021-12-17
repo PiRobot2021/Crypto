@@ -2,11 +2,11 @@
 
 """
 GEOMETRIC SHAPE CIPHER
-A transposition cipher where the sender splits the text in rows, 
-plots it in a square format completing the square using a padding character,
-and then maps a path over it until all the letters are covered, to create the ciphertext.
+A classic transposition cipher.
+The text is first mapped in a table, usualy row by row, padded if necessary.
+Then, the cipher is formed by proceeding through the table in secret path, until all letters are covered.
 
-The receiver can decrypt the cipher following the reverse path.
+The receiver can decrypt the cipher by simply following the reverse path.
 
 This is sometimes called "route cipher".
 
