@@ -9,7 +9,6 @@ Then, the cipher is formed by proceeding through the table in secret path, until
 The receiver can decrypt the cipher by simply following the reverse path.
 
 This is sometimes called "route cipher".
-
 """
 
 import math
@@ -37,11 +36,9 @@ def squaring(text):
         side= int(side)
         
     text= [i for i in text]
-    chunks= []
-    for i in range(len(text[::side])):                                  # Chunk the text in pieces as long as the side of the square
-        chunks.append(text[side * i : side * i + side])
-    table= pd.DataFrame(columns=[i for i in range(side)])               # Create a pandas table as wide as the square side
-    for i in range(side):                                               # Feed the table with the text chunks
+    chunks= [text[side * i : side * i + side] for i in range(len(text[::side]))]    # Chunk the text in pieces as long as the side of the square
+    table= pd.DataFrame(columns=[i for i in range(side)])                           # Create a pandas table as wide as the square side
+    for i in range(side):                                                           # Feed the table with the text chunks
         table.loc[i]= chunks[i]
     return table
 
