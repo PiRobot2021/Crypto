@@ -4,11 +4,11 @@ PLAYFAIR CIPHER
 Sometimes called the Wheatstone-Playfair cipher, or Playfair square.
 The cipher relies on a key mapped in a 5x5 matrix and four rules.
 
-First, a 5x5 matrix is filled with the keyword (removing duplicated letters), then all other letters of the alphabet are filled in ascending order, 
-combining "i/j" in the same cell. A variation could be to remove the "q".
+First, a 5x5 matrix is filled with a keyword (removing duplicated letters), then all other letters of the alphabet are filled in ascending order, till the matrix is completed. 
+The matrix can only contain 25 letters, so "i/j" are usually combined. A variation could be to remove the "q".
 
-Then, the plaintext is split into chunks of 2 letters, and if the text length is odd, is padded with a "z" at the end.
-If a chunk consists of two same letters, the second is replaced by "x".
+Then, the plaintext is split into pairs of 2 letters, if the text length is odd is padded with a "z" at the end.
+If a pair consists of the same letter, the second is replaced by "x".
 
 Playfair does not encrypt chars other than letters, so punctiations and digits have to be removed or left unencrypted.
 
@@ -24,17 +24,17 @@ This cipher disrupts the letter and word frequencies by encrypting letters by pa
 
 import pandas as pd                                                                     # I decided to use pandas, for two square and four square variations I use numpy to compare the codes
 import string
-import re
+import random
 
+KEY_LEN= 5
 PADDING_CHAR= 'z'
 
 az= {i for i in string.ascii_lowercase if i != 'j'}                                     # An alternative could be to remove the "q"
 #az= {i for i in string.ascii_lowercase if i != 'q'}                                     
 
 def map_key(key):                                                                       
-    key= key.replace('j', 'i')                                                          # The playfair square admits 25 values, here I combined "j" and "i" letters in the key
-    #key= key.replace('q', '')
     key_letters= sorted(set(key))                                                       # Remove duplicate letters from the key, and sort them in ascending order
+    print(f'Sorted key letters: {key_letters}')
     key_letters.extend(sorted(az.difference(key_letters)))                              # attach the remaining alphabet letters, obtained by logical exclusion
     table= pd.DataFrame([key_letters[i:i+5] for i in range(0, len(key_letters), 5)])    # Load the newly ordered alphabet into a 5 x 5 matrix
     return table
@@ -81,7 +81,7 @@ def encrypt(text, key):
     table= map_key(key)
     text= prep(text)
     cipher= ''
-    #print(table)
+    print(f'Mapped key:\n{table}')
     for i in text:
         first= find_coords(table, i[0])
         second= find_coords(table, i[1])
@@ -91,14 +91,15 @@ def encrypt(text, key):
 
 def main():
     text= input('Type your text: ')
-    text= re.sub('[\t\s]', '', text.lower())                                            # Playfair cipher does not allow spaces between words
+    text= text.replace(' ', '').lower()                                                 # Playfair cipher does not allow spaces between words
     assert(text.isalpha())                                                              # Playfair can only encrypt letters 
     
-    key= input('Type a password (only ascii chars): ')
-    key= re.sub('[\t\s]', '', key.lower())
-    assert(key.isalpha() or not key)                                                    # Playfair accepts keywords containing only letters
+    key= random.choices(list(az), k= KEY_LEN)
+    print(f'Random key: {key}')
     
     cipher= encrypt(text, key)
     print(f'\nCipher: {cipher}')
 
 main()
+
+
