@@ -19,11 +19,13 @@ Additionally, if the letters line up on the same row or column between the two m
 
 import numpy as np
 import string
-import re
+import random
 
 VARIANT= 'V' # vertical                                                             # The Playfair squares can be aligned vertically or horizontally      
 #VARIANT= 'H' # horizontal
 assert(VARIANT in ('V', 'H'))
+
+LEN_KEYS= 5
 
 az= {i for i in string.ascii_lowercase if i != 'j'}                                 # To build a square, one letter of the alphabet is removed, normally "j" or "q" 
 #az= {i for i in string.ascii_lowercase if i != 'q'}
@@ -36,9 +38,7 @@ def print_horizontal_tables(tables):
     print()
     
 
-def map_key(key):                                                                       
-    key= key.replace('j', 'i')
-    #key= key.replace('q', '')                                                          
+def map_key(key):                                                                                                                               
     key_letters= sorted(set(key))                                                       
     key_letters.extend(sorted(az.difference(key_letters)))                              
     table= np.char.array(key_letters).reshape((5, 5))
@@ -82,8 +82,10 @@ def encrypt(text, key1, key2):
     tables= list(map(map_key, [key1, key2]))
     text= prep(text)
     if VARIANT == 'V':
+        print('\nUsing vertical variation')
         print(f'\nFirst key map:\n{tables[0]}\n\nSecond key map:\n{tables[1]}\n')
     else:
+        print('\nUsing horizontal variation')
         print_horizontal_tables(tables)
     for i in text:
         first= find_coords(tables[0], i[0])
@@ -94,16 +96,14 @@ def encrypt(text, key1, key2):
 
 def main():
     text= input('Type your text: ')
-    text= re.sub('[\t\s]', '', text.lower()) 
+    text= text.replace(' ', '').lower() 
     assert(text.isalpha())                                                          # Two_square cipher can encrypt only letters
     
-    key1= input('Enter the first key (only ascii chars): ')
-    key1= re.sub('[\t\s]', '', key1.lower())
-    assert(key1.isalpha() or not key1)                                              # Playfair accepts keywords containing only letters
-    
-    key2= input('Ener the second key (only ascii chars): ')
-    key2= re.sub('[\t\s]', '', key2.lower())
-    assert(key2.isalpha() or not key2)                                              # Playfair accepts keywords containing only letters
+    key1= ''.join(random.choices(list(az), k= LEN_KEYS))                            # Generate random letters with defined length
+    print(f'First random key: {key1}')
+
+    key2= ''.join(random.choices(list(az), k= LEN_KEYS))
+    print(f'Second random key: {key2}')
     
     cipher= encrypt(text, key1, key2)
     print(f'Cipher: {cipher}')
