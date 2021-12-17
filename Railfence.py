@@ -2,13 +2,12 @@
 
 """
 RAIL FENCE CIPHER
-I classic transposition cipher, where the plaintext is split in two chunks,
-and the encryption proceed alternately between the letters of the two.
+I classic transposition cipher, where the plaintext is split in two lines of same length,
+and the encryption proceed alternating through the letters in the two lines.
     
 """
 
 PADDING_CHAR= '_'
-
 
 def encrypt(text):
     if len(text) % 2 != 0:
