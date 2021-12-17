@@ -2,23 +2,17 @@
 
 """
 ALTBASH CIPHER
-Used by Hebrew scribes to encrypt the biblical book of Jeremiah.
-It simply reverses the order of the letters in the alphabet (single substitution).
+Classic ancient cipher. It simply reverses the order of the letters in the alphabet (single substitution).
 """
 
 import string
 
 
 def encrypt_decrypt(text):
-    az= [l for l in string.ascii_lowercase]
-    az.reverse()
-    za= ''.join(az)
+    za= string.ascii_lowercase[::-1]
+    ZA= string.ascii_uppercase[::-1]
 
-    AZ= [l for l in string.ascii_uppercase]
-    AZ.reverse()
-    ZA= ''.join(AZ)
-
-    rotation_tab= text.maketrans(string.ascii_lowercase, za)
+    rotation_tab= text.maketrans(string.ascii_lowercase, za)        # I simply find maketrans cool, it can also be achieved manually
     reverse= text.translate(rotation_tab)
     rotation_tab= text.maketrans(string.ascii_uppercase, ZA)
     print(reverse.translate(rotation_tab).replace(' ', ''))
@@ -26,6 +20,6 @@ def encrypt_decrypt(text):
 
 def main():
     text= input('Type your text: ')
-    encrypt_decrypt(text)
+    encrypt_decrypt(text)                                           # Being a simple reverse, encryption and decryption proceed with the same function
     
 main()
