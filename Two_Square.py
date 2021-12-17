@@ -7,7 +7,6 @@ Each matrix is built on an independent key, so this cipher requires two keywords
 The keys are mapped using the same rules of Playfair: first, a 5x5 matrix is filled with the keyword (removing duplicated letters), 
 then all other letters of the alphabet are filled in ascending order, combining i/j in the same cell. A variation could be to remove the "q".
 
-
 Like Playfair, the plaintext is split into pairs of 2 letters, and if the length of the text is odd length, the end is padded with a "z".
 In this case, it is allowed to have pairs contains the same letter.
 
@@ -50,11 +49,11 @@ def prep(text):
     #text= text.replace('q', '')    
     if len(text) % 2 != 0:                                                              
         text += 'z'
-    result= []
+    pairs= []
     for i in range(0, len(text), 2):                                                   
         chunk= [text[i], text[i+1]]
-        result.append(chunk)
-    return result
+        pairs.append(chunk)
+    return pairs
 
 
 def find_coords(table, value):
@@ -80,17 +79,17 @@ def two_square_process(tables, a, b):
 def encrypt(text, key1, key2):
     cipher= ''
     tables= list(map(map_key, [key1, key2]))
-    text= prep(text)
+    pairs= prep(text)
     if VARIANT == 'V':
         print('\nUsing vertical variation')
         print(f'\nFirst key map:\n{tables[0]}\n\nSecond key map:\n{tables[1]}\n')
     else:
         print('\nUsing horizontal variation')
         print_horizontal_tables(tables)
-    for i in text:
-        first= find_coords(tables[0], i[0])
-        second= find_coords(tables[1], i[1])
-        cipher+= two_square_process(tables, first, second)
+    for i in pairs:
+        first_letters= find_coords(tables[0], i[0])
+        second_letters= find_coords(tables[1], i[1])
+        cipher+= two_square_process(tables, first_letters, second_letters)
     return cipher
             
 
