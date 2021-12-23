@@ -1,4 +1,7 @@
 #/usr/bin/env python3
+
+# DRAFT WIP
+
 """
 ENIGMA DEVICE MODEL M3, VARIATION IN USE BY GERMAN NAVY (KRIEGSMARINE)
 Launched in 1940, part of a family of rotor based cipher machines.
