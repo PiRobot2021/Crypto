@@ -15,9 +15,9 @@ The page would include all the settings for each day of the month with the first
 a setting could be torn off the page. Setting example:
 30              Day of the month
 IV II III       Rotor numbers and positions (left - middle - right)
-UDZ             Ring setting, applying an additional shift to the letters in the rotor
+1 7 3           Ring setting, applying an additional shift to the letters in the rotor
 DW AO QT        Plugboard switches (in this examples D to W, A to O and Q to T are active)
-AFJ             Initial position of the rotors
+A F J           Initial position of the rotors
 """
 
 import random
