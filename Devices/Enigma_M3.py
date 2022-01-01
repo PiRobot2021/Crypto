@@ -13,11 +13,11 @@ THE SETTINGS
 The initial daily setup of the devices was written in a military "code book". An Enigma code book would have one page per month. 
 The page would include all the settings for each day of the month with the first day of the month at the bottom of the page so that once used, 
 a setting could be torn off the page. Setting example:
-30              Day of the month
-IV II III       Rotor numbers and positions (left - middle - right)
-1 7 3           Ring setting, applying an additional shift to the letters in the rotor
-DW AO QT        Plugboard switches (in this examples D to W, A to O and Q to T are active)
-A F J           Initial position of the rotors
+30                 Day of the month
+IV II III          Rotor numbers and positions (left - middle - right)
+1 2 3 (or B C D)   Ring setting, applying an additional shift to the wired rings in the rotor
+DW AO QT           Plugboard switches (in this examples D to W, A to O and Q to T are active)
+A F J              Initial position of the rotors
 """
 
 import random
