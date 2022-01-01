@@ -2,7 +2,7 @@
 """
 ENIGMA MODEL M3 KRIEGSMARINE
 Launched in 1940, part of a family of rotor based cipher machines.
-I found few well detailed descritpions of how it works and used them for my code.
+I found well detailed descritpions in these links, and used them to build my code.
 
 Electrical and mechanical overview: https://www.youtube.com/watch?v=ybkkiGtJmkM
 Rotor encoding steps: https://www.youtube.com/watch?v=UKbP3Rjxhy0
