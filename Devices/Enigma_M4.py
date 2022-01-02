@@ -44,7 +44,7 @@ TURN_NOTCH= {1:'Q',        # If rotor steps from Q to R, the next rotor is advan
              8:['Z', 'M']} # If rotor steps from Z to A, or from M to N the next rotor is advanced
             
 
-MANUAL_SETUP= True
+MANUAL_SETUP= False
 DEBUG= True
 
 def setup():
