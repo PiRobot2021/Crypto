@@ -69,8 +69,8 @@ def setup():
         ring_setting= (0, 0, 0)
         reflector= 'UKW_B'
     else:
-        rotor= tuple(random.sample([i for i in range(1, 9)], k= 3))
-        ring_setting= tuple(random.choices([i for i in range(26)], k= 3))
+        rotor= tuple(random.sample(list(range(1, 9)), k= 3))
+        ring_setting= tuple(random.choices(list(range(26)), k= 3))
         start= tuple(random.choices(AZ, k= 3))
         reflector= ''.join(random.choices(list(REFLECTOR.keys()), k= 1))
         
@@ -91,17 +91,17 @@ def setup():
 
 
 def set_rotors(start, rotor):
-    ring_left= [deque([i for i in AZ]), deque(INNER_RING[rotor[0]])]
+    ring_left= [deque(AZ), deque(INNER_RING[rotor[0]])]
     offset= -1 * AZ.index(start[0])
     ring_left[0].rotate(offset)
     ring_left[1].rotate(offset)
     
-    ring_centre= [deque([i for i in AZ]), deque(INNER_RING[rotor[1]])]
+    ring_centre= [deque(AZ), deque(INNER_RING[rotor[1]])]
     offset= -1 * AZ.index(start[1])
     ring_centre[0].rotate(offset)
     ring_centre[1].rotate(offset)
     
-    ring_right= [deque([i for i in AZ]), deque(INNER_RING[rotor[2]])]
+    ring_right= [deque(AZ), deque(INNER_RING[rotor[2]])]
     offset= -1 * AZ.index(start[2])
     ring_right[0].rotate(offset)
     ring_right[1].rotate(offset)
@@ -146,7 +146,7 @@ def Cesar(alphabets, letter, from_offset, to_offset):
 def Enigma_process(text):
     rotors, ring_setting, start_positions, reflector_type, switches= setup()
     ring_left, ring_centre, ring_right= set_rotors(start_positions, rotors)
-    alphabet= deque([i for i in AZ])
+    alphabet= deque(AZ)
     
     cipher= ''    
     for i in text:    
