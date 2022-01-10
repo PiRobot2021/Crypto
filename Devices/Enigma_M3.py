@@ -170,17 +170,31 @@ def Enigma_process(text):
             print(f'Lampboard output: {switched_letter_backward}\n')
             
     return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])
-        
 
+  
+def load(path):
+    with open(path, 'r') as file:
+        data= file.read()
+    print(f'{path} loaded.')
+    return data
+
+
+def save(data, path):
+    with open(path, 'w') as file:
+        file.write(data)        
+    print(f'{path} saved.')
+
+    
 def main():
     text= input('Type your text (letters only): ')
+    #text= load('plaintext.txt')
     text= text.replace(' ', 'X')
     text= text.replace('.', 'X')
     text= text.replace(',', 'QQ')
     assert(text.isalpha())
 
     cipher= Enigma_process(text.upper())
-
+    #save(cipher, 'Enigma_ciphertext.txt')
     print(f'\nCipher: {cipher}')
 
 main()
