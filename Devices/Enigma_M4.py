@@ -42,7 +42,15 @@ TURN_NOTCH= {1:'Q',        # If rotor steps from Q to R, the next rotor is advan
              6:['Z', 'M'], # If rotor steps from Z to A, or from M to N the next rotor is advanced
              7:['Z', 'M'], # If rotor steps from Z to A, or from M to N the next rotor is advanced
              8:['Z', 'M']} # If rotor steps from Z to A, or from M to N the next rotor is advanced
-            
+
+ROTOR_NAME= {1:'I',
+             2:'II', 
+             3:'III',
+             4:'IV',
+             5:'V',
+             6:'VI',
+             7:'VII',
+             8:'VIII'}
 
 MANUAL_SETUP= False
 DEBUG= True
@@ -70,12 +78,11 @@ def setup():
             switches.append((i, j))
             second_letters= second_letters.replace(f'{j}', '')
             
-    print(f'Rotors: {rotor}')
-    print(f'Additional wheel: {thin_wheel}\n')
-    print(f'Start positions: {start}')
-    print(f'Ring settings: {ring_setting}')
-    print(f'Plugboard switches: {switches}')
-    print(f'Reflector: {reflector}')
+    print(f'Rotors: {thin_wheel}, {ROTOR_NAME[rotor[0]]}, {ROTOR_NAME[rotor[1]]}, {ROTOR_NAME[rotor[2]]}')
+    print(f'Ring settings: {AZ[ring_setting[0]]}, {AZ[ring_setting[1]]}, {AZ[ring_setting[2]]}, {AZ[ring_setting[3]]}')
+    print(f'Start positions: {start[0]}, {start[1]}, {start[2]}, {start[3]}')
+    print(f'Reflector type: {reflector}')
+    print(f'Plugboard switches: {switches}\n')
 
     return rotor, ring_setting, start, reflector, switches, thin_wheel
 
@@ -181,15 +188,29 @@ def Enigma_process(text):
     return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])
         
 
+def load(path):
+    with open(path, 'r') as file:
+        data= file.read()
+    print(f'{path} loaded.')
+    return data
+
+
+def save(data, path):
+    with open(path, 'w') as file:
+        file.write(data)        
+    print(f'{path} saved.')
+
+
 def main():
     text= input('Type your text (letters only): ')
+    #text= load('plaintext.txt')
     text= text.replace(' ', 'X')
-    text= text.replace('.', 'XX')
+    text= text.replace('.', 'X')
     text= text.replace(',', 'QQ')
     assert(text.isalpha())
 
     cipher= Enigma_process(text.upper())
-
+    #save(cipher, 'Enigma_ciphertext.txt')
     print(f'\nCipher: {cipher}')
 
 main()
