@@ -25,7 +25,6 @@ from collections import deque
 from string import ascii_uppercase as AZ
 from copy import copy
 
-#            -> ABCDEFGHIJKLMNOPQRSTUVWXYZ <-
 INNER_RING= {1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
              2:'AJDKSIRUXBLHWTMCQGZNPYFVOE',
              3:'BDFHJLCPRTXVZNYEIWGAKMUSQO',
@@ -35,7 +34,7 @@ INNER_RING= {1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
              7:'NZJHGRCXMYSWBOUFAIVLPEKQDT',
              8:'FKQHTLXOCBJSPDZRAMEWNIUYGV'}
 
-# The letters in the reflector are mirrored pairs (e.g. A -> Y, so Y -> A):
+# The letters in the reflector are mirrored (e.g. A -> Y, so Y -> A):
 #                 -> ABCDEFGHIJKLMNOPQRSTUVWXYZ <-
 REFLECTOR= {'UKW_B':'YRUHQSLDPXNGOKMIEBFZCWVJAT',		
             'UKW_C':'FVPJIAOYEDRZXWGCTKUQSBNMHL'}
@@ -132,7 +131,7 @@ def plugboard(letter, switches):
     return letter
 
 
-def Cesar(alphabets, letter, from_offset, to_offset):
+def Cesar(alphabets, letter, from_offset, to_offset):                                           # I implemented the ring setting as additional offsets for each permutation
     from_alphabet= copy(alphabets[0])
     from_alphabet.rotate(from_offset)
 
@@ -178,7 +177,7 @@ def Enigma_process(text):
             print(f'Plugboard: {switched_letter_backward} <- {rotor_right_backward}')
             print(f'Lampboard output: {switched_letter_backward}\n')
             
-    return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])
+    return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])                                                         # Return cipher in groups of 5 letters
 
 
 def load(path):
@@ -195,7 +194,7 @@ def save(data, path):
 
 
 def main():
-    text= input('Type your text (letters only): ')
+    text= input('Type your text (no digits): ')
     #text= load('plaintext.txt')
     text= text.replace(' ', 'X')
     text= text.replace('.', 'X')
@@ -207,4 +206,5 @@ def main():
     print(f'\nCipher: {cipher}')
     
 
-main()
+if __name__ == '__main__':
+    main()
