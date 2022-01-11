@@ -75,4 +75,5 @@ def main():
         decrypt(key, cipher)
 
 
-main()
+if __name__ == '__main__':
+    main()
