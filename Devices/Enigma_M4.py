@@ -202,7 +202,7 @@ def save(data, path):
 
 
 def main():
-    text= input('Type your text (letters only): ')
+    text= input('Type your text (no digits): ')
     #text= load('plaintext.txt')
     text= text.replace(' ', 'X')
     text= text.replace('.', 'X')
@@ -213,4 +213,5 @@ def main():
     #save(cipher, 'Enigma_ciphertext.txt')
     print(f'\nCipher: {cipher}')
 
-main()
+if __name__ == '__main__':
+    main()
