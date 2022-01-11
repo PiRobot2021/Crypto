@@ -42,4 +42,5 @@ def main():
     cipher= encrypt(key, text)
     print(f'\nCipher: {cipher}\n')
     
-main()
+if __name__ == '__main__':
+    main()
