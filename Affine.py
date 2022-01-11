@@ -79,4 +79,5 @@ def main():
     if i == 'y':
         decrypt(cipher, text)                                                           # It's a basic bruteforce
 
-main()
+if __name__ == '__main__':
+    main()
