@@ -87,4 +87,5 @@ def main():
     cipher= geometric_encrypt(text)
     print(f'\nCipher: {cipher}')
 
-main()
+if __name__ == '__main__':
+    main()
