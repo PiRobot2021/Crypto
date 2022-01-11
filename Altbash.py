@@ -22,4 +22,5 @@ def main():
     text= input('Type your text: ')
     encrypt_decrypt(text)                                           # Being a simple reverse, encryption and decryption proceed with the same function
     
-main()
+if __name__ == '__main__':
+    main()
