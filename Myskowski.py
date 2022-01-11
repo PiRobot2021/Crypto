@@ -82,4 +82,5 @@ def main():
     cipher= columnar_encrypt(text, key)
     print(f'\nCipher: {cipher}')
 
-main()
+if __name__ == '__main__':
+    main()
