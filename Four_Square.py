@@ -93,4 +93,5 @@ def main():
     cipher= encrypt(text, key1, key2)
     print(f'Cipher: {cipher}')
 
-main()
+if __name__ == '__main__':
+    main()
