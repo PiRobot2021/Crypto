@@ -16,6 +16,7 @@ Note that the extra wheel is not driven by the wheel to its right, so it never m
 import random
 from collections import deque
 from string import ascii_uppercase as AZ
+from string import punctuation
 from copy import copy
 
 
@@ -205,8 +206,9 @@ def main():
     text= input('Type your text (no digits): ')
     #text= load('plaintext.txt')
     text= text.replace(' ', 'X')
-    text= text.replace('.', 'X')
     text= text.replace(',', 'QQ')
+    for p in punctuation:
+        text= text.replace(p, '')
     assert(text.isalpha())
 
     cipher= Enigma_process(text.upper())
