@@ -23,6 +23,7 @@ A F J              Initial position of the rotors
 import random
 from collections import deque
 from string import ascii_uppercase as AZ
+from string import punctuation
 from copy import copy
 
 INNER_RING= {1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
@@ -197,8 +198,9 @@ def main():
     text= input('Type your text (no digits): ')
     #text= load('plaintext.txt')
     text= text.replace(' ', 'X')
-    text= text.replace('.', 'X')
     text= text.replace(',', 'QQ')
+    for p in punctuation:
+        text= text.replace(p, '')
     assert(text.isalpha())
 
     cipher= Enigma_process(text.upper())
