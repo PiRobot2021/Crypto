@@ -1,6 +1,6 @@
 #/usr/bin/env python3
 """
-ENIGMA MODEL M3 KRIEGSMARINE
+ENIGMA MODEL M3 (incl. KRIEGSMARINE wheels)
 Launched in 1940, part of a family of rotor based cipher machines.
 I found well detailed descritpions in these links, and used them to build my code.
 
