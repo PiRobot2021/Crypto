@@ -207,8 +207,6 @@ def prep_text(text):
     text= text.replace(',', 'QQ')
     text= text.replace('\n', '')
     text= text.replace('\r', '')
-    text= text.replace('', '')
-    text= text.replace('', '')
     for p in punctuation:
         text= text.replace(p, '')
     check_text(text)
