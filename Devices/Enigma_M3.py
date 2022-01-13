@@ -40,14 +40,14 @@ INNER_RING= {1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
 REFLECTOR= {'UKW_B':'YRUHQSLDPXNGOKMIEBFZCWVJAT',		
             'UKW_C':'FVPJIAOYEDRZXWGCTKUQSBNMHL'}
 
-TURN_NOTCH= {1:'Q',        # If rotor steps from Q to R, the next rotor is advanced
-             2:'E',	       # If rotor steps from E to F, the next rotor is advanced
-             3:'V',	       # If rotor steps from V to W, the next rotor is advanced
-             4:'J',	       # If rotor steps from J to K, the next rotor is advanced
-             5:'Z',	       # If rotor steps from Z to A, the next rotor is advanced
-             6:['Z', 'M'], # If rotor steps from Z to A, or from M to N the next rotor is advanced
-             7:['Z', 'M'], # If rotor steps from Z to A, or from M to N the next rotor is advanced
-             8:['Z', 'M']} # If rotor steps from Z to A, or from M to N the next rotor is advanced
+TURN_NOTCH= {1:'Q',           # If rotor steps from Q to R, the next rotor is advanced
+             2:'E',	          # If rotor steps from E to F, the next rotor is advanced
+             3:'V',	          # If rotor steps from V to W, the next rotor is advanced
+             4:'J',	          # If rotor steps from J to K, the next rotor is advanced
+             5:'Z',	          # If rotor steps from Z to A, the next rotor is advanced
+             6:['Z', 'M'],    # If rotor steps from Z to A, or from M to N the next rotor is advanced
+             7:['Z', 'M'],    # If rotor steps from Z to A, or from M to N the next rotor is advanced
+             8:['Z', 'M']}    # If rotor steps from Z to A, or from M to N the next rotor is advanced
 
 ROTOR_NAME= {1:'I',
              2:'II', 
