@@ -78,7 +78,7 @@ def setup():
         first_letters= random.sample(AZ, k= 10)
         second_letters= ''.join(set(copy(AZ)).difference(set(first_letters)))
         for i in first_letters:
-            j= random.sample([n for n in second_letters if n != i], k= 1)[0]
+            j= random.sample(second_letters, k= 1)
             switches.append((i, j))
             second_letters= second_letters.replace(f'{j}', '')
             
