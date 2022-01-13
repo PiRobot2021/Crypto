@@ -76,7 +76,7 @@ def setup():
         
         switches= []
         first_letters= random.sample(AZ, k= 10)
-        second_letters= copy(AZ)
+        second_letters= ''.join(set(copy(AZ)).difference(set(first_letters)))
         for i in first_letters:
             j= random.sample([n for n in second_letters if n != i], k= 1)[0]
             switches.append((i, j))
