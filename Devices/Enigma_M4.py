@@ -35,14 +35,14 @@ REFLECTOR= {'B_Thin':'ENKQAUYWJICOPBLMDXZVFTHRGS',
 ADDITIONAL_WHEEL= {'Beta':'LEYJVCNIXWPBQMDRTAKZGFUHOS',
                    'Gamma':'FSOKANUERHMBTIYCWLQPZXVGJD'}
 
-TURN_NOTCH= {1:'Q',        # If rotor steps from Q to R, the next rotor is advanced
-             2:'E',	       # If rotor steps from E to F, the next rotor is advanced
-             3:'V',	       # If rotor steps from V to W, the next rotor is advanced
-             4:'J',	       # If rotor steps from J to K, the next rotor is advanced
-             5:'Z',	       # If rotor steps from Z to A, the next rotor is advanced
-             6:['Z', 'M'], # If rotor steps from Z to A, or from M to N the next rotor is advanced
-             7:['Z', 'M'], # If rotor steps from Z to A, or from M to N the next rotor is advanced
-             8:['Z', 'M']} # If rotor steps from Z to A, or from M to N the next rotor is advanced
+TURN_NOTCH= {1:'Q',           # If rotor steps from Q to R, the next rotor is advanced
+             2:'E',	          # If rotor steps from E to F, the next rotor is advanced
+             3:'V',	          # If rotor steps from V to W, the next rotor is advanced
+             4:'J',	          # If rotor steps from J to K, the next rotor is advanced
+             5:'Z',	          # If rotor steps from Z to A, the next rotor is advanced
+             6:['Z', 'M'],    # If rotor steps from Z to A, or from M to N the next rotor is advanced
+             7:['Z', 'M'],    # If rotor steps from Z to A, or from M to N the next rotor is advanced
+             8:['Z', 'M']}    # If rotor steps from Z to A, or from M to N the next rotor is advanced
 
 ROTOR_NAME= {1:'I',
              2:'II', 
@@ -75,7 +75,7 @@ def setup():
         first_letters= random.sample(AZ, k= 10)
         second_letters= ''.join(set(copy(AZ)).difference(set(first_letters)))
         for i in first_letters:
-            j= random.sample([n for n in second_letters if n != i], k= 1)[0]
+            j= random.sample(second_letters, k= 1)
             switches.append((i, j))
             second_letters= second_letters.replace(f'{j}', '')
             
