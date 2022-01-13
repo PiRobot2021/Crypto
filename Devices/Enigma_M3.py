@@ -194,17 +194,34 @@ def save(data, path):
     print(f'{path} saved.')
 
 
-def main():
-    text= input('Type your text (no digits): ')
-    #text= load('plaintext.txt')
-    text= text.replace(' ', 'X')
-    text= text.replace(',', 'QQ')
-    for p in punctuation:
-        text= text.replace(p, '')
+def check_text(text):
+    if DEBUG:
+        for i, j in enumerate(text):
+            if not j.isalpha():
+                print(f'The char {j} at position {i} not a letter')
     assert(text.isalpha())
 
+
+def prep_text(text):
+    text= text.replace(' ', 'X')
+    text= text.replace(',', 'QQ')
+    text= text.replace('\n', '')
+    text= text.replace('\r', '')
+    text= text.replace('', '')
+    text= text.replace('', '')
+    for p in punctuation:
+        text= text.replace(p, '')
+    check_text(text)
+    return text
+  
+  
+def main():
+    text= input('Type your text (no digits): ')
+    #text= load(r'plaintext.txt')
+    text= prep_text(text)
+
     cipher= Enigma_process(text.upper())
-    #save(cipher, 'Enigma_ciphertext.txt')
+    #save(cipher, r'Enigma_ciphertext.txt')
     print(f'\nCipher: {cipher}')
     
 
