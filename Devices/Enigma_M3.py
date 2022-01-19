@@ -123,7 +123,7 @@ def step_rotors(ring_left, ring_centre, ring_right, rotor):
     return ring_left, ring_centre, ring_right
 
 
-def plugboard(letter, switches):
+def plugboard(letter, switches): 
     for i, j in switches:
         if letter == i:
             return j
@@ -181,20 +181,20 @@ def Enigma_process(text):
     return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])                                                         # Return cipher in groups of 5 letters
 
 
-def load(path):
+def load(path):                                                                 # Load plaintext from a file
     with open(path, 'r') as file:
         data= file.read()
     print(f'{path} loaded.')
     return data
 
 
-def save(data, path):
+def save(data, path):                                                           # Save ciphertext into a file
     with open(path, 'w') as file:
         file.write(data)        
     print(f'{path} saved.')
 
 
-def check_text(text):
+def check_text(text):                                                           # Control if the plaintext only contains letters, if not, throw an assertion error
     if DEBUG:
         for i, j in enumerate(text):
             if not j.isalpha():
@@ -202,7 +202,7 @@ def check_text(text):
     assert(text.isalpha())
 
 
-def prep_text(text):
+def prep_text(text):                                                            # Replace common puctuation with letters
     text= text.replace(' ', 'X')
     text= text.replace(',', 'QQ')
     text= text.replace('\n', '')
