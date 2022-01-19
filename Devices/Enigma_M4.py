@@ -64,6 +64,7 @@ def setup():
         ring_setting= (4, 2, 24, 25)
         reflector= 'B_Thin'
         thin_wheel= 'Beta'
+        assert(check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_wheel))
     else:
         rotor= tuple(random.sample(list(range(1, 9)), k= 3))
         ring_setting= tuple(random.choices(list(range(26)), k= 4))
@@ -87,6 +88,34 @@ def setup():
 
     return rotor, ring_setting, start, reflector, switches, thin_wheel
 
+  
+def check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_wheel):
+    if len(set(rotor)) != 3:
+        return False
+    for i in rotor:
+        if type(i) is not int:
+            return False
+    if len(start) != 3:
+        return False
+    for i in start:
+        if type(i) is not str:
+            return False
+    if len(ring_setting) != 3:
+        return False
+    for i in ring_setting:
+        if type(i) is not int:
+            return False
+    if reflector not in REFLECTOR.keys():
+        return False
+    if thin_wheel not in ADDITIONAL_WHEEL.keys():
+        return False
+    temp = copy(switches)
+    for i, j in switches:
+        temp.remove((i, j))
+        if i in temp or j in temp:
+            return False
+    return True
+  
 
 def set_rotors(start, rotor, wheel_type):
     
