@@ -69,6 +69,7 @@ def setup():
         start= ('A', 'D', 'U')                                                    # Three letter values, setting the start positions of the rotors.
         ring_setting= (0, 0, 0)                                                   # Internal shift of the ring against the start positions. Each value varies from 0 to 25 (equivalent of A to Z).
         reflector= 'UKW_B'                                                        # The reflector type: Can be either UKW_B or UKW_C.
+        assert(check_manual_setup(rotor, switches, start, ring_setting, reflector)) 
     else:                                                                         # Switch to automatic mode, setup is randomly generated      
         rotor= tuple(random.sample(list(range(1, 9)), k= 3))                      # Rotors: random sample of three unique values from 1 to 8
         ring_setting= tuple(random.choices(list(range(26)), k= 3))                # Ring settings: Tuple of 3 random values from 0 to 25, equivalent to A to Z
@@ -90,6 +91,32 @@ def setup():
     print(f'Plugboard switches: {switches}\n')
     return rotor, ring_setting, start, reflector, switches
 
+  
+def check_manual_setup(rotor, switches, start, ring_setting, reflector):
+    if len(set(rotor)) != 3:
+        return False
+    for i in rotor:
+        if type(i) is not int:
+            return False
+    if len(start) != 3:
+        return False
+    for i in start:
+        if type(i) is not str:
+            return False
+    if len(ring_setting) != 3:
+        return False
+    for i in ring_setting:
+        if type(i) is not int:
+            return False
+    if reflector not in REFLECTOR.keys():
+        return False
+    temp = copy(switches)
+    for i, j in switches:
+        temp.remove((i, j))
+        if i in temp or j in temp:
+            return False
+    return True
+  
 
 def set_rotors(start, rotor):                                                     # Simulate the rotors as deques. Setup the starting positions by rotating the deques
     ring_left= [deque(AZ), deque(INNER_RING[rotor[0]])]                           # Each rotor is represented a as list containing the two side of the inner ring, as deques
