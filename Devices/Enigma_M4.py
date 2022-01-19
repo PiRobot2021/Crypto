@@ -95,12 +95,12 @@ def check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_whe
     for i in rotor:
         if type(i) is not int:
             return False
-    if len(start) != 3:
+    if len(start) != 4:
         return False
     for i in start:
         if type(i) is not str:
             return False
-    if len(ring_setting) != 3:
+    if len(ring_setting) != 4:
         return False
     for i in ring_setting:
         if type(i) is not int:
