@@ -110,11 +110,13 @@ def check_manual_setup(rotor, switches, start, ring_setting, reflector):
             return False
     if reflector not in REFLECTOR.keys():
         return False
-    temp = copy(switches)
-    for i, j in switches:
-        temp.remove((i, j))
-        if i in temp or j in temp:
-            return False
+    for i in switches:
+        other_switches= copy(switches)
+        other_switches.remove(i)
+        for j in other_switches:
+            if i != j and i != j[::-1]:
+                if i[0] in j or i[1] in j:
+                    return False
     return True
   
 
