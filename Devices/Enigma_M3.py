@@ -69,10 +69,9 @@ def setup():
         start= ('A', 'D', 'U')                                                    # Three letter values, setting the start positions of the rotors.
         ring_setting= (0, 0, 0)                                                   # Internal shift of the ring against the start positions. Each value varies from 0 to 25 (equivalent of A to Z).
         reflector= 'UKW_B'                                                        # The reflector type: Can be either UKW_B or UKW_C.
-        assert(check_manual_setup(rotor, switches, start, ring_setting, reflector)) 
     else:                                                                         # Switch to automatic mode, setup is randomly generated      
-        rotor= tuple(random.sample(list(range(1, 9)), k= 3))                      # Rotors: random sample of three unique values from 1 to 8
-        ring_setting= tuple(random.choices(list(range(26)), k= 3))                # Ring settings: Tuple of 3 random values from 0 to 25, equivalent to A to Z
+        rotor= tuple(random.sample(range(1, 9), k= 3))                            # Rotors: random sample of three unique values from 1 to 8
+        ring_setting= tuple(random.choices(range(26), k= 3))                      # Ring settings: Tuple of 3 random values from 0 to 25, equivalent to A to Z
         start= tuple(random.choices(AZ, k= 3))                                    # Start positions: Tuple of 3 random letters from the alphabet AZ        
         reflector= ''.join(random.choices(list(REFLECTOR.keys()), k= 1))          # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
         
@@ -80,10 +79,10 @@ def setup():
         first_letters= random.sample(AZ, k= 10)                                   # Generate 10 random unique letters
         second_letters= ''.join(set(copy(AZ)).difference(set(first_letters)))     # Create a string the all the remaining letters of the alphabet AZ
         for i in first_letters:                                                   # For each letter in the list of 10 randomly generated:
-            j= random.sample(second_letters, k= 1)                                # Chose a random letter from the string of remaining letters
+            j= random.sample(second_letters, k= 1)[0]                             # Chose a random letter from the string of remaining letters
             switches.append((i, j))                                               # Append it to the first letter to form a tuple
             second_letters= second_letters.replace(f'{j}', '')                    # Remove the appended letter from the remaining letters 
-            
+    assert(check_setup(rotor, switches, start, ring_setting, reflector)) 
     print(f'Rotors: {ROTOR_NAME[rotor[0]]}, {ROTOR_NAME[rotor[1]]}, {ROTOR_NAME[rotor[2]]}')
     print(f'Ring settings: {AZ[ring_setting[0]]}, {AZ[ring_setting[1]]}, {AZ[ring_setting[2]]}')
     print(f'Start positions: {start[0]}, {start[1]}, {start[2]}')
@@ -92,7 +91,7 @@ def setup():
     return rotor, ring_setting, start, reflector, switches
 
   
-def check_manual_setup(rotor, switches, start, ring_setting, reflector):
+def check_setup(rotor, switches, start, ring_setting, reflector):
     if len(set(rotor)) != 3:
         return False
     for i in rotor:
@@ -173,8 +172,7 @@ def Cesar(alphabets, letter, from_offset, to_offset):                           
     return letter.translate(rot_tab)
 
    
-def Enigma_process(text):
-    rotors, ring_setting, start_positions, reflector_type, switches= setup()                                                        # Load the setup of the device
+def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, switches):
     ring_left, ring_centre, ring_right= set_rotors(start_positions, rotors)                                                         # Set the rotors and the satrt positions
     alphabet= deque(AZ)                                                                                                             # Create a deque of the alphabet, for the fixed parts of the Enigma
     
@@ -247,8 +245,9 @@ def main():
     text= input('Type your text (no digits): ')
     #text= load(r'plaintext.txt')
     text= prep_text(text)
-
-    cipher= Enigma_process(text.upper())
+    
+    rotors, ring_setting, start_positions, reflector_type, switches= setup()                                                        # Load the setup of the device
+    cipher= Enigma_process(text.upper(), rotors, ring_setting, start_positions, reflector_type, switches)
     #save(cipher, r'Enigma_ciphertext.txt')
     print(f'\nCipher: {cipher}')
     
