@@ -147,13 +147,11 @@ def scan_start(word, cipher_fragment, menu, crib, rotors, reflector):
         n= int(input('Choose a loop to scan: '))
         setup= []
         if start_combinations:
-            for s in start_combinations:
-                for i in AZ:
-                    start= (i, s[1], s[2]) 
-                    print(f'\r[+] Testing start positions {start}', end= '\r', flush= True)
-                    switches= find_plugboard_combinations(rotors, menu[n][1], crib, reflector, start, ring_setting, False)
-                    if switches:
-                        setup.append({'Start': start, 'Plugboard': switches})
+            for start in start_combinations:
+                print(f'\r[+] Testing start positions {start}', end= '\r', flush= True)
+                switches= find_plugboard_combinations(rotors, menu[n][1], crib, reflector, start, ring_setting, False)
+                if switches:
+                    setup.append({'Start': start, 'Plugboard': switches})
         else:
             for i in AZ:
                 for j in AZ:
