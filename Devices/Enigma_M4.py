@@ -61,13 +61,13 @@ def setup():
         rotor= (1, 2, 3)
         switches= []                                                            
         start= ('B', 'B', 'D', 'U')
-        ring_setting= (4, 2, 24, 25)
+        ring_setting= ('A', 'A', 'A', 'A')
         reflector= 'B_Thin'
         thin_wheel= 'Beta'
         assert(check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_wheel))
     else:
         rotor= tuple(random.sample(list(range(1, 9)), k= 3))
-        ring_setting= tuple(random.choices(list(range(26)), k= 4))
+        ring_setting= tuple(random.choices(AZ, k= 4))
         start= tuple(random.choices(AZ, k= 4))
         reflector= ''.join(random.choices(list(REFLECTOR.keys()), k= 1))
         thin_wheel= ''.join(random.choices(list(ADDITIONAL_WHEEL.keys()), k= 1))
@@ -81,7 +81,7 @@ def setup():
             second_letters= second_letters.replace(f'{j}', '')
             
     print(f'Rotors: {thin_wheel}, {ROTOR_NAME[rotor[0]]}, {ROTOR_NAME[rotor[1]]}, {ROTOR_NAME[rotor[2]]}')
-    print(f'Ring settings: {AZ[ring_setting[0]]}, {AZ[ring_setting[1]]}, {AZ[ring_setting[2]]}, {AZ[ring_setting[3]]}')
+    print(f'Ring settings: {ring_setting[0]}, {ring_setting[1]}, {ring_setting[2]}, {ring_setting[3]}')
     print(f'Start positions: {start[0]}, {start[1]}, {start[2]}, {start[3]}')
     print(f'Reflector type: {reflector}')
     print(f'Plugboard switches: {switches}\n')
@@ -103,7 +103,7 @@ def check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_whe
     if len(ring_setting) != 4:
         return False
     for i in ring_setting:
-        if type(i) is not int:
+        if type(i) is not str:
             return False
     if reflector not in REFLECTOR.keys():
         return False
@@ -169,10 +169,10 @@ def plugboard(letter, switches):
 
 def Cesar(alphabets, letter, from_offset, to_offset):
     from_alphabet= copy(alphabets[0])
-    from_alphabet.rotate(from_offset)
+    from_alphabet.rotate(AZ.index(from_offset))
 
     to_alphabet= copy(alphabets[1])
-    to_alphabet.rotate(to_offset)
+    to_alphabet.rotate(AZ.index(to_offset))
 
     rot_tab= letter.maketrans(''.join(from_alphabet), ''.join(to_alphabet))                   
     return letter.translate(rot_tab)
@@ -220,19 +220,6 @@ def Enigma_process(text):
     return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])
         
 
-def load(path):
-    with open(path, 'r') as file:
-        data= file.read()
-    print(f'{path} loaded.')
-    return data
-
-
-def save(data, path):
-    with open(path, 'w') as file:
-        file.write(data)        
-    print(f'{path} saved.')
-
-
 def check_text(text):
     if DEBUG:
         for i, j in enumerate(text):
@@ -254,11 +241,9 @@ def prep_text(text):
 
 def main():
     text= input('Type your text (no digits): ')
-    #text= load(r'plaintext.txt')
     text= prep_text(text)
 
     cipher= Enigma_process(text.upper())
-    #save(cipher, r'Enigma_ciphertext.txt')
     print(f'\nCipher: {cipher}')
 
 if __name__ == '__main__':
