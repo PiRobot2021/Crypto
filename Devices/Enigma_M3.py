@@ -67,7 +67,7 @@ def setup():
         rotor= (1, 2, 3)                                                          # Chose the rotors to use, from 1 to 8. A rotor can be set only once.
         switches= [('A', 'B')]                                                    # List up to 13 pairs of letters to simulate the plugboard, represented as tuples. A letter can be used only once.                                     
         start= ('A', 'D', 'U')                                                    # Three letter values, setting the start positions of the rotors.
-        ring_setting= (0, 0, 0)                                                   # Internal shift of the ring against the start positions. Each value varies from 0 to 25 (equivalent of A to Z).
+        ring_setting= ('A', 'A', 'A')                                             # Internal shift of the ring against the start positions. Each value varies from 0 to 25 (equivalent of A to Z).
         reflector= 'UKW_B'                                                        # The reflector type: Can be either UKW_B or UKW_C.
     else:                                                                         # Switch to automatic mode, setup is randomly generated      
         rotor= tuple(random.sample(range(1, 9), k= 3))                            # Rotors: random sample of three unique values from 1 to 8
@@ -84,7 +84,7 @@ def setup():
             second_letters= second_letters.replace(f'{j}', '')                    # Remove the appended letter from the remaining letters 
     assert(check_setup(rotor, switches, start, ring_setting, reflector)) 
     print(f'Rotors: {ROTOR_NAME[rotor[0]]}, {ROTOR_NAME[rotor[1]]}, {ROTOR_NAME[rotor[2]]}')
-    print(f'Ring settings: {AZ[ring_setting[0]]}, {AZ[ring_setting[1]]}, {AZ[ring_setting[2]]}')
+    print(f'Ring settings: {ring_setting[0]}, {ring_setting[1]}, {ring_setting[2]}')
     print(f'Start positions: {start[0]}, {start[1]}, {start[2]}')
     print(f'Reflector type: {reflector}')
     print(f'Plugboard switches: {switches}\n')
@@ -105,7 +105,7 @@ def check_setup(rotor, switches, start, ring_setting, reflector):
     if len(ring_setting) != 3:
         return False
     for i in ring_setting:
-        if type(i) is not int:
+        if type(i) is not str:
             return False
     if reflector not in REFLECTOR.keys():
         return False
@@ -163,10 +163,10 @@ def plugboard(letter, switches):                                                
 
 def Cesar(alphabets, letter, from_offset, to_offset):                                          # This funciton returns the input letter shifted according to rotors and ring settings
     from_alphabet= copy(alphabets[0])                                                          # Create a copy of the alphabet position in the source rotor
-    from_alphabet.rotate(from_offset)                                                          # I apply the ring setting as offsets from the current rotor position. Rotate the source alphabet to the offset from ring setting.
+    from_alphabet.rotate(AZ.index(from_offset))                                                # I apply the ring setting as offsets from the current rotor position. Rotate the source alphabet to the offset from ring setting.
 
     to_alphabet= copy(alphabets[1])
-    to_alphabet.rotate(to_offset)
+    to_alphabet.rotate(AZ.index(to_offset))
 
     rot_tab= letter.maketrans(''.join(from_alphabet), ''.join(to_alphabet))                   # Translate the letter and return it
     return letter.translate(rot_tab)
@@ -209,20 +209,7 @@ def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, 
     return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])                                                          # Return cipher in groups of 5 letters
 
 
-def load(path):                                                                 # Load plaintext from a file
-    with open(path, 'r') as file:
-        data= file.read()
-    print(f'{path} loaded.')
-    return data
-
-
-def save(data, path):                                                           # Save ciphertext into a file
-    with open(path, 'w') as file:
-        file.write(data)        
-    print(f'{path} saved.')
-
-
-def check_text(text):                                                           # Control if the plaintext only contains letters, if not, throw an assertion error
+  def check_text(text):                                                           # Control if the plaintext only contains letters, if not, throw an assertion error
     if DEBUG:
         for i, j in enumerate(text):
             if not j.isalpha():
@@ -243,12 +230,10 @@ def prep_text(text):                                                            
   
 def main():
     text= input('Type your text (no digits): ')
-    #text= load(r'plaintext.txt')
     text= prep_text(text)
     
     rotors, ring_setting, start_positions, reflector_type, switches= setup()                                                        # Load the setup of the device
     cipher= Enigma_process(text.upper(), rotors, ring_setting, start_positions, reflector_type, switches)
-    #save(cipher, r'Enigma_ciphertext.txt')
     print(f'\nCipher: {cipher}')
     
 
