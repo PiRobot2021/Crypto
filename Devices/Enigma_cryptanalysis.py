@@ -207,6 +207,7 @@ def scan_rotors(word, cipher_fragment, menu, crib):
     setup= dict(zip([i for i in range(len(setup))], setup))
     print('\n')
     for i in setup:
+        del setup[i]['Start']
         del setup[i]['Ring setting']
         del setup[i]['Text']
         if DEBUG:
