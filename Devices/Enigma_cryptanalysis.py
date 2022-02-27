@@ -29,7 +29,8 @@ INNER_RING = {1: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
               5: 'VZBRGITYUPSDNHLXAWMJQOFECK',
               #6: 'JPGVOUMFYQBENHZRDKASXLICTW',
               #7: 'NZJHGRCXMYSWBOUFAIVLPEKQDT',
-              #8: 'FKQHTLXOCBJSPDZRAMEWNIUYGV'}
+              #8: 'FKQHTLXOCBJSPDZRAMEWNIUYGV'
+             }
 
 REFLECTOR = {'UKW_B': 'YRUHQSLDPXNGOKMIEBFZCWVJAT',
              'UKW_C': 'FVPJIAOYEDRZXWGCTKUQSBNMHL'}
@@ -41,8 +42,9 @@ TURN_NOTCH = {1: 'Q',                     # If rotor steps from Q to R, the next
               5: 'Z',	                  # If rotor steps from Z to A, the next rotor is advanced 
               #6: ['Z', 'M'],              # If rotor steps from Z to A, or from M to N the next rotor is advanced
               #7: ['Z', 'M'],              # If rotor steps from Z to A, or from M to N the next rotor is advanced
-              #8: ['Z', 'M']}              # If rotor steps from Z to A, or from M to N the next rotor is advanced
-
+              #8: ['Z', 'M']               # If rotor steps from Z to A, or from M to N the next rotor is advanced
+             }
+              
 ROTOR_NAME = {1: 'I',
               2: 'II',
               3: 'III',
@@ -50,7 +52,8 @@ ROTOR_NAME = {1: 'I',
               5: 'V',
               #6: 'VI',
               #7: 'VII',
-              #8: 'VIII'}
+              #8: 'VIII'
+             }
 
 DEBUG = True
 DEBUG_SOLUTION= {'Rotors': (1, 2, 3),
