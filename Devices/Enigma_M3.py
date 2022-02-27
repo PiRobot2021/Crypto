@@ -71,7 +71,7 @@ def setup():
         reflector= 'UKW_B'                                                        # The reflector type: Can be either UKW_B or UKW_C.
     else:                                                                         # Switch to automatic mode, setup is randomly generated      
         rotor= tuple(random.sample(range(1, 9), k= 3))                            # Rotors: random sample of three unique values from 1 to 8
-        ring_setting= tuple(random.choices(range(26), k= 3))                      # Ring settings: Tuple of 3 random values from 0 to 25, equivalent to A to Z
+        ring_setting= tuple(random.choices(AZ, k= 3))                             # Ring settings: Tuple of 3 random letters from the alphabet AZ
         start= tuple(random.choices(AZ, k= 3))                                    # Start positions: Tuple of 3 random letters from the alphabet AZ        
         reflector= ''.join(random.choices(list(REFLECTOR.keys()), k= 1))          # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
         
