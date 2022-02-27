@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # /usr/bin/env python3
 """
-Set of functions to analyze Egniam ciphertext, based on the logic of the TURING-WELCHMAN BOMBE.
+A set of functions to analyze Egniam ciphertext, based on the logic of the TURING-WELCHMAN Bombe (crib -> menu -> scan rotor's setup for valid plugboard combinations).
+I wrote a tool to play with this historical cipher rather than simulating the original Bombe (e.g. no rotor banks, no diagonal board).
 
-I link my sources
+I link my sources for inspiration:
 https://www.turing.org.uk/scrapbook/ww2.html
 https://en.wikipedia.org/wiki/Bombe
 https://en.wikipedia.org/wiki/Cryptanalysis_of_the_Enigma
