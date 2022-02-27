@@ -11,7 +11,6 @@ https://en.wikipedia.org/wiki/Cryptanalysis_of_the_Enigma
 http://www.ellsbury.com/bombe1.htm
 http://www.rutherfordjournal.org/article030108.html
 https://www.101computing.net/turing-welchman-bombe/
-
 """
 
 from collections import deque
@@ -53,12 +52,11 @@ ROTOR_NAME = {1: 'I',
               #7: 'VII',
               #8: 'VIII'}
 
-
-              DEBUG = True
+DEBUG = True
 DEBUG_SOLUTION= {'Rotors': (1, 2, 3),
                  'Reflector': 'UKW_B',
                  'Start': ('A', 'B', 'C'),
-                 'Ring settings': ('A', 'B', 'C')}
+                 'Ring settings': ('A', 'A', 'A')}
 
 
 def Turing_Bombe(word, cipher):
@@ -71,7 +69,7 @@ def Turing_Bombe(word, cipher):
         print('The number you entered is not in the list')
         return None
     cipher_fragment= cipher[crib_index : crib_index + len(word)]                                                # Create the ciphertext fragment of the crib to analyze
-    crib= dict(zip([i for i in range(len(word))], [ ''.join(i) for i in list(zip(word, cipher_fragment))]))     # Create a dict with crib positions as key and plain/cipher pairs as values      
+    crib= dict(zip([i for i in range(len(word))], [ ''.join(j) for j in list(zip(word, cipher_fragment))]))     # Create a dict with crib positions as key and plain/cipher pairs as values      
     menu= []
     for letter in AZ:
         loops= prune(menu_analysis(crib, letter))                                                               # Create a list of loops for each letter in the alphabet 
@@ -96,7 +94,7 @@ def Turing_Bombe(word, cipher):
     if i.upper() == 'Y':
         start, ring_setting= scan_start(word, cipher_fragment, menu, crib, rotors, reflector)    
     else:
-        start= ('Z', 'Z', 'Z')
+        start= ('A', 'B', 'C')
         ring_setting= ('A', 'A', 'A')
     print(f'[+] Proceeding with start positions {start}')
     print(f'[+] Proceeding with ring settings {ring_setting}\n')
@@ -107,7 +105,6 @@ def Turing_Bombe(word, cipher):
         refined_menu= menu.values()
     else:
         i= re.sub('[, ]', ',', i)
-        #i= i.split(',')
         refined_menu= [menu[int(j)] for j in i.split(',')]
     print('\nScannng loops for possible plugboard combinations:')
     plugboards= []
@@ -151,7 +148,8 @@ def scan_start(word, cipher_fragment, menu, crib, rotors, reflector):
                 print(f'\r[+] Testing start positions {start}', end= '\r', flush= True)
                 switches= find_plugboard_combinations(rotors, menu[n][1], crib, reflector, start, ring_setting, False)
                 if switches:
-                    setup.append({'Start': start, 'Plugboard': switches})
+                    for switch in switches:
+                        setup.append(decode(rotors, reflector, start, ring_setting, switch, cipher_fragment, word))
         else:
             for i in AZ:
                 for j in AZ:
@@ -159,18 +157,32 @@ def scan_start(word, cipher_fragment, menu, crib, rotors, reflector):
                     print(f'\r[+] Testing start positions {start}', end= '\r', flush= True)
                     switches= find_plugboard_combinations(rotors, menu[n][1], crib, reflector, start, ring_setting, False)
                     if switches:
-                        setup.append({'Start': start, 'Plugboard': switches})
+                        for switch in switches:
+                            setup.append(decode(rotors, reflector, start, ring_setting, switch, cipher_fragment, word))
+        setup.sort(key= lambda x: x['Matches'])
         setup= dict(zip([i for i in range(len(setup))], setup))        
         print('\n')
         for i in setup:
-            print(i, setup[i])
+            del setup[i]['Rotors']
+            del setup[i]['Reflector']
+            del setup[i]['Ring setting']
+            del setup[i]['Text']
+            if DEBUG:
+                if DEBUG_SOLUTION['Start'] == ('Z', setup[i]['Start'][1], setup[i]['Start'][1]):
+                    print(i, setup[i], '<--')
+                else:
+                    print(i, setup[i])
+            else:
+                print(i, setup[i])
         z= input('Scan another loop [y/n]? ')
-        start_combinations= [setup[i]['Start'] for i in setup]
+        if z.upper() == 'Y':
+            cut= int(input('Choose the index to cut the tail of the data: '))
+            start_combinations= [setup[i]['Start'] for i in range(cut, len(setup))]    
     i= int(input('Choose the start positions: '))
     return setup[i]['Start'], ring_setting
 
-  
-  def scan_rotors(word, cipher_fragment, menu, crib):
+
+def scan_rotors(word, cipher_fragment, menu, crib):
     loop= list(menu.values())
     loop.sort(key= lambda x: len(x[1]))
     loop= loop[0]
@@ -192,7 +204,6 @@ def scan_start(word, cipher_fragment, menu, crib, rotors, reflector):
     setup= dict(zip([i for i in range(len(setup))], setup))
     print('\n')
     for i in setup:
-        del setup[i]['Start']
         del setup[i]['Ring setting']
         del setup[i]['Text']
         if DEBUG:
@@ -223,7 +234,7 @@ def decode(rotors, reflector, start, ring_setting, switch, cipher_fragment, word
 
 def find_plugboard_combinations(rotors, loop, crib, reflector, start, ring_setting, plugboard_scan_display):
     valid_switches= []
-    alphabets= [deque(AZ) for i in range(len(loop))]                                                   
+    alphabets= [deque(AZ) for i in range(len(loop))]     
     n= 0
     while n < len(AZ):
         letters_to_test= ''.join([i[0] for i in alphabets])
@@ -241,7 +252,7 @@ def find_plugboard_combinations(rotors, loop, crib, reflector, start, ring_setti
                     n+= 1
         alphabets[-1].rotate(-1)
     if plugboard_scan_display:
-        print('\n')
+        print()
     return valid_switches if valid_switches else None
 
 
@@ -496,4 +507,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
