@@ -22,82 +22,82 @@ This cipher disrupts the letter and word frequencies by encrypting letters by pa
 
 """
 
-import pandas as pd                                                                     # I decided to use pandas, for two square and four square variations I use numpy to compare the codes
+import pandas as pd                                                                       # I decided to use pandas, for two square and four square variations I use numpy to compare the codes
 import string
 import random
 
-KEY_LEN= 5
-PADDING_CHAR= 'z'
+KEY_LEN = 5
+PADDING_CHAR = 'z'
 
-az= {i for i in string.ascii_lowercase if i != 'j'}                                     # An alternative could be to remove the "q"
-#az= {i for i in string.ascii_lowercase if i != 'q'}                                     
+az = {i for i in string.ascii_lowercase if i != 'j'}                                      # An alternative could be to remove the "q"
+#az = {i for i in string.ascii_lowercase if i != 'q'}                                     
 
 def map_key(key):                                                                       
-    key_letters= sorted(set(key))                                                       # Remove duplicate letters from the key, and sort them in ascending order
+    key_letters = sorted(set(key))                                                        # Remove duplicate letters from the key, and sort them in ascending order
     print(f'Sorted key letters: {key_letters}')
-    key_letters.extend(sorted(az.difference(key_letters)))                              # attach the remaining alphabet letters, obtained by logical exclusion
-    table= pd.DataFrame([key_letters[i:i+5] for i in range(0, len(key_letters), 5)])    # Load the newly ordered alphabet into a 5 x 5 matrix
+    key_letters.extend(sorted(az.difference(key_letters)))                                # attach the remaining alphabet letters, obtained by logical exclusion
+    table = pd.DataFrame([key_letters[i: i + 5] for i in range(0, len(key_letters), 5)])  # Load the newly ordered alphabet into a 5 x 5 matrix
     return table
 
 
 def prep(text):    
-    text= text.replace('j', 'i')                                                        # The playfair square admits 25 values, here I combined "j" and "i" letters in the key
-    #text= text.replace('q', '')
-    if len(text) % 2 != 0:                                                              # If the length of the text is odd, one pad char is appended
+    text = text.replace('j', 'i')                                                          # The playfair square admits 25 values, here I combined "j" and "i" letters in the key
+    #text = text.replace('q', '')
+    if len(text) % 2 != 0:                                                                 # If the length of the text is odd, one pad char is appended
         text += PADDING_CHAR
-    result= []
-    for i in range(0, len(text), 2):                                                    # The text is split in chunks of two letters
-        chunk= [text[i], text[i+1]]
-        if chunk[0] == chunk[1]:                                                        # If the letters in the chunk are the same, the second is replaced by "x"
-            chunk[1]= 'x'
+    result = []
+    for i in range(0, len(text), 2):                                                       # The text is split in chunks of two letters
+        chunk = [text[i], text[i + 1]]
+        if chunk[0] == chunk[1]:                                                           # If the letters in the chunk are the same, the second is replaced by "x"
+            chunk[1] = 'x'
         result.append(chunk)
     return result
 
 
 def find_coords(table, value):
     for i in range(len(table)):
-        index= table.loc[table[i].values == value].index.values                         # Find the row at which the column value corresponds to the input value
-        if index.size > 0:                                                              # When the row is found, return the coordinates
+        index = table.loc[table[i].values == value].index.values                           # Find the row at which the column value corresponds to the input value
+        if index.size > 0:                                                                 # When the row is found, return the coordinates
             return index[0], i
 
 
 def play_fair_process(table, a, b):
-    cipher= ''
-    if a[0] == b[0]:                                                                    # If the letters of the plaintext chunk sit in the same row
-        rotate_down= (max(a[1], b[1]) + 1) % len(table)
-        cipher+= table.loc[a[0], max(a[1], b[1])] + table.loc[a[0], rotate_down]        # Add to the cipher the two letters rotated by one position downwards
-    elif a[1] == b[1]:                                                                  # If the letters of the plaintext chunk sit in the same column
+    cipher = ''
+    if a[0] == b[0]:                                                                       # If the letters of the plaintext chunk sit in the same row
+        rotate_down = (max(a[1], b[1]) + 1) % len(table)
+        cipher += table.loc[a[0], max(a[1], b[1])] + table.loc[a[0], rotate_down]          # Add to the cipher the two letters rotated by one position downwards
+    elif a[1] == b[1]:                                                                     # If the letters of the plaintext chunk sit in the same column
         rotate_right= (max(a[0], b[0]) + 1) % len(table)
-        cipher+= table.loc[max(a[0], b[0]), a[1]] + table.loc[rotate_right, a[1]]       # Add to the cipher the two letters rotated by one position rightwards
+        cipher += table.loc[max(a[0], b[0]), a[1]] + table.loc[rotate_right, a[1]]         # Add to the cipher the two letters rotated by one position rightwards
     else:
-        if (a[0] < b [0] and a[1] < b[1]) or (a[0] > b[0] and a[1] > b[1]):             # If the letters form a diagonal top-left to down-right
-            cipher+= table.loc[a[0], b[1]] + table.loc[b[0], a[1]]                      # Add to the cipher the letters at the edges of the opposite diagonal top-right to down-left 
-        else:                                                                           # Else the letters form a diagonal top-right to down-left
-            cipher+= table.loc[b[0], a[1]] + table.loc[a[0], b[1]]                      # Add to the cipher the letters at the edges of the opposite diagonal top-left to down-right
+        if (a[0] < b [0] and a[1] < b[1]) or (a[0] > b[0] and a[1] > b[1]):                # If the letters form a diagonal top-left to down-right
+            cipher += table.loc[a[0], b[1]] + table.loc[b[0], a[1]]                        # Add to the cipher the letters at the edges of the opposite diagonal top-right to down-left 
+        else:                                                                              # Else the letters form a diagonal top-right to down-left
+            cipher += table.loc[b[0], a[1]] + table.loc[a[0], b[1]]                        # Add to the cipher the letters at the edges of the opposite diagonal top-left to down-right
     return cipher
         
 
 def encrypt(text, key):
-    table= map_key(key)
-    text= prep(text)
-    cipher= ''
+    table = map_key(key)
+    text = prep(text)
+    cipher = ''
     print(f'Mapped key:\n{table}')
     for i in text:
-        first= find_coords(table, i[0])
-        second= find_coords(table, i[1])
-        cipher+= play_fair_process(table, first, second)
+        first = find_coords(table, i[0])
+        second = find_coords(table, i[1])
+        cipher += play_fair_process(table, first, second)
     return cipher
             
 
 def main():
-    text= input('Type your text: ')
-    text= text.replace(' ', '').lower()                                                 # Playfair cipher does not allow spaces between words
-    assert(text.isalpha())                                                              # Playfair can only encrypt letters 
+    text = input('Type your text: ')
+    text = text.replace(' ', '').lower()                                                   # Playfair cipher does not allow spaces between words
+    assert(text.isalpha())                                                                 # Playfair can only encrypt letters 
     
-    key= random.choices(list(az), k= KEY_LEN)
+    key = random.choices(az, k = KEY_LEN)
     print(f'Random key: {key}')
     
-    cipher= encrypt(text, key)
+    cipher = encrypt(text, key)
     print(f'\nCipher: {cipher}')
 
 if __name__ == '__main__':
