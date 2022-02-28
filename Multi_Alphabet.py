@@ -16,30 +16,30 @@ import random
 
 LEN_KEY= 5
 
-az= [i for i in string.ascii_lowercase]                                 # Create a list of letters in lower ascii 
-AZ= [i for i in string.ascii_uppercase]                                 # Create a list of letters in upper ascii
+az = [i for i in string.ascii_lowercase]                                # Create a list of letters in lower ascii 
+AZ = [i for i in string.ascii_uppercase]                                # Create a list of letters in upper ascii
 
 
 def encrypt(key, plaintext):
-    cipher= ''
+    cipher = ''
     for i, l in enumerate(plaintext):
-        key_rot= key[i % len(key)]                                      # Apply key rotation syncronized with the index "i" of the letter in the plaintext
+        key_rot = key[i % len(key)]                                     # Apply key rotation syncronized with the index "i" of the letter in the plaintext
         if l in az:
-            cipher+= az[(i + key_rot) % len(az)]                        # Apply the key rotation to the letter in the alphabet (lower ascii)
+            cipher += az[(i + key_rot) % len(az)]                       # Apply the key rotation to the letter in the alphabet (lower ascii)
         elif l in AZ:
-            cipher+= AZ[(i + key_rot) % len(AZ)]                        # Apply the key rotation to the letter in the alphabet (upper ascii)
+            cipher += AZ[(i + key_rot) % len(AZ)]                       # Apply the key rotation to the letter in the alphabet (upper ascii)
         else:
-            cipher+= l                                                  # Leave all the other characters (digits, punctuations, etc.) untouched
+            cipher += l                                                 # Leave all the other characters (digits, punctuations, etc.) untouched
     return cipher.replace(' ', '')
 
 
 def main():
     # Encryption
-    text= input('Type your text: ')
-    key= [random.randint(1, len(az)) for i in range(LEN_KEY)]           # I limited the random key within the modulus, excluding rotation 0
+    text = input('Type your text: ')
+    key = [random.randint(1, len(az)) for i in range(LEN_KEY)]          # I limited the random key within the modulus, excluding rotation 0
     print(f'Random key: {key}')
     
-    cipher= encrypt(key, text)
+    cipher = encrypt(key, text)
     print(f'\nCipher: {cipher}\n')
     
 if __name__ == '__main__':
