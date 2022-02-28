@@ -26,51 +26,51 @@ import pandas as pd
 from collections import deque
 
 
-az= deque([i for i in string.ascii_lowercase])                                  # Creating a deque of the alphabet
-tabula= pd.DataFrame(columns= az, index=az)                                     # Building an empty tabula
+az = deque(string.ascii_lowercase)                                              # Creating a deque of the alphabet
+tabula= pd.DataFrame(columns = az, index = az)                                  # Building an empty tabula
 for i in string.ascii_lowercase:                                                # Filling tabula row by row
-    tabula[i]= az
+    tabula[i] = az
     az.rotate(-1)                                                               # Rotating the deque left by one at each row
 
 
 def encrypt(key, text):
-    cipher= ''
-    key= [i for i in key]                                                       # Converint the keyword into a list of characters
+    cipher = ''
+    key = list(key)                                                             # Converint the keyword into a list of characters
     for i, l in enumerate(text):
-        k= key[i % len(key)]                                                    # Rotating through the key letters
+        k = key[i % len(key)]                                                   # Rotating through the key letters
         if l in az:
-            cipher+= tabula.loc[l][k]                                           # Encrypting through the tabula using the plaintext letter "l" and key char "k" as coordinates
+            cipher += tabula.loc[l][k]                                          # Encrypting through the tabula using the plaintext letter "l" and key char "k" as coordinates
         else:
-            cipher+= l
+            cipher += l
     return cipher
     
     
 def decrypt(key, cipher):
-    text= ''
-    key= [i for i in key]
+    text = ''
+    key = list(key)
     for i, l in enumerate(cipher):
-        k= key[i % len(key)]
+        k = key[i % len(key)]
         if l in az:
-            c= tabula[k].where(tabula[k] == l).dropna()                         # Decrypting by searching at which row index the column of the key "k" has the value of the cipher "l"
-            text+= c.index[0]
+            c = tabula[k].where(tabula[k] == l).dropna()                        # Decrypting by searching at which row index the column of the key "k" has the value of the cipher "l"
+            text += c.index[0]
         else:
-            text+= l
+            text += l
     print(text)
 
 
 def main():
 
-    text= input('Type your text: ')
-    key= ''.join(random.choices(string.ascii_lowercase, k=256))                 # This variation with random key is called "running key cipher"
+    text = input('Type your text: ')
+    key = ''.join(random.choices(string.ascii_lowercase, k = 256))              # This variation with random key is called "running key cipher"
     print(f'Random key: {key}')
     print(f'Vigenere table:\n{tabula}')
     
     # Encryption
-    cipher= encrypt(key.lower(), text.lower())                                  # The tabula recta is not case sensitive, all letters are turned lower case
+    cipher = encrypt(key.lower(), text.lower())                                 # The tabula recta is not case sensitive, all letters are turned lower case
     print(f'\nCipher: {cipher}\n')
 
     # Decryption
-    i= input(f'Do you want to decrypt with the key {key}? [y/n]:')
+    i = input(f'Do you want to decrypt with the key {key}? [y/n]:')
     if i == 'y':
         decrypt(key, cipher)
 
