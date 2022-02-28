@@ -13,29 +13,29 @@ import string
 import numpy as np
 import random
 
-az= [i for i in string.ascii_lowercase if i != 'j']                             # "j" is omitted in this case. A variation could be to remove "q" instead.
+az = [i for i in string.ascii_lowercase if i != 'j']                            # "j" is omitted in this case. A variation could be to remove "q" instead.
 random.shuffle(az)                                                              # Randomize the order of the letters
-square= np.char.array(az, unicode= True).reshape((5, 5))                        # Creating the Polybius square for letters in lower ascii.
+square = np.char.array(az, unicode = True).reshape((5, 5))                      # Creating the Polybius square for letters in lower ascii.
 
 
 def encrypt(text):
-    cipher= np.empty(0, dtype= 'int')                                           # Empty array to receive the encrypted letters
+    cipher = np.empty(0, dtype= 'int')                                          # Empty array to receive the encrypted letters
     for l in text:
         if l in az:
-            xy= np.where(square == l)                                           # Find the coordinates of the letter
-            cipher= np.append(cipher, xy[0])                                    # Append the coordinates to the cipher
-            cipher= np.append(cipher, xy[1])
+            xy = np.where(square == l)                                          # Find the coordinates of the letter
+            cipher = np.append(cipher, xy[0])                                   # Append the coordinates to the cipher
+            cipher = np.append(cipher, xy[1])
     return ''.join(cipher)
 
 
 def main():
-    text= input('Type your text: ')
-    text= text.replace('j', 'i')                                                # Replacing all "j" from the text.
+    text = input('Type your text: ')
+    text = text.replace('j', 'i')                                               
     assert(text.isalpha())
     
     # Encryption
     print(f'\nRandom Polybius square:\n{square}')
-    cipher= encrypt(text.lower())                           
+    cipher = encrypt(text.lower())                           
     print(f'\nCipher: {cipher}\n')
     
 if __name__ == '__main__':
