@@ -25,8 +25,8 @@ import random
 
 LEN_KEYS= 30
 
-az= {i for i in string.ascii_lowercase if i != 'j'}                             # One letter must be removed to fit the alphabet in a square table, here I ahve chosen "j"
-#az= {i for i in string.ascii_lowercase if i != 'q'}                            # "q" is a common altarnative
+az = {i for i in string.ascii_lowercase if i != 'j'}                            # One letter must be removed to fit the alphabet in a square table, here I ahve chosen "j"
+#az = {i for i in string.ascii_lowercase if i != 'q'}                           # "q" is a common altarnative
 
 
 def print_tables(tables):
@@ -40,26 +40,26 @@ def print_tables(tables):
    
 
 def map_key(key):                                                               # Here the original process of the cipher is followed. As alternative, the alphabet could be simply shuffled.        
-    key_letters= sorted(set(key))                                                     
+    key_letters = sorted(set(key))                                                     
     key_letters.extend(sorted(set(az).difference(key_letters)))                              
-    table= np.char.array(key_letters).reshape((5, 5))
+    table = np.char.array(key_letters).reshape((5, 5))
     return table
 
 
 def prep(text):    
-    text= text.replace('j', 'i')                                                # The text must be consistent with the letters in the cipher tables
-    #text= text.replace('q', '')                                                 
+    text = text.replace('j', 'i')                                               # The text must be consistent with the letters in the cipher tables
+    #text = text.replace('q', '')                                                 
     if len(text) % 2 != 0:                                                              
         text += 'z'
-    result= []
+    result = []
     for i in range(0, len(text), 2):                                                   
-        chunk= [text[i], text[i+1]]
+        chunk = [text[i], text[i + 1]]
         result.append(chunk)
     return result
 
 
 def find_coords(table, value):
-    index= np.where(table == value)
+    index = np.where(table == value)
     return (index[0][0], index[1][0])
 
 
@@ -68,29 +68,29 @@ def four_square_process(tables, a, b):
         
 
 def encrypt(text, key1, key2):
-    cipher= ''
-    tables= list(map(map_key, [key1, ''.join(az), ''.join(az), key2]))          # Create the four maps of the cipher
-    text= prep(text)
+    cipher = ''
+    tables = list(map(map_key, [key1, ''.join(az), ''.join(az), key2]))         # Create the four maps of the cipher
+    text = prep(text)
     print_tables(tables)
     for i in text:
-        first_letters= find_coords(tables[0], i[0])
-        second_letters= find_coords(tables[3], i[1])
-        cipher+= four_square_process(tables, first_letters, second_letters)
+        first_letters = find_coords(tables[0], i[0])
+        second_letters = find_coords(tables[3], i[1])
+        cipher += four_square_process(tables, first_letters, second_letters)
     return cipher
             
 
 def main():
-    text= input('Type your text: ')
-    text= text.replace(' ', '').lower() 
+    text = input('Type your text: ')
+    text = text.replace(' ', '').lower() 
     assert(text.isalpha())                                                      # Classic Playfair variations only encrypt letters
     
-    key1= ''.join(random.choices(list(az), k= LEN_KEYS))                        # Generate random letters with defined length
+    key1 = ''.join(random.choices(list(az), k= LEN_KEYS))                        # Generate random letters with defined length
     print(f'First random key: {key1}')
 
-    key2= ''.join(random.choices(list(az), k= LEN_KEYS))
+    key2 = ''.join(random.choices(list(az), k= LEN_KEYS))
     print(f'Second random key: {key2}')
     
-    cipher= encrypt(text, key1, key2)
+    cipher = encrypt(text, key1, key2)
     print(f'Cipher: {cipher}')
 
 if __name__ == '__main__':
