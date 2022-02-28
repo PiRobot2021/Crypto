@@ -18,26 +18,26 @@ import pandas as pd
 import random
 import string
 
-PADDING_CHAR= '_'                                                                                                          
-KEY_LEN= 5
+PADDING_CHAR = '_'                                                                                                          
+KEY_LEN = 5
 
 def to_table(text, key):
-    table= pd.DataFrame(columns= [i for i in range(len(key))])                      # Create empty table, with columns from "0" to the length of the key
+    table = pd.DataFrame(columns = range(len(key)))                                 # Create empty table, with columns from "0" to the length of the key
     while len(text) % len(key) != 0:                                                # Pad the text and the tail, to fit into the table
-        text+= PADDING_CHAR
-    j= 0
+        text += PADDING_CHAR
+    j = 0
     for i in range(0, len(text), len(key)):                                         # Split the text in chunks as long as the key length, and load them into the rows of the table
-        chunk= [i for i in text[i: i + len(key)]]
-        table.loc[j]= chunk
-        j+= 1
+        chunk = [i for i in text[i: i + len(key)]]
+        table.loc[j] = chunk
+        j += 1
     return table
 
 
 def to_index(key):
-    sorted_key_chars= sorted(key)
-    ascending_int= [i for i in range(len(key))]
-    ordered_key= list(zip(sorted_key_chars, ascending_int))                         # List of tuples containing sorted key chars and growing int values by steps of 1
-    result= []
+    sorted_key_chars = sorted(key)
+    ascending_int = range(len(key))
+    ordered_key = list(zip(sorted_key_chars, ascending_int))                        # List of tuples containing sorted key chars and growing int values by steps of 1
+    result = []
     for x in key:
         for y in ordered_key:
             if y[0] == x:
@@ -48,38 +48,38 @@ def to_index(key):
 
 
 def columnar_encrypt(text, key):
-    table= to_table(text, key)                                                      # Table the text
+    table = to_table(text, key)                                                     # Table the text
     indexed_key = to_index(key)                                                     # Convert the key from string into sorted tuples containing the key chars and their ascending int values
     print(f'Indexed key: {indexed_key}')
     print(f'Columnar table:\n{table}')
-    cipher= ''
+    cipher = ''
     while indexed_key:                                                              # To manage duplicates, I decided to remove items from the ordered key once the cipher processed through it
         for idx in indexed_key:
             if key.count(idx[0]) == 1:                                              # If the item in the indexed_key is unique, simply encrypt the column                
-                cipher+= ''.join(table[idx[1]])                                 
+                cipher += ''.join(table[idx[1]])                                 
                 indexed_key.remove(idx)
             else:                                                                   # If the item in the indexed_key is not unique
-                duplicates= [val for val in indexed_key if key.count(val[0]) > 1]   # Find the subgroup of duplicates
-                i= 0
+                duplicates = [val for val in indexed_key if key.count(val[0]) > 1]  # Find the subgroup of duplicates
+                i = 0
                 while i < len(table.index):                                         # Rotate the table through the duplicates, encrypt the cipher row by row
                     for _, v in duplicates:
-                        cipher+= ''.join(table.loc[i, v])
-                    i+= 1
+                        cipher += ''.join(table.loc[i, v])
+                    i += 1
                 for r in duplicates:                                                # Once the cipher proceeded through them, remove the items from the indexed_key
                     indexed_key.remove(r)
                 
     return cipher.replace(PADDING_CHAR, '')                                         # Remove the padding chars before returning the result
     
 def main():
-    text= input('Type your text: ')
-    text= text.replace(' ', '') 
+    text = input('Type your text: ')
+    text = text.replace(' ', '') 
     assert(text.isalpha())
     
-    key= ''.join(random.choices([i for i in string.digits + string.ascii_letters], k= KEY_LEN))
+    key = ''.join(random.choices(string.digits + string.ascii_letters, k = KEY_LEN))
     print(f'Random key: {key}')
     
     # Encryption
-    cipher= columnar_encrypt(text, key)
+    cipher = columnar_encrypt(text, key)
     print(f'\nCipher: {cipher}')
 
 if __name__ == '__main__':
