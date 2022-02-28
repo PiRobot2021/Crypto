@@ -20,14 +20,14 @@ import numpy as np
 import string
 import random
 
-VARIANT= 'V' # vertical                                                             # The Playfair squares can be aligned vertically or horizontally      
-#VARIANT= 'H' # horizontal
+VARIANT = 'V' # vertical                                                            # The Playfair squares can be aligned vertically or horizontally      
+#VARIANT = 'H' # horizontal
 assert(VARIANT in ('V', 'H'))
 
-LEN_KEYS= 5
+LEN_KEYS = 5
 
-az= {i for i in string.ascii_lowercase if i != 'j'}                                 # To build a square, one letter of the alphabet is removed, normally "j" or "q" 
-#az= {i for i in string.ascii_lowercase if i != 'q'}
+az = {i for i in string.ascii_lowercase if i != 'j'}                                # To build a square, one letter of the alphabet is removed, normally "j" or "q" 
+#az = {i for i in string.ascii_lowercase if i != 'q'}
 
 
 def print_horizontal_tables(tables):
@@ -38,48 +38,48 @@ def print_horizontal_tables(tables):
     
 
 def map_key(key):                                                                                                                               
-    key_letters= sorted(set(key))                                                       
+    key_letters = sorted(set(key))                                                       
     key_letters.extend(sorted(az.difference(key_letters)))                              
-    table= np.char.array(key_letters).reshape((5, 5))
+    table = np.char.array(key_letters).reshape((5, 5))
     return table
 
 
 def prep(text):  
-    text= text.replace('j', 'i')
-    #text= text.replace('q', '')    
+    text = text.replace('j', 'i')
+    #text = text.replace('q', '')    
     if len(text) % 2 != 0:                                                              
         text += 'z'
-    pairs= []
+    pairs = []
     for i in range(0, len(text), 2):                                                   
-        chunk= [text[i], text[i+1]]
+        chunk = [text[i], text[i + 1]]
         pairs.append(chunk)
     return pairs
 
 
 def find_coords(table, value):
-    index= np.where(table == value)                                                 # numpy has a concise way to find coordinates of a value
+    index = np.where(table == value)                                                # numpy has a concise way to find coordinates of a value
     return (index[0][0], index[1][0])
 
 
 def two_square_process(tables, a, b):
-    cipher= ''
+    cipher = ''
     if VARIANT == 'V':                                                              # If encrypting using tables aligned vertically
         if a[1] == b[1]:
-            cipher+= tables[0][a] + tables[1][b]                                    # If the letters line up vertically in the tables, add to the cipher the pair as such
+            cipher += tables[0][a] + tables[1][b]                                   # If the letters line up vertically in the tables, add to the cipher the pair as such
         else:                                                                       # Else encrypt through a diagonal. In two_square cipher diagonals flow always top to bottom.
-            cipher+= tables[0][a[0], b[1]] + tables[1][b[0], a[1]]                  # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
+            cipher += tables[0][a[0], b[1]] + tables[1][b[0], a[1]]                 # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
     else:                                                                           # Same logic for horizontally aligned tables
         if a[0] == b[0]:                                                            # If the letters line up horizontally in the tables, add to the cipher the pair as such
-            cipher+= tables[0][a] + tables[1][b]
+            cipher += tables[0][a] + tables[1][b]
         else:
-            cipher+= tables[0][b[0], a[1]] + tables[1][a[0], b[1]]                  # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
+            cipher += tables[0][b[0], a[1]] + tables[1][a[0], b[1]]                 # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
     return cipher
         
 
 def encrypt(text, key1, key2):
-    cipher= ''
-    tables= list(map(map_key, [key1, key2]))
-    pairs= prep(text)
+    cipher = ''
+    tables = list(map(map_key, [key1, key2]))
+    pairs = prep(text)
     if VARIANT == 'V':
         print('\nUsing vertical variation')
         print(f'\nFirst key map:\n{tables[0]}\n\nSecond key map:\n{tables[1]}\n')
@@ -87,24 +87,24 @@ def encrypt(text, key1, key2):
         print('\nUsing horizontal variation')
         print_horizontal_tables(tables)
     for i in pairs:
-        first_letters= find_coords(tables[0], i[0])
-        second_letters= find_coords(tables[1], i[1])
-        cipher+= two_square_process(tables, first_letters, second_letters)
+        first_letters = find_coords(tables[0], i[0])
+        second_letters = find_coords(tables[1], i[1])
+        cipher += two_square_process(tables, first_letters, second_letters)
     return cipher
             
 
 def main():
     text= input('Type your text: ')
-    text= text.replace(' ', '').lower() 
+    text = text.replace(' ', '').lower() 
     assert(text.isalpha())                                                          # Two_square cipher can encrypt only letters
     
-    key1= ''.join(random.choices(list(az), k= LEN_KEYS))                            # Generate random letters with defined length
+    key1 = ''.join(random.choices(az, k = LEN_KEYS))                                # Generate random letters with defined length
     print(f'First random key: {key1}')
 
-    key2= ''.join(random.choices(list(az), k= LEN_KEYS))
+    key2 = ''.join(random.choices(az, k = LEN_KEYS))
     print(f'Second random key: {key2}')
     
-    cipher= encrypt(text, key1, key2)
+    cipher = encrypt(text, key1, key2)
     print(f'Cipher: {cipher}')
 
 if __name__ == '__main__':
