@@ -58,27 +58,27 @@ DEBUG= True
 
 def setup():
     if MANUAL_SETUP:
-        rotor= (1, 2, 3)
-        switches= []                                                            
-        start= ('B', 'B', 'D', 'U')
-        ring_setting= ('A', 'A', 'A', 'A')
-        reflector= 'B_Thin'
-        thin_wheel= 'Beta'
+        rotor = (1, 2, 3)
+        switches = []                                                            
+        start = ('B', 'B', 'D', 'U')
+        ring_setting = ('A', 'A', 'A', 'A')
+        reflector = 'B_Thin'
+        thin_wheel = 'Beta'
         assert(check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_wheel))
     else:
-        rotor= tuple(random.sample(list(range(1, 9)), k= 3))
-        ring_setting= tuple(random.choices(AZ, k= 4))
-        start= tuple(random.choices(AZ, k= 4))
-        reflector= ''.join(random.choices(list(REFLECTOR.keys()), k= 1))
-        thin_wheel= ''.join(random.choices(list(ADDITIONAL_WHEEL.keys()), k= 1))
+        rotor = tuple(random.sample(list(range(1, 9)), k = 3))
+        ring_setting = tuple(random.choices(AZ, k = 4))
+        start = tuple(random.choices(AZ, k = 4))
+        reflector = ''.join(random.choices(list(REFLECTOR), k = 1))
+        thin_wheel = ''.join(random.choices(list(ADDITIONAL_WHEEL), k = 1))
         
-        switches= []
-        first_letters= random.sample(AZ, k= 10)
-        second_letters= ''.join(set(copy(AZ)).difference(set(first_letters)))
+        switches = []
+        first_letters = random.sample(AZ, k = 10)
+        second_letters = ''.join(set(copy(AZ)).difference(set(first_letters)))
         for i in first_letters:
-            j= random.sample(second_letters, k= 1)
+            j = random.sample(second_letters, k = 1)
             switches.append((i, j))
-            second_letters= second_letters.replace(f'{j}', '')
+            second_letters = second_letters.replace(f'{j}', '')
             
     print(f'Rotors: {thin_wheel}, {ROTOR_NAME[rotor[0]]}, {ROTOR_NAME[rotor[1]]}, {ROTOR_NAME[rotor[2]]}')
     print(f'Ring settings: {ring_setting[0]}, {ring_setting[1]}, {ring_setting[2]}, {ring_setting[3]}')
@@ -105,9 +105,9 @@ def check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_whe
     for i in ring_setting:
         if type(i) is not str:
             return False
-    if reflector not in REFLECTOR.keys():
+    if reflector not in REFLECTOR:
         return False
-    if thin_wheel not in ADDITIONAL_WHEEL.keys():
+    if thin_wheel not in ADDITIONAL_WHEEL:
         return False
     for i in switches:
         other_switches= copy(switches)
@@ -120,24 +120,23 @@ def check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_whe
   
 
 def set_rotors(start, rotor, wheel_type):
-    
-    thin_wheel= [deque(AZ), deque(ADDITIONAL_WHEEL[wheel_type])]
-    offset= -1 * AZ.index(start[0])
+    thin_wheel = [deque(AZ), deque(ADDITIONAL_WHEEL[wheel_type])]
+    offset = -1 * AZ.index(start[0])
     thin_wheel[0].rotate(offset)
     thin_wheel[1].rotate(offset)
     
-    ring_left= [deque(AZ), deque(INNER_RING[rotor[0]])]
-    offset= -1 * AZ.index(start[1])
+    ring_left = [deque(AZ), deque(INNER_RING[rotor[0]])]
+    offset = -1 * AZ.index(start[1])
     ring_left[0].rotate(offset)
     ring_left[1].rotate(offset)
     
-    ring_centre= [deque(AZ), deque(INNER_RING[rotor[1]])]
-    offset= -1 * AZ.index(start[2])
+    ring_centre = [deque(AZ), deque(INNER_RING[rotor[1]])]
+    offset = -1 * AZ.index(start[2])
     ring_centre[0].rotate(offset)
     ring_centre[1].rotate(offset)
     
-    ring_right= [deque(AZ), deque(INNER_RING[rotor[2]])]
-    offset= -1 * AZ.index(start[3])
+    ring_right = [deque(AZ), deque(INNER_RING[rotor[2]])]
+    offset = -1 * AZ.index(start[3])
     ring_right[0].rotate(offset)
     ring_right[1].rotate(offset)
     
@@ -168,44 +167,44 @@ def plugboard(letter, switches):
 
 
 def Cesar(alphabets, letter, from_offset, to_offset):
-    from_alphabet= copy(alphabets[0])
+    from_alphabet = copy(alphabets[0])
     from_alphabet.rotate(AZ.index(from_offset))
 
-    to_alphabet= copy(alphabets[1])
+    to_alphabet = copy(alphabets[1])
     to_alphabet.rotate(AZ.index(to_offset))
 
-    rot_tab= letter.maketrans(''.join(from_alphabet), ''.join(to_alphabet))                   
+    rot_tab = letter.maketrans(''.join(from_alphabet), ''.join(to_alphabet))                   
     return letter.translate(rot_tab)
 
    
 def Enigma_process(text):
-    rotors, ring_setting, start_positions, reflector_type, switches, thin_wheel_type= setup()
-    ring_left, ring_centre, ring_right, thin_wheel= set_rotors(start_positions, rotors, thin_wheel_type)
-    alphabet= deque(AZ)
+    rotors, ring_setting, start_positions, reflector_type, switches, thin_wheel_type = setup()
+    ring_left, ring_centre, ring_right, thin_wheel = set_rotors(start_positions, rotors, thin_wheel_type)
+    alphabet = deque(AZ)
     
-    cipher= ''    
+    cipher = ''    
     for i in text:    
-        ring_left, ring_centre, ring_right= step_rotors(ring_left, ring_centre, ring_right, rotors)
+        ring_left, ring_centre, ring_right = step_rotors(ring_left, ring_centre, ring_right, rotors)
         
-        switched_letter_forward= plugboard(i, switches)
+        switched_letter_forward = plugboard(i, switches)
         
-        rotor_right_forward= Cesar([alphabet, ring_right[1]], switched_letter_forward, 0, ring_setting[3])
-        rotor_centre_forward= Cesar([ring_right[0], ring_centre[1]], rotor_right_forward, ring_setting[3], ring_setting[2])
-        rotor_left_forward= Cesar([ring_centre[0], ring_left[1]], rotor_centre_forward, ring_setting[2], ring_setting[1])
+        rotor_right_forward = Cesar([alphabet, ring_right[1]], switched_letter_forward, 0, ring_setting[3])
+        rotor_centre_forward = Cesar([ring_right[0], ring_centre[1]], rotor_right_forward, ring_setting[3], ring_setting[2])
+        rotor_left_forward = Cesar([ring_centre[0], ring_left[1]], rotor_centre_forward, ring_setting[2], ring_setting[1])
         
-        additional_wheel_forward= Cesar([ring_left[0], thin_wheel[1]], rotor_left_forward, ring_setting[1], ring_setting[0])
+        additional_wheel_forward = Cesar([ring_left[0], thin_wheel[1]], rotor_left_forward, ring_setting[1], ring_setting[0])
         
-        reflector_in= Cesar([thin_wheel[0], alphabet], additional_wheel_forward, ring_setting[0], 0)
-        reflector_out= Cesar([deque(REFLECTOR[reflector_type]), thin_wheel[0]], reflector_in, 0, ring_setting[0])
+        reflector_in = Cesar([thin_wheel[0], alphabet], additional_wheel_forward, ring_setting[0], 0)
+        reflector_out = Cesar([deque(REFLECTOR[reflector_type]), thin_wheel[0]], reflector_in, 0, ring_setting[0])
         
-        additional_wheel_backward= Cesar([thin_wheel[1], ring_left[0]], reflector_out, ring_setting[0], ring_setting[1])
+        additional_wheel_backward = Cesar([thin_wheel[1], ring_left[0]], reflector_out, ring_setting[0], ring_setting[1])
         
-        rotor_left_backward= Cesar([ring_left[1], ring_centre[0]], additional_wheel_backward, ring_setting[1], ring_setting[2])
-        rotor_centre_backward= Cesar([ring_centre[1], ring_right[0]], rotor_left_backward, ring_setting[2], ring_setting[3])
-        rotor_right_backward= Cesar([ring_right[1], alphabet], rotor_centre_backward, ring_setting[3], 0)
+        rotor_left_backward = Cesar([ring_left[1], ring_centre[0]], additional_wheel_backward, ring_setting[1], ring_setting[2])
+        rotor_centre_backward = Cesar([ring_centre[1], ring_right[0]], rotor_left_backward, ring_setting[2], ring_setting[3])
+        rotor_right_backward = Cesar([ring_right[1], alphabet], rotor_centre_backward, ring_setting[3], 0)
         
-        switched_letter_backward= plugboard(rotor_right_backward, switches)
-        cipher+= switched_letter_backward
+        switched_letter_backward = plugboard(rotor_right_backward, switches)
+        cipher += switched_letter_backward
 
         if DEBUG:
             print(f'Keyboard input: {i}')
@@ -229,10 +228,10 @@ def check_text(text):
 
 
 def prep_text(text):
-    text= text.replace(' ', 'X')
-    text= text.replace(',', 'QQ')
-    text= text.replace('\n', '')
-    text= text.replace('\r', '')
+    text = text.replace(' ', 'X')
+    text = text.replace(',', 'QQ')
+    text = text.replace('\n', '')
+    text = text.replace('\r', '')
     for p in punctuation:
         text= text.replace(p, '')
     check_text(text)
@@ -240,10 +239,10 @@ def prep_text(text):
 
 
 def main():
-    text= input('Type your text (no digits): ')
-    text= prep_text(text)
+    text = input('Type your text (no digits): ')
+    text = prep_text(text)
 
-    cipher= Enigma_process(text.upper())
+    cipher = Enigma_process(text.upper())
     print(f'\nCipher: {cipher}')
 
 if __name__ == '__main__':
