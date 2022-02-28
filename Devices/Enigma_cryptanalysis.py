@@ -3,6 +3,7 @@
 """
 A set of functions to analyze Egniam ciphertext, based on the logic of the TURING-WELCHMAN Bombe (crib -> menu -> scan rotor's setup for valid plugboard combinations).
 I wrote a tool to play with this historical cipher rather than simulating the original Bombe (e.g. no rotor banks, no diagonal board).
+The Enigma ciphertexts are short so I did not use statistics. It could be faster (e.g. replace linear search and use generators).
 
 I link my sources for inspiration:
 https://www.turing.org.uk/scrapbook/ww2.html
