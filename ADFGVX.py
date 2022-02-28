@@ -92,9 +92,9 @@ def main():
     text = text.replace(' ', '').lower()
     assert(text.isalnum())
 
-    key= random.choices(string.ascii_lowercase, k= LEN_KEY)
+    key = random.choices(string.ascii_lowercase, k = LEN_KEY)
     
-    cipher= encrypt(text, key)
+    cipher = encrypt(text, key)
     print(f'\nCipher: {cipher}')
 
 if __name__ == '__main__':
