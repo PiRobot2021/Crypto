@@ -162,23 +162,23 @@ def plugboard(letter, switches):                                                
 
 
 def Cesar(alphabets, letter, from_offset, to_offset):                                          # This funciton returns the input letter shifted according to rotors and ring settings
-    from_alphabet= copy(alphabets[0])                                                          # Create a copy of the alphabet position in the source rotor
+    from_alphabet = copy(alphabets[0])                                                         # Create a copy of the alphabet position in the source rotor
     from_alphabet.rotate(AZ.index(from_offset))                                                # I apply the ring setting as offsets from the current rotor position. Rotate the source alphabet to the offset from ring setting.
 
-    to_alphabet= copy(alphabets[1])
+    to_alphabet = copy(alphabets[1])
     to_alphabet.rotate(AZ.index(to_offset))
 
-    rot_tab= letter.maketrans(''.join(from_alphabet), ''.join(to_alphabet))                   # Translate the letter and return it
+    rot_tab = letter.maketrans(''.join(from_alphabet), ''.join(to_alphabet))                   # Translate the letter and return it
     return letter.translate(rot_tab)
 
    
 def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, switches):
-    ring_left, ring_centre, ring_right= set_rotors(start_positions, rotors)                                                         # Set the rotors and the satrt positions
+    ring_left, ring_centre, ring_right = set_rotors(start_positions, rotors)                                                        # Set the rotors and the satrt positions
     alphabet = deque(AZ)                                                                                                            # Create a deque of the alphabet, for the fixed parts of the Enigma
     
     cipher = ''    
     for i in text:                                                                                                                  # For each letter in the plaintext:
-        ring_left, ring_centre, ring_right= step_rotors(ring_left, ring_centre, ring_right, rotors)                                 # Step the rotors before the encryption
+        ring_left, ring_centre, ring_right = step_rotors(ring_left, ring_centre, ring_right, rotors)                                # Step the rotors before the encryption
         
         switched_letter_forward = plugboard(i, switches)                                                                            # Process the plaintext letter thorugh the plugboard
         
