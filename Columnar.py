@@ -21,26 +21,26 @@ Columns are then encrypted in the order: [2, 3, 4, 5, 0, 1]
 import pandas as pd                                                                 # I have chosen pandas, numpy is a valuable alternative
 
 # Setup values for padding the text                                             
-PADDING_CHAR= '_'                                                                                                          
+PADDING_CHAR = '_'                                                                                                          
 
 
 def to_table(text, key):
-    table= pd.DataFrame(columns= [i for i in range(len(key))])                      # Create empty table, with columns from "0" to the length of the key
+    table= pd.DataFrame(columns = [i for i in range(len(key))])                     # Create empty table, with columns from "0" to the length of the key
     while len(text) % len(key) != 0:                                                # Pad the text and the tail, to fit into the table
         text+= PADDING_CHAR
-    j= 0
+    j = 0
     for i in range(0, len(text), len(key)):                                         # Split the text in chunks as long as the key length, and load them into the rows of the table
-        chunk= [i for i in text[i: i + len(key)]]
-        table.loc[j]= chunk
-        j+= 1
+        chunk = [i for i in text[i: i + len(key)]]
+        table.loc[j] = chunk
+        j += 1
     return table
 
 
 def to_index(key):
-    sorted_key_chars= sorted(key)
-    ascending_int= [i for i in range(len(key))]
-    ordered_key= list(zip(sorted_key_chars, ascending_int))                        # list of tuples containing sorted key chars and growing int values by steps of 1
-    result= []
+    sorted_key_chars = sorted(key)
+    ascending_int = [i for i in range(len(key))]
+    ordered_key = list(zip(sorted_key_chars, ascending_int))                       # list of tuples containing sorted key chars and growing int values by steps of 1
+    result = []
     for x in key:
         for y in ordered_key:
             if y[0] == x:
@@ -51,22 +51,22 @@ def to_index(key):
 
 
 def columnar_encrypt(text, key):
-    table= to_table(text, key)                                                      # Table the text
+    table = to_table(text, key)                                                     # Table the text
     key = to_index(key)                                                             # Convert the key from string into sorted tuples containing the ordered values of the key chars
-    cipher= ''
+    cipher = ''
     for column in key:
-        cipher+= ''.join(table[column[1]])                                          # Encrypt by proceeding through each column, in the order given by the ranked key chars
+        cipher += ''.join(table[column[1]])                                         # Encrypt by proceeding through each column, in the order given by the ranked key chars
     return cipher.replace(PADDING_CHAR, '')                                         # Remove the padding chars
 
     
 def main():
-    text= input('Type your text: ')
-    text= text.replace(' ', '')                                                     # Remove string spaces from the plaintext
+    text = input('Type your text: ')
+    text = text.replace(' ', '')                                                    # Remove string spaces from the plaintext
 
-    key= input('Type your secret key: ')
+    key = input('Type your secret key: ')
     
     # Encryption
-    cipher= columnar_encrypt(text, key)
+    cipher = columnar_encrypt(text, key)
     print(f'\nCipher: {cipher}')
 
 if __name__ == '__main__':
