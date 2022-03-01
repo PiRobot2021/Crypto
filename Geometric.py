@@ -29,15 +29,15 @@ def squaring(text):
         while len(text) < pow(side, 2):                                 # Pad until the text is long enough for a perfect square
             if RANDOM_PADDING:
                 index = random.randint(0, len(text))                    # Produce a random index in the text
-                text = text[: index] + PADDING_CHAR + text[index: ]     # Add the pad
+                text = text[:index] + PADDING_CHAR + text[index:]       # Add the pad
             else:
                 text += PADDING_CHAR
     else:
         side = int(side)
         
-    text = [i for i in text]
-    chunks = [text[side * i: side * i + side] for i in range(len(text[: : side]))]  # Chunk the text in pieces as long as the side of the square
-    table = pd.DataFrame(columns=[i for i in range(side)])                          # Create a pandas table as wide as the square side
+    text = list(text)
+    chunks = [text[side*i:side*i + side] for i in range(len(text[::side]))]         # Chunk the text in pieces as long as the side of the square
+    table = pd.DataFrame(columns=range(side))                                       # Create a pandas table as wide as the square side
     for i in range(side):                                                           # Feed the table with the text chunks
         table.loc[i] = chunks[i]
     return table
