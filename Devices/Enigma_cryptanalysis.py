@@ -74,14 +74,14 @@ def Turing_Bombe(word, cipher):
         print('The number you entered is not in the list')
         return None
     cipher_fragment = cipher[crib_index : crib_index + len(word)]                                               # Create the ciphertext fragment of the crib to analyze
-    crib = dict(zip([i for i in range(len(word))], [ ''.join(j) for j in list(zip(word, cipher_fragment))]))    # Create a dict with crib positions as key and plain/cipher pairs as values      
+    crib = dict(zip(range(len(word)), [''.join(j) for j in list(zip(word, cipher_fragment))]))                  # Create a dict with crib positions as key and plain/cipher pairs as values      
     menu = []
     for letter in AZ:
         loops = prune(menu_analysis(crib, letter))                                                              # Create a list of loops for each letter in the alphabet 
         if len(loops) > 0:
             for loop in loops:
                 menu.append([letter, loop])                                                                     # List letters for which at leats one loop exists                
-    menu = dict(zip([i for i in range(len(menu))], menu))
+    menu = dict(zip(range(len(menu)), menu))
 
     i = input('Scan rotor combinations [y/n]? ')
     assert((i.upper() == 'Y') or (i.upper() == 'N'))
@@ -150,7 +150,7 @@ def scan_start(word, cipher_fragment, menu, crib, rotors, reflector):
         setup = []
         if start_combinations:
             for start in start_combinations:
-                print(f'\r[+] Testing start positions {start}', end = '\r', flush = True)
+                print(f'\r[+] Testing start positions {start}', end='\r', flush=True)
                 switches = find_plugboard_combinations(rotors, menu[n][1], crib, reflector, start, ring_setting, False)
                 if switches:
                     for switch in switches:
@@ -159,13 +159,13 @@ def scan_start(word, cipher_fragment, menu, crib, rotors, reflector):
             for i in AZ:
                 for j in AZ:
                     start= ('Z', i, j)
-                    print(f'\r[+] Testing start positions {start}', end = '\r', flush = True)
+                    print(f'\r[+] Testing start positions {start}', end='\r', flush=True)
                     switches = find_plugboard_combinations(rotors, menu[n][1], crib, reflector, start, ring_setting, False)
                     if switches:
                         for switch in switches:
                             setup.append(decode(rotors, reflector, start, ring_setting, switch, cipher_fragment, word))
-        setup.sort(key = lambda x: x['Matches'])
-        setup = dict(zip([i for i in range(len(setup))], setup))        
+        setup.sort(key=lambda x : x['Matches'])
+        setup = dict(zip(range(len(setup)), setup))        
         print('\n')
         for i in setup:
             del setup[i]['Rotors']
@@ -189,7 +189,7 @@ def scan_start(word, cipher_fragment, menu, crib, rotors, reflector):
 
 def scan_rotors(word, cipher_fragment, menu, crib):
     loop = list(menu.values())
-    loop.sort(key = lambda x: len(x[1]))
+    loop.sort(key=lambda x : len(x[1]))
     loop = loop[0]
     if DEBUG:
         begin = process_time()
@@ -197,7 +197,7 @@ def scan_rotors(word, cipher_fragment, menu, crib):
     ring_setting = ('A', 'A', 'A')
     setup = []
     for rotors in permutations(range(1, 6), 3):
-        print(f'\r[+] Testing rotors {rotors}', end = '\r', flush = True)
+        print(f'\r[+] Testing rotors {rotors}', end='\r', flush=True)
         for reflector in REFLECTOR:
             switches = find_plugboard_combinations(rotors, loop[1], crib, reflector, start, ring_setting, False)
             if not switches:
@@ -205,8 +205,8 @@ def scan_rotors(word, cipher_fragment, menu, crib):
             else:
                 for switch in switches:
                     setup.append(decode(rotors, reflector, start, ring_setting, switch, cipher_fragment, word))
-    setup.sort(key = lambda x: x['Matches'])
-    setup = dict(zip([i for i in range(len(setup))], setup))
+    setup.sort(key=lambda x : x['Matches'])
+    setup = dict(zip(range(len(setup)), setup))
     print('\n')
     for i in setup:
         del setup[i]['Start']
@@ -247,12 +247,12 @@ def find_plugboard_combinations(rotors, loop, crib, reflector, start, ring_setti
         if plugboard_scan_display:
             print(f'\r[+] Scanning loop {loop} for plugboard combinations {letters_to_test}', end = '\r')
         if check_letter_combinations(letters_to_test, list(i[1] for i in loop), crib):
-            switches = compile_switches(letters_to_test, [j for i, j in loop], rotors, reflector, start, ring_setting, crib)
+            switches = compile_switches(letters_to_test, [j for _, j in loop], rotors, reflector, start, ring_setting, crib)
             if switches:
                 switches = {''.join((min(i, j), max(i, j))) for i, j in switches}
                 valid_switches.append(switches)    
         for i in range(len(alphabets) - 1):
-            if set(letters_to_test[i + 1: ]) == {'Z'}:
+            if set(letters_to_test[i + 1:]) == {'Z'}:
                 alphabets[i].rotate(-1)
                 if i == 0:
                     n += 1
@@ -381,7 +381,7 @@ def expand(crib, letter, reference):
         elif letter == pairs[i][0]:
             extensions.append((pairs[i], i))
         elif letter == pairs[i][1]:
-            extensions.append((pairs[i][: : -1], i))
+            extensions.append((pairs[i][::-1], i))
     return extensions
 
 
@@ -430,7 +430,7 @@ def prune(menu):
                 break
             else:
                 loop_indexes.append(j[1])
-                ref = j[0][: : -1]
+                ref = j[0][::-1]
     return pruned_menu
 
 
@@ -456,8 +456,8 @@ def crib_analysis(word, cipher):
         if DEBUG:
             print(f'\nChecking at index {i}:')
             print(word)
-            print(f'{cipher[i: i + len(word)]}')
-        if check_crib(word, cipher[i: i + len(word)]):                                      # If each letter of the word does not encrypt itself, it's a valid crib
+            print(f'{cipher[i:i + len(word)]}')
+        if check_crib(word, cipher[i:i + len(word)]):                                       # If each letter of the word does not encrypt itself, it's a valid crib
             valid_cipher_positions.append(i)                                                # Append the index of the ciphertext into a list of valid indexes
             if DEBUG:
                 print('Valid crib')
