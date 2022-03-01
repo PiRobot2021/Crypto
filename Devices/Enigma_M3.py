@@ -70,16 +70,16 @@ def setup():
         ring_setting = ('A', 'A', 'A')                                            # Internal shift of the ring against the start positions. Each value varies from 0 to 25 (equivalent of A to Z).
         reflector = 'UKW_B'                                                       # The reflector type: Can be either UKW_B or UKW_C.
     else:                                                                         # Switch to automatic mode, setup is randomly generated      
-        rotor = tuple(random.sample(range(1,9), k = 3))                           # Rotors: random sample of three unique values from 1 to 8
-        ring_setting = tuple(random.choices(AZ, k = 3))                           # Ring settings: Tuple of 3 random letters from the alphabet AZ
-        start = tuple(random.choices(AZ, k = 3))                                  # Start positions: Tuple of 3 random letters from the alphabet AZ        
-        reflector = ''.join(random.choices(list(REFLECTOR), k = 1))               # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
+        rotor = tuple(random.sample(range(1, 9), k=3))                            # Rotors: random sample of three unique values from 1 to 8
+        ring_setting = tuple(random.choices(AZ, k=3))                             # Ring settings: Tuple of 3 random letters from the alphabet AZ
+        start = tuple(random.choices(AZ, k=3))                                    # Start positions: Tuple of 3 random letters from the alphabet AZ        
+        reflector = ''.join(random.choices(list(REFLECTOR), k=1))                 # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
         
         switches = []
-        first_letters = random.sample(AZ, k = 10)                                 # Generate 10 random unique letters
+        first_letters = random.sample(AZ, k=10)                                   # Generate 10 random unique letters
         second_letters = ''.join(set(copy(AZ)).difference(set(first_letters)))    # Create a string the all the remaining letters of the alphabet AZ
         for i in first_letters:                                                   # For each letter in the list of 10 randomly generated:
-            j = random.sample(second_letters, k = 1)[0]                           # Chose a random letter from the string of remaining letters
+            j = random.sample(second_letters, k=1)[0]                             # Chose a random letter from the string of remaining letters
             switches.append((i, j))                                               # Append it to the first letter to form a tuple
             second_letters = second_letters.replace(f'{j}', '')                   # Remove the appended letter from the remaining letters 
     assert(check_setup(rotor, switches, start, ring_setting, reflector)) 
@@ -206,10 +206,10 @@ def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, 
             print(f'Plugboard: {switched_letter_backward} <- {rotor_right_backward}')
             print(f'Lampboard output: {switched_letter_backward}\n')
             
-    return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])                                                          # Return cipher in groups of 5 letters
+    return ' '.join([cipher[i:i + 5] for i in range(0, len(cipher), 5)])                                                            # Return cipher in groups of 5 letters
 
 
-  def check_text(text):                                                           # Control if the plaintext only contains letters, if not, throw an assertion error
+  def check_text(text):                                                                                                             # Control if the plaintext only contains letters, if not, throw an assertion error
     if DEBUG:
         for i, j in enumerate(text):
             if not j.isalpha():
@@ -217,7 +217,7 @@ def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, 
     assert(text.isalpha())
 
 
-def prep_text(text):                                                              # Replace common puctuation with letters
+def prep_text(text):                                                                                                                # Replace common puctuation with letters
     text = text.replace(' ', 'X')
     text = text.replace(',', 'QQ')
     text = text.replace('\n', '')
@@ -232,7 +232,7 @@ def main():
     text = input('Type your text (no digits): ')
     text = prep_text(text)
     
-    rotors, ring_setting, start_positions, reflector_type, switches = setup()                                                        # Load the setup of the device
+    rotors, ring_setting, start_positions, reflector_type, switches = setup()                                                       # Load the setup of the device
     cipher = Enigma_process(text.upper(), rotors, ring_setting, start_positions, reflector_type, switches)
     print(f'\nCipher: {cipher}')
     
