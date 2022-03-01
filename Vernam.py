@@ -10,7 +10,7 @@ import random
 
 
 def generate_key(length):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k = length))    # Generate a random string (letters and digits) of the length of the plaintext
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))      # Generate a random string (letters and digits) of the length of the plaintext
 
 
 def encrypt(text, key):
