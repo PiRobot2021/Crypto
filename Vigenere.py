@@ -27,7 +27,7 @@ from collections import deque
 
 
 az = deque(string.ascii_lowercase)                                              # Creating a deque of the alphabet
-tabula= pd.DataFrame(columns = az, index = az)                                  # Building an empty tabula
+tabula= pd.DataFrame(columns=az, index=az)                                      # Building an empty tabula
 for i in string.ascii_lowercase:                                                # Filling tabula row by row
     tabula[i] = az
     az.rotate(-1)                                                               # Rotating the deque left by one at each row
@@ -61,7 +61,7 @@ def decrypt(key, cipher):
 def main():
 
     text = input('Type your text: ')
-    key = ''.join(random.choices(string.ascii_lowercase, k = 256))              # This variation with random key is called "running key cipher"
+    key = ''.join(random.choices(string.ascii_lowercase, k=256))                # This variation with random key is called "running key cipher"
     print(f'Random key: {key}')
     print(f'Vigenere table:\n{tabula}')
     
