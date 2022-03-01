@@ -18,7 +18,7 @@ MOD = len(string.ascii_lowercase)                                               
 
 
 def create_random(n):
-    values = np.random.randint(low = 0, high = MOD, size = n * n)                                       # Create a matrix contaning random integers modulus MOD
+    values = np.random.randint(low=0, high=MOD, size=n * n)                                             # Create a matrix contaning random integers modulus MOD
     return np.array(values).reshape(n, n)                                                               # Reshape the array in a square with side as long as the text
 
 
