@@ -19,7 +19,7 @@ def encrypt(rot, text):
     rot_tab = text.maketrans(string.ascii_lowercase, new_alphabet)                   # Bulid a translation table
     cipher = text.translate(rot_tab)                                                 # Apply the alphabet translation
     
-    AZ_deque = deque([L for L in string.ascii_uppercase])                            # Rotate separately the upper case ascii alphabet
+    AZ_deque = deque(string.ascii_uppercase)                                         # Rotate separately the upper case ascii alphabet
     AZ_deque.rotate(rot)
     new_alphabet = ''.join(AZ_deque)
     
