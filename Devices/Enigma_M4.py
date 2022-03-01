@@ -66,17 +66,17 @@ def setup():
         thin_wheel = 'Beta'
         assert(check_manual_setup(rotor, switches, start, ring_setting, reflector, thin_wheel))
     else:
-        rotor = tuple(random.sample(list(range(1, 9)), k = 3))
-        ring_setting = tuple(random.choices(AZ, k = 4))
-        start = tuple(random.choices(AZ, k = 4))
-        reflector = ''.join(random.choices(list(REFLECTOR), k = 1))
-        thin_wheel = ''.join(random.choices(list(ADDITIONAL_WHEEL), k = 1))
+        rotor = tuple(random.sample(list(range(1, 9)), k=3))
+        ring_setting = tuple(random.choices(AZ, k=4))
+        start = tuple(random.choices(AZ, k=4))
+        reflector = ''.join(random.choices(list(REFLECTOR), k=1))
+        thin_wheel = ''.join(random.choices(list(ADDITIONAL_WHEEL), k=1))
         
         switches = []
-        first_letters = random.sample(AZ, k = 10)
+        first_letters = random.sample(AZ, k=10)
         second_letters = ''.join(set(copy(AZ)).difference(set(first_letters)))
         for i in first_letters:
-            j = random.sample(second_letters, k = 1)
+            j = random.sample(second_letters, k=1)
             switches.append((i, j))
             second_letters = second_letters.replace(f'{j}', '')
             
@@ -216,7 +216,7 @@ def Enigma_process(text):
             print(f'Plugboard: {switched_letter_backward} <- {rotor_right_backward}')
             print(f'Lampboard output: {switched_letter_backward}\n')
             
-    return ' '.join([cipher[i: i + 5] for i in range(0, len(cipher), 5)])
+    return ' '.join([cipher[i:i + 5] for i in range(0, len(cipher), 5)])
         
 
 def check_text(text):
