@@ -25,7 +25,7 @@ LEN_KEY = 5                                                                     
 PADDING_CHAR = '_'                                                                  # Used in the columnar encryption to fit the text in a matrix
 
 def create_square():                                                                # Creates a 6x6 Polybius square containing shuffled lower ascii letters and digits
-    values = [i for i in string.digits + string.ascii_lowercase]
+    values = list(string.digits + string.ascii_lowercase)
     random.shuffle(values)
     return np.char.asarray(values).reshape(6, 6)
 
@@ -43,12 +43,12 @@ def ADFGVX_encrypt(text):
                                                                                                 
 
 def to_table(text, key):                                                            # Tables the plaintext before the columnar encryption
-    table = pd.DataFrame(columns= [i for i in range(len(key))])                     # Create empty table, with columns from "0" to the length of the key
+    table = pd.DataFrame(columns= range(len(key)))                                  # Create empty table, with columns from "0" to the length of the key
     while len(text) % len(key) != 0:                                                # Pad the text and the tail, to fit into the table
         text += PADDING_CHAR
     j = 0
     for i in range(0, len(text), len(key)):                                         # Split the text in chunks as long as the key length, and load them into the rows of the table
-        chunk = [i for i in text[i: i + len(key)]]
+        chunk = list(text[i:i + len(key)])
         table.loc[j] = chunk
         j += 1
     return table
@@ -56,7 +56,7 @@ def to_table(text, key):                                                        
 
 def to_index(key):                                                                  # Sorts and indexes the key for the columnar encryption
     sorted_key_chars = sorted(key)
-    ascending_int = [i for i in range(len(key))]
+    ascending_int = list(range(len(key)))
     ordered_key = list(zip(sorted_key_chars, ascending_int))                        # list of tuples containing sorted key chars and growing int values by steps of 1
     result = []
     for x in key:
@@ -92,7 +92,7 @@ def main():
     text = text.replace(' ', '').lower()
     assert(text.isalnum())
 
-    key = random.choices(string.ascii_lowercase, k = LEN_KEY)
+    key = random.choices(string.ascii_lowercase, k=LEN_KEY)
     
     cipher = encrypt(text, key)
     print(f'\nCipher: {cipher}')
