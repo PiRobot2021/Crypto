@@ -13,7 +13,7 @@ import string
 def create_Polybius():
     az = [i for i in string.ascii_lowercase if i != 'j']                            # "j" is omitted in this case. A variation could be to remove "q" instead.
     random.shuffle(az)                                                              # Randomize the order of the letters
-    return np.char.array(az, unicode = True).reshape((5, 5))                        # Creating the Polybius square for letters in lower ascii.
+    return np.char.array(az, unicode=True).reshape((5, 5))                          # Creating the Polybius square for letters in lower ascii.
 
 
 def railfence(square, text):
@@ -27,7 +27,7 @@ def railfence(square, text):
 
 
 def encrypt(text):
-    square= create_Polybius()
+    square = create_Polybius()
     print(f'\nRandom Polybius square:\n{square}')
     coords = railfence(square, text)
     print(f'\nPolybius coordinates transposed through Railfence:\n{coords}')
