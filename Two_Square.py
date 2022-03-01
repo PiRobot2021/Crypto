@@ -98,10 +98,10 @@ def main():
     text = text.replace(' ', '').lower() 
     assert(text.isalpha())                                                          # Two_square cipher can encrypt only letters
     
-    key1 = ''.join(random.choices(az, k = LEN_KEYS))                                # Generate random letters with defined length
+    key1 = ''.join(random.choices(az, k=LEN_KEYS))                                  # Generate random letters with defined length
     print(f'First random key: {key1}')
 
-    key2 = ''.join(random.choices(az, k = LEN_KEYS))
+    key2 = ''.join(random.choices(az, k=LEN_KEYS))
     print(f'Second random key: {key2}')
     
     cipher = encrypt(text, key1, key2)
