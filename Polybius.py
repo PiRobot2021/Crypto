@@ -15,11 +15,11 @@ import random
 
 az = [i for i in string.ascii_lowercase if i != 'j']                            # "j" is omitted in this case. A variation could be to remove "q" instead.
 random.shuffle(az)                                                              # Randomize the order of the letters
-square = np.char.array(az, unicode = True).reshape((5, 5))                      # Creating the Polybius square for letters in lower ascii.
+square = np.char.array(az, unicode=True).reshape((5, 5))                        # Creating the Polybius square for letters in lower ascii.
 
 
 def encrypt(text):
-    cipher = np.empty(0, dtype= 'int')                                          # Empty array to receive the encrypted letters
+    cipher = np.empty(0, dtype='int')                                           # Empty array to receive the encrypted letters
     for l in text:
         if l in az:
             xy = np.where(square == l)                                          # Find the coordinates of the letter
