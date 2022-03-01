@@ -36,7 +36,7 @@ def map_key(key):
     key_letters = sorted(set(key))                                                        # Remove duplicate letters from the key, and sort them in ascending order
     print(f'Sorted key letters: {key_letters}')
     key_letters.extend(sorted(az.difference(key_letters)))                                # attach the remaining alphabet letters, obtained by logical exclusion
-    table = pd.DataFrame([key_letters[i: i + 5] for i in range(0, len(key_letters), 5)])  # Load the newly ordered alphabet into a 5 x 5 matrix
+    table = pd.DataFrame([key_letters[i:i + 5] for i in range(0, len(key_letters), 5)])   # Load the newly ordered alphabet into a 5 x 5 matrix
     return table
 
 
@@ -94,7 +94,7 @@ def main():
     text = text.replace(' ', '').lower()                                                   # Playfair cipher does not allow spaces between words
     assert(text.isalpha())                                                                 # Playfair can only encrypt letters 
     
-    key = random.choices(az, k = KEY_LEN)
+    key = random.choices(az, k=KEY_LEN)
     print(f'Random key: {key}')
     
     cipher = encrypt(text, key)
