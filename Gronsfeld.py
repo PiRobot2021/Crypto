@@ -15,14 +15,14 @@ from collections import deque
 SHUFFLED= True
 
 def create_Gronsfeld():                                                                                 # Function to create a Gronsfeld table
-    alphabet = deque(list(string.ascii_lowercase))                                                      # I use a deque to rotate the alphabet
-    table = pd.DataFrame(index = range(10), columns = list(string.ascii_uppercase))                     # Create an empty DataFrame in pandas
+    alphabet = deque(string.ascii_lowercase)                                                            # I use a deque to rotate the alphabet
+    table = pd.DataFrame(index=range(10), columns=list(string.ascii_uppercase))                         # Create an empty DataFrame in pandas
     for i in range(10):
         table.loc[i] = alphabet                                                                         # Load the alphabet row by row, rotating it left at each step of the loop
         alphabet.rotate(-1)
     if SHUFFLED:
-        table = table.sample(frac = 1)                                                                  # Shuffle the rows
-        table = table.reset_index(drop = True)                                                          # Reset the index and drop the old one, change to drop= False to track the original index
+        table = table.sample(frac=1)                                                                    # Shuffle the rows
+        table = table.reset_index(drop=True)                                                            # Reset the index and drop the old one, change to drop= False to track the original index
     return table
 
 
