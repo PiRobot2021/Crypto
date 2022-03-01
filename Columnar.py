@@ -25,12 +25,12 @@ PADDING_CHAR = '_'
 
 
 def to_table(text, key):
-    table= pd.DataFrame(columns = [i for i in range(len(key))])                     # Create empty table, with columns from "0" to the length of the key
+    table = pd.DataFrame(columns = range(len(key)))                                 # Create empty table, with columns from "0" to the length of the key
     while len(text) % len(key) != 0:                                                # Pad the text and the tail, to fit into the table
-        text+= PADDING_CHAR
+        text += PADDING_CHAR
     j = 0
     for i in range(0, len(text), len(key)):                                         # Split the text in chunks as long as the key length, and load them into the rows of the table
-        chunk = [i for i in text[i: i + len(key)]]
+        chunk = list(text[i: i + len(key)])
         table.loc[j] = chunk
         j += 1
     return table
@@ -38,7 +38,7 @@ def to_table(text, key):
 
 def to_index(key):
     sorted_key_chars = sorted(key)
-    ascending_int = [i for i in range(len(key))]
+    ascending_int = list(range(len(key)))
     ordered_key = list(zip(sorted_key_chars, ascending_int))                       # list of tuples containing sorted key chars and growing int values by steps of 1
     result = []
     for x in key:
