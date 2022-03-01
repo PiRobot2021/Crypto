@@ -14,10 +14,10 @@ Having each letter rotating by a different value, frequency analysis is obfuscat
 import string
 import random
 
-LEN_KEY= 5
+LEN_KEY = 5
 
-az = [i for i in string.ascii_lowercase]                                # Create a list of letters in lower ascii 
-AZ = [i for i in string.ascii_uppercase]                                # Create a list of letters in upper ascii
+az = list(string.ascii_lowercase)                                       # Create a list of letters in lower ascii 
+AZ = list(string.ascii_uppercase)                                       # Create a list of letters in upper ascii
 
 
 def encrypt(key, plaintext):
