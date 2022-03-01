@@ -27,7 +27,7 @@ def to_table(text, key):
         text += PADDING_CHAR
     j = 0
     for i in range(0, len(text), len(key)):                                         # Split the text in chunks as long as the key length, and load them into the rows of the table
-        chunk = [i for i in text[i: i + len(key)]]
+        chunk = list(text[i: i + len(key)])
         table.loc[j] = chunk
         j += 1
     return table
