@@ -23,7 +23,7 @@ import numpy as np
 import string
 import random
 
-LEN_KEYS= 30
+LEN_KEYS = 30
 
 az = {i for i in string.ascii_lowercase if i != 'j'}                            # One letter must be removed to fit the alphabet in a square table, here I ahve chosen "j"
 #az = {i for i in string.ascii_lowercase if i != 'q'}                           # "q" is a common altarnative
