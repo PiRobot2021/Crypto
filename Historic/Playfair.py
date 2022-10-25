@@ -94,7 +94,7 @@ def main():
     text = text.replace(' ', '').lower()                                                   # Playfair cipher does not allow spaces between words
     assert(text.isalpha())                                                                 # Playfair can only encrypt letters 
     
-    key = random.choices(az, k=KEY_LEN)
+    key = random.choices(list(az), k=KEY_LEN)
     print(f'Random key: {key}')
     
     cipher = encrypt(text, key)
