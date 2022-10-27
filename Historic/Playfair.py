@@ -20,28 +20,36 @@ Depending on the position of the letters, the encryption follows different rules
 
 This cipher disrupts the letter and word frequencies by encrypting letters by pairs rather than individually.
 
+It is possible to use variation of Playfair with 6x6 matrix, with the advantages of including digits in the encryption and avoid skipping or replacing letters of plaintext.
+
 """
 
 import pandas as pd                                                                       # I decided to use pandas, for two square and four square variations I use numpy to compare the codes
 import string
 import random
 
+SQUARE_SIZE = 5
+assert(SQUARE_SIZE == 5 or SQUARE_SIZE == 6)
 KEY_LEN = 5
 SKIP_LETTER = 'q'
 PADDING_CHAR = 'z'
 
-az = {i for i in string.ascii_lowercase if i != SKIP_LETTER}                                     
+if SQUARE_SIZE == 6:
+    az = {i for i in (string.ascii_lowercase + string.digits)}                                     
+else:
+    az = {i for i in string.ascii_lowercase if i != SKIP_LETTER}                                   
 
 def map_key(key):                                                                       
     key_letters = sorted(set(key))                                                        # Remove duplicate letters from the key, and sort them in ascending order
     print(f'Sorted key letters: {key_letters}')
     key_letters.extend(sorted(az.difference(key_letters)))                                # attach the remaining alphabet letters, obtained by logical exclusion
-    table = pd.DataFrame([key_letters[i:i + 5] for i in range(0, len(key_letters), 5)])   # Load the newly ordered alphabet into a 5 x 5 matrix
+    table = pd.DataFrame([key_letters[i:i + SQUARE_SIZE] for i in range(0, len(key_letters), SQUARE_SIZE)])   # Load the newly ordered alphabet into a 5 x 5 matrix
     return table
 
 
-def prep(text):    
-    text = text.replace(SKIP_LETTER, '')                                                   # The playfair square admits 25 values, one has to be skipped
+def prep(text):
+    if SQUARE_SIZE == 5:
+        text = text.replace(SKIP_LETTER, '')                                               # The playfair 5x5 square admits 25 values, one has to be skipped
     if len(text) % 2 != 0:                                                                 # If the length of the text is odd, one pad char is appended
         text += PADDING_CHAR
     result = []
@@ -91,7 +99,8 @@ def encrypt(text, key):
 def main():
     text = input('Type your text: ')
     text = text.replace(' ', '').lower()                                                   # Playfair cipher does not allow spaces between words
-    assert(text.isalpha())                                                                 # Playfair can only encrypt letters 
+    if SQUARE_SIZE == 5:
+        assert(text.isalpha())                                                             # Playfair 5x5 can only encrypt letters 
     
     key = random.choices(list(az), k=KEY_LEN)
     print(f'Random key: {key}')
