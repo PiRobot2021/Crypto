@@ -27,10 +27,10 @@ import string
 import random
 
 KEY_LEN = 5
+SKIP_LETTER = 'q'
 PADDING_CHAR = 'z'
 
-az = {i for i in string.ascii_lowercase if i != 'j'}                                      # An alternative could be to remove the "q"
-#az = {i for i in string.ascii_lowercase if i != 'q'}                                     
+az = {i for i in string.ascii_lowercase if i != SKIP_LETTER}                                     
 
 def map_key(key):                                                                       
     key_letters = sorted(set(key))                                                        # Remove duplicate letters from the key, and sort them in ascending order
@@ -41,8 +41,7 @@ def map_key(key):
 
 
 def prep(text):    
-    text = text.replace('j', 'i')                                                          # The playfair square admits 25 values, here I combined "j" and "i" letters in the key
-    #text = text.replace('q', '')
+    text = text.replace(SKIP_LETTER, '')                                                   # The playfair square admits 25 values, one has to be skipped
     if len(text) % 2 != 0:                                                                 # If the length of the text is odd, one pad char is appended
         text += PADDING_CHAR
     result = []
