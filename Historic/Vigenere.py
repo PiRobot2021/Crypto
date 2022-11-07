@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
 """
 VIGENERE CIPHER
-It uses the multi-alphabet square of tabula recta combiend with a secret keyword.
-The tabula recta is a square table constructed by rotating the alphabet by one left at each row.
-It has diagonal simmetry property.
+The encryption and decryption processes proceed using a multi-alphabet square table called "tabula recta", where the text is combined with a secret key.
+Such table consists of the alphabet letter rotated by one position left at each row, so to have a diagonal simmetry property.
 
-The encryption of each letter is obtained by looking up in the table,
-using as coordinates the plaintext letter (x axis) and the corresponding key letter (y axis).
+During encryption, each letter of plaintext is set as column of such table (x coordiante), while the corresponding key letter is set as row (y coordinate).
+# The letter in the table of coordiantes "x, y" is the encrypted letter of the ciphertext.
+# After each letter encryption, the key rotates so that the next key letter to the right is used. The encryption process cycles through the key until the all the plaintext letters are encrypted.
 
-After each letter encryption, the keyword is rotated by one, and when it reaches the end is restarted from the begin, until the all the plaintext is encrypted.
-This cipher obfuscates frequency analysis effectively.
+# During decryption, each ciphertext letter corresponds to the x axis (columns). The column set by that letter is scrolled down until the corresponding key letter is reached.
+# The plaintext letter is the y coordinate (row index) of that position.
 
-Knowing the keyword, the cipher is decrypted by obtaining the row index of the cipher letter in the column indicated by the key character.
-The plaintext letter is row index of it.
-
-Another variation is the Beaufort cipher, where encryption and decryption processes are simply switched.
-
+# Another variation is the Beaufort cipher, where encryption and decryption processes are simply switched.
 """
 
 
