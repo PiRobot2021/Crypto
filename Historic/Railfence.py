@@ -2,7 +2,7 @@
 
 """
 RAIL FENCE CIPHER
-I classic transposition cipher. The encryption process proceeds by dividing the plaintext into rails, through alternating diagonals.
+I classic transposition cipher. The encryption process proceeds by dividing the plaintext into rails, then read through alternating diagonals to form a ciphertext.
 e.g. "attack at dawn!" encrypted using 4 rail cipher would lead to:
 Rail 1:    a.......a.....n.
 Rail 2:    .t..... .t...w.!
