@@ -2,10 +2,10 @@
 """
 POLYBIUS CIPHER
 a.k.a. Polybius square, it is a single substitution cipher.
-The first step is to create a 5x5 square matrix containing the alphabet, where "i" and "j" are combined. As a variation, the letter "q" could be removed.
+The first step in the classic cipher is to create a 5x5 square matrix containing the alphabet, where "i" and "j" are combined. As a variation, the letter "q" could be removed.
 The letters might not be in order, to increase the encryption security.
 Each letter is represented by two coordinates in the Polybius square.
-
+It is also possible to use a 6x6 square, with the advantage of hosting the full alphabet and the digits, without loosing information.
 """
 
 
