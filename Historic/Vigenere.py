@@ -24,7 +24,7 @@ from collections import deque
 KEY_LENGTH = 5
 
 # This piece of code is required to run classic encryption and decryption functions.
-# It build a Vegenere table as a pandas DataFrame
+# It builds a Vegenere table as a pandas DataFrame using alphabet deques
 az = deque(string.ascii_lowercase)                                              # Creating a deque of the alphabet
 tabula= pd.DataFrame(columns=az, index=az)                                      # Building an empty tabula
 for i in string.ascii_lowercase:                                                # Filling tabula row by row
@@ -32,7 +32,7 @@ for i in string.ascii_lowercase:                                                
     az.rotate(-1)                                                               # Rotating the deque left by one at each row
 
 
-# This function mimics the classic historical way of encrypting with Vigenere cipher
+# This function mimics the classic encryption process of Vigenere cipher
 def encrypt_classic(key, text):
     cipher = ''
     key = list(key)                                                             # Converint the keyword into a list of characters
@@ -47,7 +47,7 @@ def encrypt_classic(key, text):
     return cipher
 
 
-# This function mimics the classic historical way of decrypting with Vigenere cipher and a known key
+# This function mimics the classic decryption process of Vigenere cipher, with a known key
 def decrypt_classic(key, cipher):
     text = ''
     key = list(key.lower())
