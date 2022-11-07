@@ -2,7 +2,8 @@
 """
 PLAYFAIR CIPHER
 Sometimes called the Wheatstone-Playfair cipher, or Playfair square.
-The cipher relies on a key mapped in a 5x5 matrix and four rules.
+The classic cipher relies on a key mapped in a 5x5 matrix and four rules,
+# though it is possible to use variation of Playfair with 6x6 matrix, with the advantages of including digits in the encryption and avoid skipping or replacing letters of plaintext.
 
 First, a 5x5 matrix is filled with a keyword (removing duplicated letters), then all other letters of the alphabet are filled in ascending order, till the matrix is completed. 
 The matrix can only contain 25 letters, so "i/j" are usually combined. A variation could be to remove the "q".
@@ -19,9 +20,6 @@ Depending on the position of the letters, the encryption follows different rules
     and add the new pair to the cipher.
 
 This cipher disrupts the letter and word frequencies by encrypting letters by pairs rather than individually.
-
-It is possible to use variation of Playfair with 6x6 matrix, with the advantages of including digits in the encryption and avoid skipping or replacing letters of plaintext.
-
 """
 
 import pandas as pd                                                                       # I decided to use pandas, for two square and four square variations I use numpy to compare the codes
