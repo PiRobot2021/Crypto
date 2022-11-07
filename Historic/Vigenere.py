@@ -11,7 +11,7 @@ During encryption, each letter of plaintext is set as column of such table (x co
 # During decryption, each ciphertext letter corresponds to the x axis (columns). The column set by that letter is scrolled down until the corresponding key letter is reached.
 # The plaintext letter is the y coordinate (row index) of that position.
 
-# Another variation is the Beaufort cipher, where encryption and decryption processes are simply switched.
+# A variation of the Vigenere cipher is the Beaufort cipher, where encryption and decryption processes are simply switched.
 """
 
 
