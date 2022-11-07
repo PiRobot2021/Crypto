@@ -35,11 +35,11 @@ for i in string.ascii_lowercase:                                                
 # This function mimics the classic encryption process of Vigenere cipher
 def encrypt_classic(key, text):
     cipher = ''
-    key = list(key)                                                             # Converint the keyword into a list of characters
+    key = list(key)                                                             
     for i, l in enumerate(text):
-        k = key[i % len(key)]                                                   # Rotating through the key letters
+        k = key[i % len(key)]                                                   # Rotate through the key letters
         if l in string.ascii_lowercase:
-            cipher += tabula.loc[l][k]                                          # Encrypting through the tabula using the plaintext letter "l" and key char "k" as coordinates
+            cipher += tabula.loc[l][k]                                          # The plaintext letter "l" and the key letter "k" as the coordinates of the ciphertext
         elif l in string.ascii_uppercase:
             cipher += tabula.loc[l.lower()][k].upper()
         else:
@@ -64,7 +64,7 @@ def decrypt_classic(key, cipher):
     return text
 
 
-# same logic, but th ecipher process is built on arithmetic of ascii values mod 26
+# Instead of proceeding through the Vigenere table, this function does arithmetic from ascii values mod 26
 def encrypt(key, text):
     cipher = ''
     for i, l in enumerate(text):
@@ -75,6 +75,7 @@ def encrypt(key, text):
         else:
             cipher += l
     return cipher
+
 
 def decrypt(key, cipher):
     text = ''
