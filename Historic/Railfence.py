@@ -39,12 +39,12 @@ def encrypt(plain, N):
     plain = deque(plain)
     while True:
         try:
-            if N > 2:                                           # The encryption process is programmed differently is using more than 2 rails
+            if N > 2:                                           # The encryption process is programmed differently if using more than 2 rails
                 for i in rails:                                 # First append the plantext top down
                     i.append(plain.popleft())                   
                 for i in range(len(rails) - 2, 0, -1):          # Then append the plaintext bottom up
                     rails[i].append(plain.popleft())
-            else:                                               # If only using 2 rails, encrypt by simple alternation.
+            else:                                               # If only using 2 rails, encrypt by simply alternating.
                 for i in rails:
                     i.append(plain.popleft())
         except IndexError:                                      # When the deque containing the plaintext is empty, an IndexError occurs. We can collect the ciphertext 
