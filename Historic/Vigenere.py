@@ -14,6 +14,7 @@ This cipher obfuscates frequency analysis effectively.
 Knowing the keyword, the cipher is decrypted by obtaining the row index of the cipher letter in the column indicated by the key character.
 The plaintext letter is row index of it.
 
+A variation of this cipher, the "running key cipher" uses a string of random characters.
 Another variation is the Beaufort cipher, where encryption and decryption processes are simply switched.
 
 """
@@ -25,6 +26,10 @@ import pandas as pd
 from collections import deque
 
 
+KEY_LENGTH = 5
+
+# This piece of code is required to run classic encryption and decryption functions.
+# It build a Vegenere table as a pandas DataFrame
 az = deque(string.ascii_lowercase)                                              # Creating a deque of the alphabet
 tabula= pd.DataFrame(columns=az, index=az)                                      # Building an empty tabula
 for i in string.ascii_lowercase:                                                # Filling tabula row by row
@@ -32,46 +37,81 @@ for i in string.ascii_lowercase:                                                
     az.rotate(-1)                                                               # Rotating the deque left by one at each row
 
 
-def encrypt(key, text):
+# This function mimics the classic historical way of encrypting with Vigenere cipher
+def encrypt_classic(key, text):
     cipher = ''
     key = list(key)                                                             # Converint the keyword into a list of characters
     for i, l in enumerate(text):
         k = key[i % len(key)]                                                   # Rotating through the key letters
-        if l in az:
+        if l in string.ascii_lowercase:
             cipher += tabula.loc[l][k]                                          # Encrypting through the tabula using the plaintext letter "l" and key char "k" as coordinates
+        elif l in string.ascii_uppercase:
+            cipher += tabula.loc[l.lower()][k].upper()
         else:
             cipher += l
     return cipher
-    
-    
-def decrypt(key, cipher):
+
+
+# This function mimics the classic historical way of decrypting with Vigenere cipher and a known key
+def decrypt_classic(key, cipher):
     text = ''
-    key = list(key)
+    key = list(key.lower())
     for i, l in enumerate(cipher):
         k = key[i % len(key)]
-        if l in az:
-            c = tabula[k].where(tabula[k] == l).dropna()                        # Decrypting by searching at which row index the column of the key "k" has the value of the cipher "l"
+        if l in string.ascii_lowercase:
+            c = tabula[k].where(tabula[k] == l).dropna()                                # Decrypting by searching at which row index the column of the key "k" has the value of the cipher "l"
             text += c.index[0]
+        elif l in string.ascii_uppercase:
+            c = tabula[k].where(tabula[k] == l.lower()).dropna()                        # Decrypting by searching at which row index the column of the key "k" has the value of the cipher "l"
+            text += c.index[0].upper()
         else:
             text += l
-    print(text)
+    return text
+
+
+# same logic, but th ecipher process is built on arithmetic of ascii values mod 26
+def encrypt(key, text):
+    cipher = ''
+    for i, l in enumerate(text):
+        if l in string.ascii_lowercase:
+            cipher += chr(((ord(l) + ord(key[i % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a'))
+        elif l in string.ascii_uppercase:
+            cipher += chr(((ord(l.lower()) + ord(key[i % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a')).upper()
+        else:
+            cipher += l
+    return cipher
+
+def decrypt(key, cipher):
+    text = ''
+    for i, l in enumerate(cipher):
+        if l in string.ascii_lowercase:
+            text += chr(((ord(l) - ord(key[i % len(key)].lower())) % 26) + ord('a'))
+        elif l in string.ascii_uppercase:
+            text += chr(((ord(l.lower()) - ord(key[i % len(key)].lower())) % 26) + ord('a')).upper()
+        else:
+            text += l
+    return text
 
 
 def main():
-    text = input('Type your text: ')
-    key = ''.join(random.choices(string.ascii_lowercase, k=256))                # This variation with random key is called "running key cipher"
+    plain = input('Type your text: ')
+    key = ''.join(random.choices(string.ascii_lowercase, k=KEY_LENGTH))                # This Vigenre variation using a random key is also called "running key cipher"
     print(f'Random key: {key}')
-    print(f'Vigenere table:\n{tabula}')
+    #print(f'Vigenere table:\n{tabula}')
     
     # Encryption
-    cipher = encrypt(key.lower(), text.lower())                                 # The tabula recta is not case sensitive, all letters are turned lower case
-    print(f'\nCipher: {cipher}\n')
+    cipher = encrypt_classic(key, plain)                               
+    print(f'\nCipher: {cipher}')
+    cipher = encrypt(key, plain)
+    print(f'Cipher: {cipher}')
 
     # Decryption
-    i = input(f'Do you want to decrypt with the key {key}? [y/n]:')
-    if i == 'y':
-        decrypt(key, cipher)
+    plain = decrypt_classic(key, cipher)
+    print(f'Plaintext: {plain}')
+    plain = decrypt(key, cipher)
+    print(f'Plaintext: {plain}')
 
+    
 
 if __name__ == '__main__':
     main()
