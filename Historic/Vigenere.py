@@ -14,7 +14,6 @@ This cipher obfuscates frequency analysis effectively.
 Knowing the keyword, the cipher is decrypted by obtaining the row index of the cipher letter in the column indicated by the key character.
 The plaintext letter is row index of it.
 
-A variation of this cipher, the "running key cipher" uses a string of random characters.
 Another variation is the Beaufort cipher, where encryption and decryption processes are simply switched.
 
 """
@@ -59,7 +58,6 @@ def decrypt(key, cipher):
 
 
 def main():
-
     text = input('Type your text: ')
     key = ''.join(random.choices(string.ascii_lowercase, k=256))                # This variation with random key is called "running key cipher"
     print(f'Random key: {key}')
