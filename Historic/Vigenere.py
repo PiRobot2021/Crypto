@@ -67,11 +67,14 @@ def decrypt_classic(key, cipher):
 # Instead of proceeding through the Vigenere table, this function does arithmetic from ascii values mod 26
 def encrypt(key, text):
     cipher = ''
+    k = 0
     for i, l in enumerate(text):
         if l in string.ascii_lowercase:
-            cipher += chr(((ord(l) + ord(key[i % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a'))
+            cipher += chr(((ord(l) + ord(key[k % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a'))
+            k += 1
         elif l in string.ascii_uppercase:
-            cipher += chr(((ord(l.lower()) + ord(key[i % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a')).upper()
+            cipher += chr(((ord(l.lower()) + ord(key[k % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a')).upper()
+            k += 1
         else:
             cipher += l
     return cipher
@@ -79,11 +82,14 @@ def encrypt(key, text):
 
 def decrypt(key, cipher):
     text = ''
+    k = 0
     for i, l in enumerate(cipher):
         if l in string.ascii_lowercase:
-            text += chr(((ord(l) - ord(key[i % len(key)].lower())) % 26) + ord('a'))
+            text += chr(((ord(l) - ord(key[k % len(key)].lower())) % 26) + ord('a'))
+            k += 1
         elif l in string.ascii_uppercase:
-            text += chr(((ord(l.lower()) - ord(key[i % len(key)].lower())) % 26) + ord('a')).upper()
+            text += chr(((ord(l.lower()) - ord(key[k % len(key)].lower())) % 26) + ord('a')).upper()
+            k += 1
         else:
             text += l
     return text
