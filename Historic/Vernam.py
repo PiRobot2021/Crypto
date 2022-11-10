@@ -25,7 +25,7 @@ def main():
     print(f'Random key: {key}')
     
     enc_text = encrypt(text.encode(), key.encode())
-    print(f'\nCipher: {enc_text}')
+    print(f'\nCiphertext: {enc_text}')
 
 if __name__ == '__main__':
     main()
