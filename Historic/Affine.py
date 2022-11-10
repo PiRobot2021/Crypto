@@ -68,7 +68,7 @@ def main():
     print(f'Second random key from 1 to {MOD}: {key2}')
     
     enc_text = encrypt(key1, key2, text)                                                # Encrypt using the keys casted as integers 
-    print(f'\nCipher: {enc_text}\n')
+    print(f'\nCiphertext: {enc_text}\n')
     
     # Decryption
     decrypt_bruteforce(enc_text)                                                        # It's a basic bruteforce
