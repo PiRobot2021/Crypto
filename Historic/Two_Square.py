@@ -105,7 +105,7 @@ def main():
     print(f'Second random key: {key2}')
     
     enc_text = encrypt(text, key1, key2)
-    print(f'Cipher: {enc_text}')
+    print(f'Ciphertext: {enc_text}')
 
 if __name__ == '__main__':
     main()
