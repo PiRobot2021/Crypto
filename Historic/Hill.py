@@ -41,7 +41,7 @@ def main():
     text = re.sub('[\t\s]', '', text.lower())
     assert(text.isalpha())                                                                              # The original cipher allows only letters, but it can be easily customized to encrypt all ascii (mod 127)
     enc_text = encrypt(text)
-    print(f'\nCipher: {enc_text}')
+    print(f'\nCiphertext: {enc_text}')
 
 if __name__ == '__main__':
     main()
