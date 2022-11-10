@@ -17,24 +17,21 @@ def encrypt(rot, text):
     new_alphabet = ''.join(az_deque)
                                                                   
     rot_tab = text.maketrans(string.ascii_lowercase, new_alphabet)                   # Bulid a translation table
-    cipher = text.translate(rot_tab)                                                 # Apply the alphabet translation
+    enc_text = text.translate(rot_tab)                                                 # Apply the alphabet translation
     
     AZ_deque = deque(string.ascii_uppercase)                                         # Rotate separately the upper case ascii alphabet
     AZ_deque.rotate(rot)
     new_alphabet = ''.join(AZ_deque)
     
-    rot_tab = cipher.maketrans(string.ascii_uppercase, new_alphabet)
-    return cipher.translate(rot_tab)
+    rot_tab = enc_text.maketrans(string.ascii_uppercase, new_alphabet)
+    return enc_text.translate(rot_tab)
 
 
     
-def decrypt(cipher, solution):
+def decrypt_bruteforce(enc_text):
     for rot in range(26):
-        text = encrypt(rot, cipher)
-        if text == solution:                                                         # Easier to visualize, just for the learning
-            print(rot, '\t', text, '<-')
-        else:
-            print(rot, '\t', text)
+        text = encrypt(rot, enc_text)
+        print(rot, '\t', text)
             
             
 def main():
@@ -45,13 +42,11 @@ def main():
     key = input('Enter a numeric key: ')
     assert(int(key).isdigit())
     
-    cipher = encrypt(int(key), text)
-    print(f'\nCipher: {cipher}\n')
+    enc_text = encrypt(int(key), text)
+    print(f'\nCipher: {enc_text}\n')
     
     # Decryption
-    i = input('Do you want to try decrypting? [y/n]: ')
-    if i == 'y':
-        decrypt(cipher, text)
+    decrypt_bruteforce(enc_text)
 
 if __name__ == '__main__':
     main()
