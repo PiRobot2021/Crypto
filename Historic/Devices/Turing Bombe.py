@@ -64,8 +64,8 @@ DEBUG_SOLUTION = {'Rotors': (1, 2, 3),
                   'Ring settings': ('A', 'A', 'A')}
 
 
-def Turing_Bombe(word, cipher):
-    valid_cipher_positions = crib_analysis(word, cipher)                                                        # Returns cipher positions that yield a valid crib
+def Turing_Bombe(word, enc_text):
+    valid_cipher_positions = crib_analysis(word, enc_text)                                                        # Returns cipher positions that yield a valid crib
     if not valid_cipher_positions:
         print('No cribs for this word')
         return None
@@ -450,14 +450,14 @@ def menu_analysis(crib, start_letter):
     return menu
 
 
-def crib_analysis(word, cipher):
+def crib_analysis(word, enc_text):
     valid_cipher_positions = []
-    for i in range(len(cipher) - len(word) + 1):                                            # Overlaps the known word with the cipher, shifting by one position at a time
+    for i in range(len(enc_text) - len(word) + 1):                                          # Overlaps the known word with the cipher, shifting by one position at a time
         if DEBUG:
             print(f'\nChecking at index {i}:')
             print(word)
-            print(f'{cipher[i:i + len(word)]}')
-        if check_crib(word, cipher[i:i + len(word)]):                                       # If each letter of the word does not encrypt itself, it's a valid crib
+            print(f'{enc_text[i:i + len(word)]}')
+        if check_crib(word, enc_text[i:i + len(word)]):                                     # If each letter of the word does not encrypt itself, it's a valid crib
             valid_cipher_positions.append(i)                                                # Append the index of the ciphertext into a list of valid indexes
             if DEBUG:
                 print('Valid crib')
@@ -497,18 +497,15 @@ def prep_text(text):
 
 
 def main():
-    try:
-        cipher = load(r'Enigma_ciphertext.txt')
-    except OSError:
-        cipher = input('Paste an Enigma cipher: ')
-    cipher = cipher.replace(' ', '')
-    check_text(cipher)
+    enc_text = input('Paste an Enigma cipher: ')
+    enc_text = enc_text.replace(' ', '')
+    check_text(enc_text)
 
     known_word = input('Type the suspected plaintext: ')
     known_word = prep_text(known_word)
-    assert(len(known_word) <= len(cipher))                                                  # The ciphertext should not be shorter than the suspected word in plaintext
+    assert(len(known_word) <= len(enc_text))                                                # The ciphertext should not be shorter than the suspected word in plaintext
 
-    Turing_Bombe(known_word.upper(), cipher.upper())
+    Turing_Bombe(known_word.upper(), enc_text.upper())
 
 
 if __name__ == '__main__':
