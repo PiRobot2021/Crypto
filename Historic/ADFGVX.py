@@ -75,16 +75,15 @@ def columnar_encrypt(text, key):
     print(f'\nRandom key: {key}')
     key = to_index(key)                                                             # Convert the key from string into sorted tuples containing the ordered values of the key chars
     print(f'Sorted key: {key}')  
-    cipher = ''
+    enc_text = ''
     for column in key:
-        cipher += ''.join(table[column[1]])                                         # Encrypt by proceeding through each column, in the order given by the ranked key chars
-    return cipher.replace(PADDING_CHAR, '')                                         # Remove the padding chars
+        enc_text += ''.join(table[column[1]])                                       # Encrypt by proceeding through each column, in the order given by the ranked key chars
+    return enc_text.replace(PADDING_CHAR, '')                                       # Remove the padding chars
     
     
 def encrypt(text, key):
     intermediate_cipher = ADFGVX_encrypt(text)
-    cipher = columnar_encrypt(intermediate_cipher, key)
-    return cipher
+    return columnar_encrypt(intermediate_cipher, key)
 
 
 def main():
@@ -94,8 +93,8 @@ def main():
 
     key = random.choices(string.ascii_lowercase, k=LEN_KEY)
     
-    cipher = encrypt(text, key)
-    print(f'\nCipher: {cipher}')
+    enc_text = encrypt(text, key)
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
