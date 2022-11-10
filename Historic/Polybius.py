@@ -19,13 +19,13 @@ square = np.char.array(az, unicode=True).reshape((5, 5))                        
 
 
 def encrypt(text):
-    cipher = np.empty(0, dtype='int')                                           # Empty array to receive the encrypted letters
+    enc_text = np.empty(0, dtype='int')                                         # Empty array to receive the encrypted letters
     for l in text:
         if l in az:
             xy = np.where(square == l)                                          # Find the coordinates of the letter
-            cipher = np.append(cipher, xy[0])                                   # Append the coordinates to the cipher
-            cipher = np.append(cipher, xy[1])
-    return ''.join(cipher)
+            enc_text = np.append(enc_text, xy[0])                               # Append the coordinates to the cipher
+            enc_text = np.append(enc_text, xy[1])
+    return ''.join(enc_text)
 
 
 def main():
@@ -35,8 +35,8 @@ def main():
     
     # Encryption
     print(f'\nRandom Polybius square:\n{square}')
-    cipher = encrypt(text.lower())                           
-    print(f'\nCipher: {cipher}\n')
+    enc_text = encrypt(text.lower())                           
+    print(f'\nCipher: {enc_text}\n')
     
 if __name__ == '__main__':
     main()
