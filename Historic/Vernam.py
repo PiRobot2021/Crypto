@@ -24,8 +24,8 @@ def main():
     key = generate_key(len(text))
     print(f'Random key: {key}')
     
-    cipher = encrypt(text.encode(), key.encode())
-    print(f'\nCipher: {cipher}')
+    enc_text = encrypt(text.encode(), key.encode())
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
