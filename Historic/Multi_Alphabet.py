@@ -40,7 +40,7 @@ def main():
     print(f'Random key: {key}')
     
     enc_text = encrypt(key, text)
-    print(f'\nCipher: {enc_text}\n')
+    print(f'\nCiphertext: {enc_text}\n')
     
 if __name__ == '__main__':
     main()
