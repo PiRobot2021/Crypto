@@ -62,22 +62,22 @@ def find_coords(table, value):
 
 
 def two_square_process(tables, a, b):
-    cipher = ''
+    enc_text = ''
     if VARIANT == 'V':                                                              # If encrypting using tables aligned vertically
         if a[1] == b[1]:
-            cipher += tables[0][a] + tables[1][b]                                   # If the letters line up vertically in the tables, add to the cipher the pair as such
+            enc_text += tables[0][a] + tables[1][b]                                 # If the letters line up vertically in the tables, add to the cipher the pair as such
         else:                                                                       # Else encrypt through a diagonal. In two_square cipher diagonals flow always top to bottom.
-            cipher += tables[0][a[0], b[1]] + tables[1][b[0], a[1]]                 # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
+            enc_text += tables[0][a[0], b[1]] + tables[1][b[0], a[1]]               # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
     else:                                                                           # Same logic for horizontally aligned tables
         if a[0] == b[0]:                                                            # If the letters line up horizontally in the tables, add to the cipher the pair as such
-            cipher += tables[0][a] + tables[1][b]
+            enc_text += tables[0][a] + tables[1][b]
         else:
-            cipher += tables[0][b[0], a[1]] + tables[1][a[0], b[1]]                 # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
-    return cipher
+            enc_text += tables[0][b[0], a[1]] + tables[1][a[0], b[1]]               # Swapping the diagonal. Add to the cipher the letters at opposite corners of the pair
+    return enc_text
         
 
 def encrypt(text, key1, key2):
-    cipher = ''
+    enc_text = ''
     tables = list(map(map_key, [key1, key2]))
     pairs = prep(text)
     if VARIANT == 'V':
@@ -89,8 +89,8 @@ def encrypt(text, key1, key2):
     for i in pairs:
         first_letters = find_coords(tables[0], i[0])
         second_letters = find_coords(tables[1], i[1])
-        cipher += two_square_process(tables, first_letters, second_letters)
-    return cipher
+        enc_text += two_square_process(tables, first_letters, second_letters)
+    return enc_text
             
 
 def main():
@@ -104,8 +104,8 @@ def main():
     key2 = ''.join(random.choices(az, k=LEN_KEYS))
     print(f'Second random key: {key2}')
     
-    cipher = encrypt(text, key1, key2)
-    print(f'Cipher: {cipher}')
+    enc_text = encrypt(text, key1, key2)
+    print(f'Cipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
