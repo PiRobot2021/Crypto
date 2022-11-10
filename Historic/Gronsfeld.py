@@ -47,7 +47,7 @@ def main():
     assert(text.isalpha())
 
     enc_text = encrypt(text)
-    print(f'\nCipher: {enc_text}')
+    print(f'\nCiphertext: {enc_text}')
 
 if __name__ == '__main__':
     main()
