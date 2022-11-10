@@ -3,6 +3,7 @@
 BIFID CIPHER
 It combines a Polybius square substitution with a railfence transposition cipher.
 At the end of the encryption, the coordinates are converted back to letter using the same square.
+The implementation below uses a 5x5 Polybius square (6x6 could also be implemented) combined with a 2 rails railfence cipher (multiple rails could also be implemented). 
 """
 
 import numpy as np
@@ -30,7 +31,7 @@ def encrypt(text):
     square = create_Polybius()
     print(f'\nRandom Polybius square:\n{square}')
     coords = railfence(square, text)
-    print(f'\nPolybius coordinates transposed through Railfence:\n{coords}')
+    print(f'\nPolybius coordinates transposed through railfence cipher:\n{coords}')
     return ''.join([square[coords[i], coords[i + 1]] for i in range(len(coords) - 1)])
 
 
@@ -39,8 +40,8 @@ def main():
     text = text.replace(' ', '').lower()
     assert(text.isalpha())
 
-    cipher = encrypt(text)
-    print(f'\nCipher: {cipher}')
+    enc_text = encrypt(text)
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
