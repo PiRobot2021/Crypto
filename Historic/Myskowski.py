@@ -52,23 +52,23 @@ def columnar_encrypt(text, key):
     indexed_key = to_index(key)                                                     # Convert the key from string into sorted tuples containing the key chars and their ascending int values
     print(f'Indexed key: {indexed_key}')
     print(f'Columnar table:\n{table}')
-    cipher = ''
+    enc_text = ''
     while indexed_key:                                                              # To manage duplicates, I decided to remove items from the ordered key once the cipher processed through it
         for idx in indexed_key:
             if key.count(idx[0]) == 1:                                              # If the item in the indexed_key is unique, simply encrypt the column                
-                cipher += ''.join(table[idx[1]])                                 
+                enc_text += ''.join(table[idx[1]])                                 
                 indexed_key.remove(idx)
             else:                                                                   # If the item in the indexed_key is not unique
                 duplicates = [val for val in indexed_key if key.count(val[0]) > 1]  # Find the subgroup of duplicates
                 i = 0
                 while i < len(table.index):                                         # Rotate the table through the duplicates, encrypt the cipher row by row
                     for _, v in duplicates:
-                        cipher += ''.join(table.loc[i, v])
+                        enc_text += ''.join(table.loc[i, v])
                     i += 1
                 for r in duplicates:                                                # Once the cipher proceeded through them, remove the items from the indexed_key
                     indexed_key.remove(r)
                 
-    return cipher.replace(PADDING_CHAR, '')                                         # Remove the padding chars before returning the result
+    return enc_text.replace(PADDING_CHAR, '')                                       # Remove the padding chars before returning the result
     
 def main():
     text = input('Type your text: ')
@@ -79,8 +79,8 @@ def main():
     print(f'Random key: {key}')
     
     # Encryption
-    cipher = columnar_encrypt(text, key)
-    print(f'\nCipher: {cipher}')
+    enc_text = columnar_encrypt(text, key)
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
