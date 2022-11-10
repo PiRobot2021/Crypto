@@ -243,7 +243,7 @@ def main():
     text = prep_text(text)
 
     enc_text = Enigma_process(text.upper())
-    print(f'\nCipher: {enc_text}')
+    print(f'\nCiphertext: {enc_text}')
 
 if __name__ == '__main__':
     main()
