@@ -34,24 +34,24 @@ for i in string.ascii_lowercase:                                                
 
 # This function mimics the classic encryption process of Vigenere cipher
 def encrypt_classic(key, text):
-    cipher = ''
+    enc_text = ''
     key = list(key)                                                             
     for i, l in enumerate(text):
         k = key[i % len(key)]                                                   # Rotate through the key letters
         if l in string.ascii_lowercase:
-            cipher += tabula.loc[l][k]                                          # The plaintext letter "l" and the key letter "k" as the coordinates of the ciphertext
+            enc_text += tabula.loc[l][k]                                        # The plaintext letter "l" and the key letter "k" as the coordinates of the ciphertext
         elif l in string.ascii_uppercase:
-            cipher += tabula.loc[l.lower()][k].upper()
+            enc_text += tabula.loc[l.lower()][k].upper()
         else:
-            cipher += l
-    return cipher
+            enc_text += l
+    return enc_text
 
 
 # This function mimics the classic decryption process of Vigenere cipher, with a known key
-def decrypt_classic(key, cipher):
+def decrypt_classic(key, enc_text):
     text = ''
     key = list(key.lower())
-    for i, l in enumerate(cipher):
+    for i, l in enumerate(enc_text):
         k = key[i % len(key)]
         if l in string.ascii_lowercase:
             c = tabula[k].where(tabula[k] == l).dropna()                                # Decrypting by searching at which row index the column of the key "k" has the value of the cipher "l"
@@ -66,24 +66,24 @@ def decrypt_classic(key, cipher):
 
 # Instead of proceeding through the Vigenere table, this function does arithmetic from ascii values mod 26
 def encrypt(key, text):
-    cipher = ''
+    enc_text = ''
     k = 0
     for i, l in enumerate(text):
         if l in string.ascii_lowercase:
-            cipher += chr(((ord(l) + ord(key[k % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a'))
+            enc_text += chr(((ord(l) + ord(key[k % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a'))
             k += 1
         elif l in string.ascii_uppercase:
-            cipher += chr(((ord(l.lower()) + ord(key[k % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a')).upper()
+            enc_text += chr(((ord(l.lower()) + ord(key[k % len(key)].lower()) - 2 * ord('a')) % 26) + ord('a')).upper()
             k += 1
         else:
-            cipher += l
-    return cipher
+            enc_text += l
+    return enc_text
 
 
-def decrypt(key, cipher):
+def decrypt(key, enc_text):
     text = ''
     k = 0
-    for i, l in enumerate(cipher):
+    for i, l in enumerate(enc_text):
         if l in string.ascii_lowercase:
             text += chr(((ord(l) - ord(key[k % len(key)].lower())) % 26) + ord('a'))
             k += 1
@@ -96,22 +96,22 @@ def decrypt(key, cipher):
 
 
 def main():
-    plain = input('Type your text: ')
+    text = input('Type your text: ')
     key = ''.join(random.choices(string.ascii_lowercase, k=KEY_LENGTH))                # This Vigenre variation using a random key is also called "running key cipher"
     print(f'Random key: {key}')
     #print(f'Vigenere table:\n{tabula}')
     
     # Encryption
-    cipher = encrypt_classic(key, plain)                               
-    print(f'\nCipher: {cipher}')
-    cipher = encrypt(key, plain)
-    print(f'Cipher: {cipher}')
+    enc_text = encrypt_classic(key, text)                               
+    print(f'\nCipher: {enc_text}')
+    enc_text = encrypt(key, text)
+    print(f'Cipher: {enc_text}')
 
     # Decryption
-    plain = decrypt_classic(key, cipher)
-    print(f'Plaintext: {plain}')
-    plain = decrypt(key, cipher)
-    print(f'Plaintext: {plain}')
+    text = decrypt_classic(key, enc_text)
+    print(f'Plaintext: {text}')
+    text = decrypt(key, enc_text)
+    print(f'Plaintext: {text}')
 
     
 
