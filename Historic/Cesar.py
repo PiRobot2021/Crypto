@@ -43,7 +43,7 @@ def main():
     assert(int(key).isdigit())
     
     enc_text = encrypt(int(key), text)
-    print(f'\nCipher: {enc_text}\n')
+    print(f'\nCiphertext: {enc_text}\n')
     
     # Decryption
     decrypt_bruteforce(enc_text)
