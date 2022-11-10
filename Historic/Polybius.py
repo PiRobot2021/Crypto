@@ -36,7 +36,7 @@ def main():
     # Encryption
     print(f'\nRandom Polybius square:\n{square}')
     enc_text = encrypt(text.lower())                           
-    print(f'\nCipher: {enc_text}\n')
+    print(f'\nCiphertext: {enc_text}\n')
     
 if __name__ == '__main__':
     main()
