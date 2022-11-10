@@ -103,9 +103,9 @@ def main():
     
     # Encryption
     enc_text = encrypt_classic(key, text)                               
-    print(f'\nCipher: {enc_text}')
+    print(f'\nCiphertext: {enc_text}')
     enc_text = encrypt(key, text)
-    print(f'Cipher: {enc_text}')
+    print(f'Ciphertext: {enc_text}')
 
     # Decryption
     text = decrypt_classic(key, enc_text)
