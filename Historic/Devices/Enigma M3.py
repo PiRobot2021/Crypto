@@ -176,7 +176,7 @@ def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, 
     ring_left, ring_centre, ring_right = set_rotors(start_positions, rotors)                                                        # Set the rotors and the satrt positions
     alphabet = deque(AZ)                                                                                                            # Create a deque of the alphabet, for the fixed parts of the Enigma
     
-    cipher = ''    
+    enc_text = ''    
     for i in text:                                                                                                                  # For each letter in the plaintext:
         ring_left, ring_centre, ring_right = step_rotors(ring_left, ring_centre, ring_right, rotors)                                # Step the rotors before the encryption
         
@@ -194,7 +194,7 @@ def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, 
         rotor_right_backward = Cesar([ring_right[1], alphabet], rotor_centre_backward, ring_setting[2], 0)
 
         switched_letter_backward = plugboard(rotor_right_backward, switches)                                                        # Process the encrypted letter through the plugboard
-        cipher += switched_letter_backward                                                                                          # Attache the encrypted letter to the ciphertext
+        enc_text += switched_letter_backward                                                                                          # Attache the encrypted letter to the ciphertext
 
         if DEBUG:
             print(f'Keyboard input: {i}')
@@ -206,7 +206,7 @@ def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, 
             print(f'Plugboard: {switched_letter_backward} <- {rotor_right_backward}')
             print(f'Lampboard output: {switched_letter_backward}\n')
             
-    return ' '.join([cipher[i:i + 5] for i in range(0, len(cipher), 5)])                                                            # Return cipher in groups of 5 letters
+    return ' '.join([enc_text[i:i + 5] for i in range(0, len(enc_text), 5)])                                                            # Return cipher in groups of 5 letters
 
 
   def check_text(text):                                                                                                             # Control if the plaintext only contains letters, if not, throw an assertion error
@@ -233,8 +233,8 @@ def main():
     text = prep_text(text)
     
     rotors, ring_setting, start_positions, reflector_type, switches = setup()                                                       # Load the setup of the device
-    cipher = Enigma_process(text.upper(), rotors, ring_setting, start_positions, reflector_type, switches)
-    print(f'\nCipher: {cipher}')
+    enc_text = Enigma_process(text.upper(), rotors, ring_setting, start_positions, reflector_type, switches)
+    print(f'\nCiphertext: {enc_text}')
     
 
 if __name__ == '__main__':
