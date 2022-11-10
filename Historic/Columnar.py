@@ -2,7 +2,7 @@
 
 """
 COLUMNAR CIPHER
-A classic transposition cipher where the encryption proceeds through columns of a square table containing the plaintext.
+A classic transposition cipher where the encryption proceeds through the columns of a square table made from the plaintext.
 
 First, the plaintext is split into portions as long as a secret keyword, padded if necessary to reach a length that is multiple of the key. 
 Then, a table is built with the text portions, entered row by row.
@@ -39,7 +39,7 @@ def to_table(text, key):
 def to_index(key):
     sorted_key_chars = sorted(key)
     ascending_int = list(range(len(key)))
-    ordered_key = list(zip(sorted_key_chars, ascending_int))                       # list of tuples containing sorted key chars and growing int values by steps of 1
+    ordered_key = list(zip(sorted_key_chars, ascending_int))                        # list of tuples containing sorted key chars and growing int values by steps of 1
     result = []
     for x in key:
         for y in ordered_key:
@@ -53,10 +53,10 @@ def to_index(key):
 def columnar_encrypt(text, key):
     table = to_table(text, key)                                                     # Table the text
     key = to_index(key)                                                             # Convert the key from string into sorted tuples containing the ordered values of the key chars
-    cipher = ''
+    enc_text = ''
     for column in key:
-        cipher += ''.join(table[column[1]])                                         # Encrypt by proceeding through each column, in the order given by the ranked key chars
-    return cipher.replace(PADDING_CHAR, '')                                         # Remove the padding chars
+        enc_text += ''.join(table[column[1]])                                       # Encrypt by proceeding through each column, in the order given by the ranked key chars
+    return enc_text.replace(PADDING_CHAR, '')                                       # Remove the padding chars
 
     
 def main():
@@ -66,8 +66,8 @@ def main():
     key = input('Type your secret key: ')
     
     # Encryption
-    cipher = columnar_encrypt(text, key)
-    print(f'\nCipher: {cipher}')
+    enc_text = columnar_encrypt(text, key)
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
