@@ -182,7 +182,7 @@ def Enigma_process(text):
     ring_left, ring_centre, ring_right, thin_wheel = set_rotors(start_positions, rotors, thin_wheel_type)
     alphabet = deque(AZ)
     
-    cipher = ''    
+    enc_text = ''    
     for i in text:    
         ring_left, ring_centre, ring_right = step_rotors(ring_left, ring_centre, ring_right, rotors)
         
@@ -204,7 +204,7 @@ def Enigma_process(text):
         rotor_right_backward = Cesar([ring_right[1], alphabet], rotor_centre_backward, ring_setting[3], 0)
         
         switched_letter_backward = plugboard(rotor_right_backward, switches)
-        cipher += switched_letter_backward
+        enc_text += switched_letter_backward
 
         if DEBUG:
             print(f'Keyboard input: {i}')
@@ -216,7 +216,7 @@ def Enigma_process(text):
             print(f'Plugboard: {switched_letter_backward} <- {rotor_right_backward}')
             print(f'Lampboard output: {switched_letter_backward}\n')
             
-    return ' '.join([cipher[i:i + 5] for i in range(0, len(cipher), 5)])
+    return ' '.join([enc_text[i:i + 5] for i in range(0, len(enc_text), 5)])
         
 
 def check_text(text):
@@ -242,8 +242,8 @@ def main():
     text = input('Type your text (no digits): ')
     text = prep_text(text)
 
-    cipher = Enigma_process(text.upper())
-    print(f'\nCipher: {cipher}')
+    enc_text = Enigma_process(text.upper())
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
