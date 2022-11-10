@@ -80,7 +80,7 @@ def main():
     
     # Encryption
     enc_text = columnar_encrypt(text, key)
-    print(f'\nCipher: {enc_text}')
+    print(f'\nCiphertext: {enc_text}')
 
 if __name__ == '__main__':
     main()
