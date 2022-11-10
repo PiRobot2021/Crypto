@@ -21,26 +21,26 @@ AZ = list(string.ascii_uppercase)                                       # Create
 
 
 def encrypt(key, plaintext):
-    cipher = ''
-    for i, l in enumerate(plaintext):
-        key_rot = key[i % len(key)]                                     # Apply key rotation syncronized with the index "i" of the letter in the plaintext
+    enc_text = ''
+    for i, j in enumerate(plaintext):
+        key_rot = key[i % len(key)]                                       # Apply key rotation syncronized with the index "i" of the letter in the plaintext
         if l in az:
-            cipher += az[(i + key_rot) % len(az)]                       # Apply the key rotation to the letter in the alphabet (lower ascii)
+            enc_text += az[(i + key_rot) % len(az)]                       # Apply the key rotation to the letter in the alphabet (lower ascii)
         elif l in AZ:
-            cipher += AZ[(i + key_rot) % len(AZ)]                       # Apply the key rotation to the letter in the alphabet (upper ascii)
+            enc_text += AZ[(i + key_rot) % len(AZ)]                       # Apply the key rotation to the letter in the alphabet (upper ascii)
         else:
-            cipher += l                                                 # Leave all the other characters (digits, punctuations, etc.) untouched
-    return cipher.replace(' ', '')
+            enc_text += l                                                 # Leave all the other characters (digits, punctuations, etc.) untouched
+    return enc_text.replace(' ', '')
 
 
 def main():
     # Encryption
     text = input('Type your text: ')
-    key = [random.randint(1, len(az)) for i in range(LEN_KEY)]          # I limited the random key within the modulus, excluding rotation 0
+    key = [random.randint(1, len(az)) for i in range(LEN_KEY)]            # I limited the random key within the modulus, excluding rotation 0
     print(f'Random key: {key}')
     
-    cipher = encrypt(key, text)
-    print(f'\nCipher: {cipher}\n')
+    enc_text = encrypt(key, text)
+    print(f'\nCipher: {enc_text}\n')
     
 if __name__ == '__main__':
     main()
