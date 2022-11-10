@@ -20,15 +20,15 @@ N = 5               # Number of rails. It must be lower than the length of the t
 assert(N > 1)
 
 
-def encrypt(plain, N):
-    L = len(plain)
+def encrypt(text, N):
+    L = len(text)
     x = 0
     find_diagonals = N + ((N - 1) * x)
     while find_diagonals < L:
             x += 1
             find_diagonals = N + ((N - 1) * x)
      
-    if N >= len(plain) or x < 2:                                # The cipher should proceed at least through 2 diagonals and N should be lower than L
+    if N >= len(text) or x < 2:                                 # The cipher should proceed at least through 2 diagonals and N should be lower than L
         print('Too many rails, please chose a lower N value')
         return None
     
@@ -36,17 +36,17 @@ def encrypt(plain, N):
     for i in range(N):                                          # Each rail is initialized as an empty list
         rails.append(list())
         
-    plain = deque(plain)
+    text = deque(text)
     while True:
         try:
             if N > 2:                                           # The encryption process is programmed differently if using more than 2 rails
                 for i in rails:                                 # First append the plantext top down
-                    i.append(plain.popleft())                   
+                    i.append(text.popleft())                   
                 for i in range(len(rails) - 2, 0, -1):          # Then append the plaintext bottom up
-                    rails[i].append(plain.popleft())
+                    rails[i].append(text.popleft())
             else:                                               # If only using 2 rails, encrypt by simply alternating.
                 for i in rails:
-                    i.append(plain.popleft())
+                    i.append(text.popleft())
         except IndexError:                                      # When the deque containing the plaintext is empty, an IndexError occurs. We can collect the ciphertext 
             return ''.join([''.join(i) for i in rails])
 
@@ -55,8 +55,8 @@ def describe_ciphertext(L, N, x, y, K):
     print(f'Length: {L}\nRails: {N}\nDiagonals: {x}\nOptional end pads: {y}\nCycle key K: {K}\n')
 
 
-def decrypt(enc, N):
-    L = len(enc)
+def decrypt(enc_text, N):
+    L = len(enc_text)
     x = 0
     find_diagonals = N + ((N - 1) * x)
     while find_diagonals <= L:
@@ -75,7 +75,7 @@ def decrypt(enc, N):
     for i in range(N):
         rails.append(deque())
 
-    plain = []    
+    text = []    
     if N > 2:                                                   # Decrypting for more than 2 rails is more complex and programmed differently
             # Default offsets to zero
             offsets = [0 for i in rails]                        # If L % (2 * (N - 1)) == 0, the decryption proceeds automatically, we can neglect the offsets of all rail length
@@ -88,17 +88,17 @@ def decrypt(enc, N):
             #offsets[5] = 0
             #...
 
-            rails[0].extend(list(enc[:K+1]))                    # Obtain the first rail, based on K value
+            rails[0].extend(list(enc_text[:K+1]))               # Obtain the first rail, based on K value
             step = (L - 2 * (K + 1)) // (N - 2)                 # Set the step to calculate the lenghts of the intermediate rails
             start = K + 1                                       # Initialize the start of the second rail section
             stop = K + 1 + step + 1                             # Initialize the stop of the second rail section
                     
             for i in range(1, len(rails)-1):                    # Build all the intermediate rails
-                rails[i].extend(list(enc[start + offsets[i-1]:stop + offsets[i]]))
+                rails[i].extend(list(enc_text[start + offsets[i-1]:stop + offsets[i]]))
                 start = stop
                 stop += step
                 
-            rails[len(rails)-1].extend(list(enc[start + offsets[len(rails)-2]:]))       # Build the last rail         
+            rails[len(rails)-1].extend(list(enc_text[start + offsets[len(rails)-2]:]))       # Build the last rail         
 
             for i, j in enumerate(rails):                       # This print helps the manual offset adjustments, the intermediate rails should target length 2*K
                 print(f'Rail {i}: {len(j)} {j}')
@@ -106,28 +106,28 @@ def decrypt(enc, N):
             while True:
                 try:                                            # This is the same inverse process of encryption
                     for i in rails:
-                        plain.append(i.popleft())
+                        text.append(i.popleft())
                     for i in range(len(rails) - 2, 0, -1):
-                        plain.append(rails[i].popleft())
+                        text.append(rails[i].popleft())
                 except IndexError:
-                    return ''.join([i for i in plain])          # When the rails are empty, an IndexError occurs. We can collect the plaintext 
+                    return ''.join([i for i in text])           # When the rails are empty, an IndexError occurs. We can collect the plaintext 
     else:                                                       # This condition is used to decrypt a 2 rail cipher instead
-        rails[0].extend(list(enc[:K]))
-        rails[len(rails)-1].extend(list(enc[-1*K:]))   
+        rails[0].extend(list(enc_text[:K]))
+        rails[len(rails)-1].extend(list(enc_text[-1*K:]))   
         while True:
             try:
                 for i in rails:
-                    plain.append(i.popleft())
+                    text.append(i.popleft())
             except IndexError:
-                return ''.join(plain)
+                return ''.join(text)
         
         
 def main():
     text = input('Type your text: ')
     
     # Encryption
-    cipher = encrypt(text, N)
-    print(f'\nCiphertext: {cipher}')
+    enc_text = encrypt(text, N)
+    print(f'\nCiphertext: {enc_text}')
 
     # Decryption
     text = decrypt(cipher, N)
