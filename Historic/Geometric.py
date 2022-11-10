@@ -44,32 +44,32 @@ def squaring(text):
 
 
 def snake(text):
-    cipher = ''
+    enc_text = ''
     table = squaring(text)                                                # Square the text
     for y in range(len(table)):
         if y % 2 == 0:                                                    # If columns are even, proceed downwards
             for x in range(len(table)):
-                cipher += table.loc[x, y]
+                enc_text += table.loc[x, y]
         else:                                                             # If the columns are odd, proceed upwards
             for x in range(len(table) - 1, -1, -1):
-                cipher += table.loc[x, y]
-    return cipher
+                enc_text += table.loc[x, y]
+    return enc_text
 
 
 def diagonal(text):
     table = squaring(text)                                                # Square the text
-    cipher = ''
+    enc_text = ''
     for x in range(len(table) - 1, -1, -1):                               # Start from the bottom left corner and proceed upwards
         y = 0
         for i in range(x, len(table)):                                    # This process encrypts untill the top left diagonal, then stops
-            cipher += table.loc[i, y]
+            enc_text += table.loc[i, y]
             y += 1
     for y in range(1, len(table)):                                        # Conclude the other half of the square, proceed from top left to bottom right
         x = 0
         for i in range(y, len(table)):                                    # Concludes at the top right corner
-            cipher += table.loc[x, i]
+            enc_text += table.loc[x, i]
             x += 1
-    return cipher
+    return enc_text
 
 
 def geometric_encrypt(text):                                              # I created two examples, one following diagonal path, the other snaking through from left to right
@@ -84,8 +84,8 @@ def geometric_encrypt(text):                                              # I cr
 def main():
     text = input('Type your text: ')
     # Encryption
-    cipher = geometric_encrypt(text)
-    print(f'\nCipher: {cipher}')
+    enc_text = geometric_encrypt(text)
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
