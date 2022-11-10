@@ -68,15 +68,15 @@ def four_square_process(tables, a, b):
         
 
 def encrypt(text, key1, key2):
-    cipher = ''
+    enc_text = ''
     tables = list(map(map_key, [key1, ''.join(az), ''.join(az), key2]))         # Create the four maps of the cipher
     text = prep(text)
     print_tables(tables)
     for i in text:
         first_letters = find_coords(tables[0], i[0])
         second_letters = find_coords(tables[3], i[1])
-        cipher += four_square_process(tables, first_letters, second_letters)
-    return cipher
+        enc_text += four_square_process(tables, first_letters, second_letters)
+    return enc_text
             
 
 def main():
@@ -90,8 +90,8 @@ def main():
     key2 = ''.join(random.choices(list(az), k=LEN_KEYS))
     print(f'Second random key: {key2}')
     
-    cipher = encrypt(text, key1, key2)
-    print(f'Cipher: {cipher}')
+    enc_text = encrypt(text, key1, key2)
+    print(f'Cipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
