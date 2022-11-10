@@ -67,31 +67,31 @@ def find_coords(table, value):
 
 
 def play_fair_process(table, a, b):
-    cipher = ''
+    enc_text = ''
     if a[0] == b[0]:                                                                       # If the letters of the plaintext chunk sit in the same row
         rotate_down = (max(a[1], b[1]) + 1) % len(table)
-        cipher += table.loc[a[0], max(a[1], b[1])] + table.loc[a[0], rotate_down]          # Add to the cipher the two letters rotated by one position downwards
+        enc_text += table.loc[a[0], max(a[1], b[1])] + table.loc[a[0], rotate_down]        # Add to the cipher the two letters rotated by one position downwards
     elif a[1] == b[1]:                                                                     # If the letters of the plaintext chunk sit in the same column
         rotate_right= (max(a[0], b[0]) + 1) % len(table)
-        cipher += table.loc[max(a[0], b[0]), a[1]] + table.loc[rotate_right, a[1]]         # Add to the cipher the two letters rotated by one position rightwards
+        enc_text += table.loc[max(a[0], b[0]), a[1]] + table.loc[rotate_right, a[1]]       # Add to the cipher the two letters rotated by one position rightwards
     else:
         if (a[0] < b [0] and a[1] < b[1]) or (a[0] > b[0] and a[1] > b[1]):                # If the letters form a diagonal top-left to down-right
-            cipher += table.loc[a[0], b[1]] + table.loc[b[0], a[1]]                        # Add to the cipher the letters at the edges of the opposite diagonal top-right to down-left 
+            enc_text += table.loc[a[0], b[1]] + table.loc[b[0], a[1]]                      # Add to the cipher the letters at the edges of the opposite diagonal top-right to down-left 
         else:                                                                              # Else the letters form a diagonal top-right to down-left
-            cipher += table.loc[b[0], a[1]] + table.loc[a[0], b[1]]                        # Add to the cipher the letters at the edges of the opposite diagonal top-left to down-right
-    return cipher
+            enc_text += table.loc[b[0], a[1]] + table.loc[a[0], b[1]]                      # Add to the cipher the letters at the edges of the opposite diagonal top-left to down-right
+    return enc_text
         
 
 def encrypt(text, key):
     table = map_key(key)
     text = prep(text)
-    cipher = ''
+    enc_text = ''
     print(f'Mapped key:\n{table}')
     for i in text:
         first = find_coords(table, i[0])
         second = find_coords(table, i[1])
-        cipher += play_fair_process(table, first, second)
-    return cipher
+        enc_text += play_fair_process(table, first, second)
+    return enc_text
             
 
 def main():
@@ -103,8 +103,8 @@ def main():
     key = random.choices(list(az), k=KEY_LEN)
     print(f'Random key: {key}')
     
-    cipher = encrypt(text, key)
-    print(f'\nCipher: {cipher}')
+    enc_text = encrypt(text, key)
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
