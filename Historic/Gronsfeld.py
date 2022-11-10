@@ -33,12 +33,12 @@ def get_column(table, letter, row):
 def encrypt(text):
     Gronsfeld = create_Gronsfeld()
     print(f'Gronsfeld table:\n{Gronsfeld}')
-    cipher = ''
+    enc_text = ''
     j = 0
     for i in text:
-        cipher += get_column(Gronsfeld, i, j % 10)                                                      # Obtain column index from Gronsfeld table, rotating through the columns
+        enc_text += get_column(Gronsfeld, i, j % 10)                                                    # Obtain column index from Gronsfeld table, rotating through the columns
         j += 1
-    return cipher
+    return enc_text
 
 
 def main():
@@ -46,8 +46,8 @@ def main():
     text = text.replace(' ', '').lower()
     assert(text.isalpha())
 
-    cipher = encrypt(text)
-    print(f'\nCipher: {cipher}')
+    enc_text = encrypt(text)
+    print(f'\nCipher: {enc_text}')
 
 if __name__ == '__main__':
     main()
