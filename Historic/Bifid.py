@@ -13,10 +13,15 @@ import string
 
 TEXT = 'Type your text here...'
 
+# Randomize the order of the letters
 def create_Polybius():
-    az = [i for i in string.ascii_lowercase if i != 'j']                            # "j" is omitted in this case. A variation could be to remove "q" instead.
-    random.shuffle(az)                                                              # Randomize the order of the letters
-    return np.char.array(az, unicode=True).reshape((5, 5))                          # Creating the Polybius square for letters in lower ascii.
+    polybius_alphabet = [i for i in string.ascii_lowercase if i != 'j']                            # "j" is omitted in this case. A variation could be to remove "q" instead.
+    az = []
+    while len(polybius_alphabet) > 0:
+        i = secrets.choice(polybius_alphabet)
+        az.append(i)
+        polybius_alphabet.pop(polybius_alphabet.index(i))    
+    return np.char.array(az, unicode=True).reshape((5, 5))   
 
 
 def railfence(square, text):
