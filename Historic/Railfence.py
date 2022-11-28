@@ -122,7 +122,7 @@ def decrypt(enc_text, N):
                 return ''.join(text)
         
         
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     
     # Encryption
@@ -132,8 +132,3 @@ def main():
     # Decryption
     text = decrypt(cipher, N)
     print(f'\nPlaintext: {text}')
-
-
-if __name__ == '__main__':
-    main()
-
