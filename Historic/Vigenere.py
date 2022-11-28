@@ -24,8 +24,7 @@ from collections import deque
 TEXT = 'Type your text here...'
 KEY_LENGTH = 5
 
-# This piece of code is required to run classic encryption and decryption functions.
-# It builds a Vegenere table as a pandas DataFrame using alphabet deques
+# This piece of code is required to rebuild the classic way of encryption and decryption functions. It build a Vigenere table to look up later in the code.
 az = deque(string.ascii_lowercase)                                              # Creating a deque of the alphabet
 tabula= pd.DataFrame(columns=az, index=az)                                      # Building an empty tabula
 for i in string.ascii_lowercase:                                                # Filling tabula row by row
