@@ -12,8 +12,10 @@ Having each letter rotating by a different value, frequency analysis is obfuscat
 
 
 import string
-import random
+import secrets
 
+
+TEXT = 'Type your text here...'
 LEN_KEY = 5
 
 az = list(string.ascii_lowercase)                                       # Create a list of letters in lower ascii 
@@ -35,9 +37,8 @@ def encrypt(key, plaintext):
 
 if __name__ == '__main__':
     # Encryption
-    text = input('Type your text: ')
-    key = [random.randint(1, len(az)) for i in range(LEN_KEY)]            # I limited the random key within the modulus, excluding rotation 0
+    key = [secrets.randint(1, len(az)) for i in range(LEN_KEY)]            # I limited the random key within the modulus, excluding rotation 0
     print(f'Random key: {key}')
     
-    enc_text = encrypt(key, text)
+    enc_text = encrypt(key, TEXT)
     print(f'\nCiphertext: {enc_text}\n')
