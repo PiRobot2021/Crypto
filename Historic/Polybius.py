@@ -28,7 +28,7 @@ def encrypt(text):
     return ''.join(enc_text)
 
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     text = text.replace('j', 'i')                                               
     assert(text.isalpha())
@@ -37,6 +37,3 @@ def main():
     print(f'\nRandom Polybius square:\n{square}')
     enc_text = encrypt(text.lower())                           
     print(f'\nCiphertext: {enc_text}\n')
-    
-if __name__ == '__main__':
-    main()
