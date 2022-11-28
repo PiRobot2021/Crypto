@@ -18,7 +18,10 @@ Additionally, if the letters line up on the same row or column between the two m
 
 import numpy as np
 import string
-import random
+import secrets
+
+
+TEXT = 'Type your text here...'
 
 VARIANT = 'V' # vertical                                                            # The Playfair squares can be aligned vertically or horizontally      
 #VARIANT = 'H' # horizontal
@@ -94,14 +97,13 @@ def encrypt(text, key1, key2):
             
 
 if __name__ == '__main__':
-    text= input('Type your text: ')
-    text = text.replace(' ', '').lower() 
+    text = TEXT.replace(' ', '').lower() 
     assert(text.isalpha())                                                          # Two_square cipher can encrypt only letters
     
-    key1 = ''.join(random.choices(az, k=LEN_KEYS))                                  # Generate random letters with defined length
+    key1 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])                   # Generate random letters with defined length
     print(f'First random key: {key1}')
 
-    key2 = ''.join(random.choices(az, k=LEN_KEYS))
+    key2 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])
     print(f'Second random key: {key2}')
     
     enc_text = encrypt(text, key1, key2)
