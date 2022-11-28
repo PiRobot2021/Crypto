@@ -102,14 +102,13 @@ def encrypt(text, key):
             
 
 if __name__ == '__main__':
-    text = TEXT.replace(' ', '').lower()                                                   # Playfair cipher does not allow spaces between words
     for i in ''.join([string.punctuation, ' ']):
-        text = text.replace(i, '')
+        TEXT = TEXT.replace(i, '')
     if SQUARE_SIZE == 5:
         assert(text.isalpha())                                                             # Playfair 5x5 can only encrypt letters 
     
-    key = random.choices(list(az), k=KEY_LEN)
+    key = ''.join([secrets.choice(az) for i in range(KEY_LEN)])
     print(f'Random key: {key}')
     
-    enc_text = encrypt(text, key)
+    enc_text = encrypt(text.lower(), key)
     print(f'\nCiphertext: {enc_text}')
