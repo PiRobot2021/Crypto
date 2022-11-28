@@ -21,8 +21,10 @@ In this cipher the letters in the pairs are always in a diagonal relationship.
 
 import numpy as np
 import string
-import random
+import secrets
 
+
+TEXT = 'Type your text here...'
 LEN_KEYS = 30
 
 az = {i for i in string.ascii_lowercase if i != 'j'}                            # One letter must be removed to fit the alphabet in a square table, here I ahve chosen "j"
@@ -80,15 +82,14 @@ def encrypt(text, key1, key2):
             
 
 if __name__ == '__main__':
-    text = input('Type your text: ')
-    text = text.replace(' ', '').lower() 
-    assert(text.isalpha())                                                      # Classic Playfair variations only encrypt letters
+    for i in ''.join([string.punctuation, ' ']):
+        TEXT = TEXT.replace(i, '')
+    assert(TEXT.isalpha())                                                      # Classic Playfair variations only encrypt letters
     
-    key1 = ''.join(random.choices(list(az), k=LEN_KEYS))                        # Generate random letters with defined length
+    key1 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])               # Generate random letters with defined length
     print(f'First random key: {key1}')
-
-    key2 = ''.join(random.choices(list(az), k=LEN_KEYS))
+    key2 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])
     print(f'Second random key: {key2}')
     
-    enc_text = encrypt(text, key1, key2)
+    enc_text = encrypt(TEXT.lower(), key1, key2)
     print(f'Ciphertext: {enc_text}')
