@@ -79,7 +79,7 @@ def encrypt(text, key1, key2):
     return enc_text
             
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     text = text.replace(' ', '').lower() 
     assert(text.isalpha())                                                      # Classic Playfair variations only encrypt letters
@@ -92,6 +92,3 @@ def main():
     
     enc_text = encrypt(text, key1, key2)
     print(f'Ciphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
