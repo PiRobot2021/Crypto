@@ -24,6 +24,11 @@ from time import process_time
 import re
 from pprint import pprint
 
+
+CIPHERTEXT = 'Type your ciphertext here...'
+TEXT_FRAGMENT = 'Type here a possible plaintext fragment'
+
+
 INNER_RING = {1: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
               2: 'AJDKSIRUXBLHWTMCQGZNPYFVOE',
               3: 'BDFHJLCPRTXVZNYEIWGAKMUSQO',
@@ -477,36 +482,17 @@ def load(path):                                                                 
     print(f'Loaded:\n{text}\n')
     return text
     
-    
-def check_text(text):
-    if DEBUG:
-        for i, j in enumerate(text):
-            if not j.isalpha():
-                print(f'The char {j} at position {i} not a letter')
-    assert(text.isalpha())                                                                  # Control if all the characters are letters, if not throws an assertion error
-
 
 def prep_text(text):
     text = text.replace(' ', 'X')                                                           # In Enigma encryption spaces were normally replaced by X
     text = text.replace(',', 'QQ')                                                          # In Enigma encryption commas were normally replaced by QQ
-    text = text.replace('\n', '')                                                           # Remove new line characters, needed when the text is loaded from a file                                                          # Remove new line characters, needed when the text is loaded from a file
     for p in punctuation:                                                                   # Remove all the remaining punctuation characters
         text = text.replace(p, '')
-    check_text(text)                                                                        # Control if all the characters are letters, if not throws an assertion error
     return text
 
 
-def main():
-    enc_text = input('Paste an Enigma cipher: ')
-    enc_text = enc_text.replace(' ', '')
-    check_text(enc_text)
-
-    known_word = input('Type the suspected plaintext: ')
-    known_word = prep_text(known_word)
-    assert(len(known_word) <= len(enc_text))                                                # The ciphertext should not be shorter than the suspected word in plaintext
-
-    Turing_Bombe(known_word.upper(), enc_text.upper())
-
-
 if __name__ == '__main__':
-    main()
+    enc_text = CIPHERTEXT.replace(' ', '')
+    known_word = prep_text(TEXT_FRAGMENT)
+    assert(len(known_word) <= len(enc_text))                                                # The ciphertext should not be shorter than the suspected word in plaintext
+    Turing_Bombe(known_word.upper(), enc_text.upper())
