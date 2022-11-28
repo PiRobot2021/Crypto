@@ -59,7 +59,7 @@ def columnar_encrypt(text, key):
     return enc_text.replace(PADDING_CHAR, '')                                       # Remove the padding chars
 
     
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     text = text.replace(' ', '')                                                    # Remove string spaces from the plaintext
 
@@ -68,6 +68,3 @@ def main():
     # Encryption
     enc_text = columnar_encrypt(text, key)
     print(f'\nCiphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
