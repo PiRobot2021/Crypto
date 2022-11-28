@@ -7,9 +7,11 @@ The implementation below uses a 5x5 Polybius square (6x6 could also be implement
 """
 
 import numpy as np
-import random
+import secrets
 import string
 
+
+TEXT = 'Type your text here...'
 
 def create_Polybius():
     az = [i for i in string.ascii_lowercase if i != 'j']                            # "j" is omitted in this case. A variation could be to remove "q" instead.
@@ -36,9 +38,9 @@ def encrypt(text):
 
 
 if __name__ == '__main__':
-    text = input('Type your text (letters only): ')
-    text = text.replace(' ', '').lower()
-    assert(text.isalpha())
+    for i in ''.join([string.punctuation, ' ']):
+        TEXT = TEXT.replace(i, '')
+    assert(TEXT.isalpha())
 
-    enc_text = encrypt(text)
+    enc_text = encrypt(TEXT.lower())
     print(f'\nCiphertext: {enc_text}')
