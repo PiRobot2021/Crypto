@@ -14,7 +14,10 @@ b = numeric key (usually between 1 and N, higher values will be reduced anyway t
 import string
 from primePy import primes
 from sympy import mod_inverse
-import random
+import secrets
+
+
+TEXT = 'Type your text here...'
 
 alphabet = list(string.ascii_lowercase)                                                 # I decided to process lower case and upper case letters independently
 ALPHABET = list(string.ascii_uppercase)
@@ -59,14 +62,14 @@ def decrypt_bruteforce(enc_text):
 
 if __name__ == '__main__':
     # Encryption
-    text = input('Type your text: ')
-    text = text.replace(' ', '')
-    
-    key1 = random.choices(coprimes(), k=1)[0]                                           # Generate a random key, chosen among coprimes of N
+
+    text = TEXT.replace(' ', '')
+    key1 = secrets.choice(coprimes())                                                  # Generate a random key, chosen among coprimes of N
     print(f'First random key, coprime of {MOD}: {key1}')
-    key2 = random.randint(1, 26)                                                        # Generate a random key between 1 and N
-    print(f'Second random key from 1 to {MOD}: {key2}')    
-    enc_text = encrypt(key1, key2, text)                                                # Encrypt using the keys casted as integers 
+    
+    key2 = secrets.choice(range(1, 26))                                                # Generate a random key between 1 and N
+    print(f'Second random key from 1 to {MOD}: {key2}') 
+    enc_text = encrypt(key1, key2, text)                                               # Encrypt using the keys casted as integers 
     print(f'\nCiphertext: {enc_text}\n')
     
     # Decryption
