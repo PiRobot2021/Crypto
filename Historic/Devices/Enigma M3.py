@@ -1,7 +1,9 @@
 #/usr/bin/env python3
 """
 ENIGMA MODEL M3
-https://cryptomuseum.com/crypto/enigma/m3/index.htm
+Used during WW II by Germany to encrypt military communications. More on history at https://cryptomuseum.com/crypto/enigma/m3/index.htm
+Here further detials on the rotors, their encoding, internal wiring and use: https://en.wikipedia.org/wiki/Enigma_rotor_details
+This video explains very well the process of encryption: https://www.youtube.com/watch?v=pZsuxZXN33g
 
 """
 
