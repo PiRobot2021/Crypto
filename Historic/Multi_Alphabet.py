@@ -33,7 +33,7 @@ def encrypt(key, plaintext):
     return enc_text.replace(' ', '')
 
 
-def main():
+if __name__ == '__main__':
     # Encryption
     text = input('Type your text: ')
     key = [random.randint(1, len(az)) for i in range(LEN_KEY)]            # I limited the random key within the modulus, excluding rotation 0
@@ -41,6 +41,3 @@ def main():
     
     enc_text = encrypt(key, text)
     print(f'\nCiphertext: {enc_text}\n')
-    
-if __name__ == '__main__':
-    main()
