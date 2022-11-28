@@ -86,7 +86,7 @@ def encrypt(text, key):
     return columnar_encrypt(intermediate_cipher, key)
 
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text (only letters, digits and spaces): ')
     text = text.replace(' ', '').lower()
     assert(text.isalnum())
@@ -95,6 +95,3 @@ def main():
     
     enc_text = encrypt(text, key)
     print(f'\nCiphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
