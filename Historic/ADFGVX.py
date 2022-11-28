@@ -17,17 +17,23 @@ Here below I code the ADFGVX variation.
 """
 
 import string
-import random
+import secrets
 import numpy as np
 import pandas as pd
 
+
+TEXT = 'Type your text here...'
 LEN_KEY = 5                                                                         # Key length used in the random generator for the columnar encryption
 PADDING_CHAR = '_'                                                                  # Used in the columnar encryption to fit the text in a matrix
 
 def create_square():                                                                # Creates a 6x6 Polybius square containing shuffled lower ascii letters and digits
-    values = list(string.digits + string.ascii_lowercase)
-    random.shuffle(values)
-    return np.char.asarray(values).reshape(6, 6)
+    linear_values = list(string.digits + string.ascii_lowercase)
+    shuffled_values = []
+    while len(linear_values) > 0:
+        i = secrets.choice(linear_values)
+        shuffled_values.append(i)
+        linear_values.pop(linear_values.index(i))    
+    return np.char.asarray(shuffled_values).reshape(6, 6)
 
 
 def find_coords(square, letter):                                                    # Find the coordinates of a plaintext char in the 6x6 Polybius square and convert them
