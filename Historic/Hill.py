@@ -11,7 +11,9 @@ The resulting numbers are then converted back to letters.
 
 import string
 import numpy as np
-import re
+
+
+TEXT = 'Type your text here...'
 
 # It can be modified to encrypt also uppercase ascii characters on top
 MOD = len(string.ascii_lowercase)                                                                       # I extracted the modulus value from the code and linked to the alphabet I use
@@ -37,8 +39,8 @@ def encrypt(text):
 
 
 if __name__ == '__main__':
-    text = input('Type your text: ')
-    text = re.sub('[\t\s]', '', text.lower())
-    assert(text.isalpha())                                                                              # The original cipher allows only letters, but it can be easily customized to encrypt all ascii (mod 127)
-    enc_text = encrypt(text)
+    for i in ''.join([string.punctuation, ' ']):
+        TEXT = TEXT.replace(i, '')
+    assert(TEXT.isalpha())                                                                              # The original cipher allows only letters, but it can be easily customized to encrypt all ascii (mod 127)
+    enc_text = encrypt(TEXT)
     print(f'\nCiphertext: {enc_text}')
