@@ -76,7 +76,7 @@ def diagonal(text):
 
 def geometric_encrypt(text):                                              # I created two examples, one following diagonal path, the other snaking through from left to right
     enc_text = diagonal(text)                                             
-    enc_text = snake(cipher)
+    enc_text = snake(enc_text)
     if REMOVE_PADDING:
         return enc_text.replace(PADDING_CHAR, '')
     else:
