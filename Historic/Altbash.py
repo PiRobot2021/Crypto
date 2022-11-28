@@ -8,6 +8,8 @@ Classic ancient cipher. It simply reverses the order of the letters in the alpha
 import string
 
 
+TEXT = 'Type your text here...'
+
 def encrypt_decrypt(text):
     za = string.ascii_lowercase[::-1]
     ZA = string.ascii_uppercase[::-1]
@@ -19,5 +21,4 @@ def encrypt_decrypt(text):
 
 
 if __name__ == '__main__':
-    text = input('Type your text: ')
-    encrypt_decrypt(text)                                           # Being a simple reverse, encryption and decryption proceed with the same function
+    encrypt_decrypt(TEXT)                                           # Being a simple reverse, encryption and decryption proceed with the same function
