@@ -72,8 +72,8 @@ def setup():
     else:
         rotors = list(range(1, 9))
         rotor = tuple(rotors.pop(rotors.index(secrets.choice(rotors))) for i in range(3))               # Rotors: random sample of three unique values from 1 to 8
-        ring_setting = tuple(secrets.choice(AZ) for i in range(4))                                      # Ring settings: Tuple of 3 random letters from the alphabet AZ
-        start = tuple(secrets.choice(AZ) for i in range(4))                                             # Start positions: Tuple of 3 random letters from the alphabet AZ        
+        ring_setting = tuple(secrets.choice(AZ) for i in range(4))                                      # Ring settings: Tuple of 4 random letters from the alphabet AZ
+        start = tuple(secrets.choice(AZ) for i in range(4))                                             # Start positions: Tuple of 4 random letters from the alphabet AZ        
         reflector = secrets.choice(list(REFLECTOR.keys()))                                              # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
         thin_wheel = secrets.choice(list(ADDITIONAL_WHEEL.keys()))
         
