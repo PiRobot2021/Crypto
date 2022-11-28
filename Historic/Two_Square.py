@@ -97,8 +97,9 @@ def encrypt(text, key1, key2):
             
 
 if __name__ == '__main__':
-    text = TEXT.replace(' ', '').lower() 
-    assert(text.isalpha())                                                          # Two_square cipher can encrypt only letters
+    for i in ''.join([string.punctuation, ' ']):
+        TEXT = TEXT.replace(i, '')
+    assert(TEXT.isalpha())                                                          # Two_square with 5x5 length cipher can encrypt only letters
     
     key1 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])                   # Generate random letters with defined length
     print(f'First random key: {key1}')
@@ -106,5 +107,5 @@ if __name__ == '__main__':
     key2 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])
     print(f'Second random key: {key2}')
     
-    enc_text = encrypt(text, key1, key2)
+    enc_text = encrypt(TEXT, key1, key2)
     print(f'Ciphertext: {enc_text}')
