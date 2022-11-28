@@ -56,22 +56,18 @@ def decrypt_bruteforce(enc_text):
                     text += l
                 print(f'{key1}\t{key2}\t{text}')
 
-def main():
+
+if __name__ == '__main__':
     # Encryption
     text = input('Type your text: ')
     text = text.replace(' ', '')
     
     key1 = random.choices(coprimes(), k=1)[0]                                           # Generate a random key, chosen among coprimes of N
     print(f'First random key, coprime of {MOD}: {key1}')
-
     key2 = random.randint(1, 26)                                                        # Generate a random key between 1 and N
-    print(f'Second random key from 1 to {MOD}: {key2}')
-    
+    print(f'Second random key from 1 to {MOD}: {key2}')    
     enc_text = encrypt(key1, key2, text)                                                # Encrypt using the keys casted as integers 
     print(f'\nCiphertext: {enc_text}\n')
     
     # Decryption
     decrypt_bruteforce(enc_text)                                                        # It's a basic bruteforce
-
-if __name__ == '__main__':
-    main()
