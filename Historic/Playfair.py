@@ -26,17 +26,22 @@ import pandas as pd                                                             
 import string
 import random
 
+PADDING_CHAR = 'z'
+
+
 SQUARE_SIZE = 5
-assert(SQUARE_SIZE == 5 or SQUARE_SIZE == 6)
+assert(SQUARE_SIZE == 5 or SQUARE_SIZE == 6)                                               # the square can have size 5 or 6 
+
+# additional setup for square of size 5
 KEY_LEN = 5
 SKIP_LETTER = 'q'
-PADDING_CHAR = 'z'
 
 if SQUARE_SIZE == 6:
     az = {i for i in (string.ascii_lowercase + string.digits)}                                     
 else:
     az = {i for i in string.ascii_lowercase if i != SKIP_LETTER}                                   
 
+    
 def map_key(key):                                                                       
     key_letters = sorted(set(key))                                                        # Remove duplicate letters from the key, and sort them in ascending order
     print(f'Sorted key letters: {key_letters}')
@@ -94,7 +99,7 @@ def encrypt(text, key):
     return enc_text
             
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     text = text.replace(' ', '').lower()                                                   # Playfair cipher does not allow spaces between words
     if SQUARE_SIZE == 5:
@@ -105,8 +110,3 @@ def main():
     
     enc_text = encrypt(text, key)
     print(f'\nCiphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
-
-
