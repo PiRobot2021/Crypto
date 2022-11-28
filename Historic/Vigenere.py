@@ -16,7 +16,7 @@ During encryption, each letter of plaintext is set as column of such table (x co
 
 
 import string
-import random
+import secrets
 import pandas as pd
 from collections import deque
 
@@ -97,7 +97,7 @@ def decrypt(key, enc_text):
 
 if __name__ == '__main__':
     text = input('Type your text: ')
-    key = ''.join(random.choices(string.ascii_lowercase, k=KEY_LENGTH))                # This Vigenre variation using a random key is also called "running key cipher"
+    key = ''.join([secrets.choice(string.ascii_lowercase) for i in range(KEY_LENGTH)])                # This Vigenre variation using a random key is also called "running key cipher"
     print(f'Random key: {key}')
     #print(f'Vigenere table:\n{tabula}')
     
