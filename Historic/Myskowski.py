@@ -15,9 +15,11 @@ Column order: 5, row by row between colums 3 and 4, 2, row by row between column
 """
 
 import pandas as pd
-import random
+import secrets
 import string
 
+
+TEXT = 'Type your text here...'
 PADDING_CHAR = '_'                                                                                                          
 KEY_LEN = 5
 
@@ -72,13 +74,13 @@ def columnar_encrypt(text, key):
     
     
 if __name__ == '__main__':
-    text = input('Type your text: ')
-    text = text.replace(' ', '') 
-    assert(text.isalpha())
+   for i in ''.join([string.punctuation, ' ']):
+        TEXT = TEXT.replace(i, '')
+    assert(TEXT.isalpha())
     
-    key = ''.join(random.choices(string.digits + string.ascii_letters, k = KEY_LEN))
+    key = ''.join([secrets.choice(string.digits + string.ascii_letters) for i in rage(KEY_LEN)])
     print(f'Random key: {key}')
     
     # Encryption
-    enc_text = columnar_encrypt(text, key)
+    enc_text = columnar_encrypt(TEXT, key)
     print(f'\nCiphertext: {enc_text}')
