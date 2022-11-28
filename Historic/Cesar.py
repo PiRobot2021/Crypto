@@ -11,6 +11,9 @@ import string
 from collections import deque
 
 
+TEXT = 'Type your text here...'
+ROT = 3
+
 def encrypt(rot, text):
     az_deque = deque([l for l in string.ascii_lowercase])                            # Create a deque of the lower ascii alphabet and rotate it
     az_deque.rotate(rot)
@@ -36,13 +39,8 @@ def decrypt_bruteforce(enc_text):
             
 if __name__ == '__main__':
     # Encryption
-    text = input('Type your text: ')
-    text = text.replace(' ', '')
-    
-    key = input('Enter a numeric key: ')
-    assert(int(key).isdigit())
-    
-    enc_text = encrypt(int(key), text)
+    TEXT = TEXT.replace(' ', '')
+    enc_text = encrypt(ROT, TEXT)
     print(f'\nCiphertext: {enc_text}\n')
     
     # Decryption
