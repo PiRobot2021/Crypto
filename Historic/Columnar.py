@@ -20,6 +20,10 @@ Columns are then encrypted in the order: [2, 3, 4, 5, 0, 1]
 
 import pandas as pd                                                                 # I have chosen pandas, numpy is a valuable alternative
 
+
+TEXT = 'Type your text here...'
+KEY  = 'Type your key here...'
+
 # Setup values for padding the text                                             
 PADDING_CHAR = '_'                                                                                                          
 
@@ -60,11 +64,9 @@ def columnar_encrypt(text, key):
 
     
 if __name__ == '__main__':
-    text = input('Type your text: ')
-    text = text.replace(' ', '')                                                    # Remove string spaces from the plaintext
 
-    key = input('Type your secret key: ')
-    
+    TEXT = TEXT.replace(' ', '')                                                    # Remove string spaces from the plaintext
+    KEY = KEY.replace(' ', '')
     # Encryption
-    enc_text = columnar_encrypt(text, key)
+    enc_text = columnar_encrypt(TEXT, KEY)
     print(f'\nCiphertext: {enc_text}')
