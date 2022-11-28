@@ -107,5 +107,5 @@ if __name__ == '__main__':
     key2 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])
     print(f'Second random key: {key2}')
     
-    enc_text = encrypt(TEXT, key1, key2)
+    enc_text = encrypt(TEXT.lower(), key1, key2)
     print(f'Ciphertext: {enc_text}')
