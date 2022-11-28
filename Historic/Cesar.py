@@ -34,7 +34,7 @@ def decrypt_bruteforce(enc_text):
         print(rot, '\t', text)
             
             
-def main():
+if __name__ == '__main__':
     # Encryption
     text = input('Type your text: ')
     text = text.replace(' ', '')
@@ -47,6 +47,3 @@ def main():
     
     # Decryption
     decrypt_bruteforce(enc_text)
-
-if __name__ == '__main__':
-    main()
