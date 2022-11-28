@@ -35,13 +35,10 @@ def encrypt(text):
     return ''.join([square[coords[i], coords[i + 1]] for i in range(len(coords) - 1)])
 
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text (letters only): ')
     text = text.replace(' ', '').lower()
     assert(text.isalpha())
 
     enc_text = encrypt(text)
     print(f'\nCiphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
