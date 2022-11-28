@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 VIGENERE CIPHER
-The encryption and decryption processes proceed using a multi-alphabet square table called "tabula recta", where the text is combined with a secret key.
+The encryption and decryption proceed using a multi-alphabet square table called "tabula recta", where the text is combined with a secret key.
 Such table consists of the alphabet letter rotated by one position left at each row, so to have a diagonal simmetry property.
 
 During encryption, each letter of plaintext is set as column of such table (x coordiante), while the corresponding key letter is set as row (y coordinate).
@@ -95,7 +95,7 @@ def decrypt(key, enc_text):
     return text
 
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     key = ''.join(random.choices(string.ascii_lowercase, k=KEY_LENGTH))                # This Vigenre variation using a random key is also called "running key cipher"
     print(f'Random key: {key}')
@@ -113,7 +113,3 @@ def main():
     text = decrypt(key, enc_text)
     print(f'Plaintext: {text}')
 
-    
-
-if __name__ == '__main__':
-    main()
