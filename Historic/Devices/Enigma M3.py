@@ -20,47 +20,51 @@ DW AO QT           Plugboard switches (in this examples D to W, A to O and Q to 
 A F J              Initial position of the rotors
 """
 
-import random
+import secrets, random
 from collections import deque
 from string import ascii_uppercase as AZ
 from string import punctuation
 from copy import copy
 
+
+TEXT = 'Type your text here...'
+
 #            -> ABCDEFGHIJKLMNOPQRSTUVWXYZ <-
-INNER_RING= {1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ',        # This represents the internal wiring of the alphabet in each rotors
-             2:'AJDKSIRUXBLHWTMCQGZNPYFVOE',
-             3:'BDFHJLCPRTXVZNYEIWGAKMUSQO',
-             4:'ESOVPZJAYQUIRHXLNFTGKDCMWB',
-             5:'VZBRGITYUPSDNHLXAWMJQOFECK',
-             6:'JPGVOUMFYQBENHZRDKASXLICTW',
-             7:'NZJHGRCXMYSWBOUFAIVLPEKQDT',
-             8:'FKQHTLXOCBJSPDZRAMEWNIUYGV'}
+INNER_RING = {1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ',        # This represents the internal wiring of the alphabet in each rotors
+              2:'AJDKSIRUXBLHWTMCQGZNPYFVOE',
+              3:'BDFHJLCPRTXVZNYEIWGAKMUSQO',
+              4:'ESOVPZJAYQUIRHXLNFTGKDCMWB',
+              5:'VZBRGITYUPSDNHLXAWMJQOFECK',
+              6:'JPGVOUMFYQBENHZRDKASXLICTW',
+              7:'NZJHGRCXMYSWBOUFAIVLPEKQDT',
+              8:'FKQHTLXOCBJSPDZRAMEWNIUYGV'}
 
 
 #                 -> ABCDEFGHIJKLMNOPQRSTUVWXYZ <-
-REFLECTOR= {'UKW_B':'YRUHQSLDPXNGOKMIEBFZCWVJAT',	  # The letters in the reflector are mirrored (e.g. A -> Y, so Y -> A):
-            'UKW_C':'FVPJIAOYEDRZXWGCTKUQSBNMHL'}
+REFLECTOR = {'UKW_B':'YRUHQSLDPXNGOKMIEBFZCWVJAT',   # The letters in the reflector are mirrored (e.g. A -> Y, so Y -> A):
+             'UKW_C':'FVPJIAOYEDRZXWGCTKUQSBNMHL'}
 
-TURN_NOTCH= {1:'Q',                                 # If rotor steps from Q to R, the next rotor is advanced
-             2:'E',	                                # If rotor steps from E to F, the next rotor is advanced
-             3:'V',	                                # If rotor steps from V to W, the next rotor is advanced
-             4:'J',	                                # If rotor steps from J to K, the next rotor is advanced
-             5:'Z',	                                # If rotor steps from Z to A, the next rotor is advanced
-             6:['Z', 'M'],                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
-             7:['Z', 'M'],                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
-             8:['Z', 'M']}                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
+TURN_NOTCH = {1:'Q',                                 # If rotor steps from Q to R, the next rotor is advanced
+              2:'E',	                             # If rotor steps from E to F, the next rotor is advanced
+              3:'V',	                             # If rotor steps from V to W, the next rotor is advanced
+              4:'J',	                             # If rotor steps from J to K, the next rotor is advanced
+              5:'Z',	                             # If rotor steps from Z to A, the next rotor is advanced
+              6:['Z', 'M'],                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
+              7:['Z', 'M'],                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
+              8:['Z', 'M']}                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
 
-ROTOR_NAME= {1:'I',                                 # It beautifies the printed rotor numbers on screen to roman letters
-             2:'II', 
-             3:'III',
-             4:'IV',
-             5:'V',
-             6:'VI',
-             7:'VII',
-             8:'VIII'}
+ROTOR_NAME = {1:'I',                                 # It beautifies the printed rotor numbers on screen to roman letters
+              2:'II', 
+              3:'III',
+              4:'IV',
+              5:'V',
+              6:'VI',
+              7:'VII',
+              8:'VIII'}
 
-MANUAL_SETUP= False                                 # Set to True to enter custom parameters in the setup() function
-DEBUG= False
+MANUAL_SETUP = False                                 # Set to True to enter custom parameters in the setup() function
+DEBUG = False
+
 
 def setup():
     if MANUAL_SETUP:
@@ -71,9 +75,9 @@ def setup():
         reflector = 'UKW_B'                                                       # The reflector type: Can be either UKW_B or UKW_C.
     else:                                                                         # Switch to automatic mode, setup is randomly generated      
         rotor = tuple(random.sample(range(1, 9), k=3))                            # Rotors: random sample of three unique values from 1 to 8
-        ring_setting = tuple(random.choices(AZ, k=3))                             # Ring settings: Tuple of 3 random letters from the alphabet AZ
-        start = tuple(random.choices(AZ, k=3))                                    # Start positions: Tuple of 3 random letters from the alphabet AZ        
-        reflector = ''.join(random.choices(list(REFLECTOR), k=1))                 # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
+        ring_setting = tuple(secrets.choice(AZ) for i in range(3))                             # Ring settings: Tuple of 3 random letters from the alphabet AZ
+        start = tuple(secrets.choice(AZ) for i in range(3))                       # Start positions: Tuple of 3 random letters from the alphabet AZ        
+        reflector = secrets.choice(list(REFLECTOR.keys()))                                     # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
         
         switches = []
         first_letters = random.sample(AZ, k=10)                                   # Generate 10 random unique letters
@@ -182,19 +186,19 @@ def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, 
         
         switched_letter_forward = plugboard(i, switches)                                                                            # Process the plaintext letter thorugh the plugboard
         
-        rotor_right_forward = Cesar([alphabet, ring_right[1]], switched_letter_forward, 0, ring_setting[2])                         # Process the encrypted letter forward through the rotors
+        rotor_right_forward = Cesar([alphabet, ring_right[1]], switched_letter_forward, 'A', ring_setting[2])                       # Process the encrypted letter forward through the rotors
         rotor_centre_forward = Cesar([ring_right[0], ring_centre[1]], rotor_right_forward, ring_setting[2], ring_setting[1])
         rotor_left_forward = Cesar([ring_centre[0], ring_left[1]], rotor_centre_forward, ring_setting[1], ring_setting[0])
 
-        reflector_in = Cesar([ring_left[0], alphabet], rotor_left_forward, ring_setting[0], 0)                                      # Process the encrypted letter through the reflector
-        reflector_out = Cesar([deque(REFLECTOR[reflector_type]), ring_left[0]], reflector_in, 0, ring_setting[0])
+        reflector_in = Cesar([ring_left[0], alphabet], rotor_left_forward, ring_setting[0], 'A')                                    # Process the encrypted letter through the reflector
+        reflector_out = Cesar([deque(REFLECTOR[reflector_type]), ring_left[0]], reflector_in, 'A', ring_setting[0])
         
         rotor_left_backward = Cesar([ring_left[1], ring_centre[0]], reflector_out, ring_setting[0], ring_setting[1])                # Process the encrypted letter backward through the rotors
         rotor_centre_backward = Cesar([ring_centre[1], ring_right[0]], rotor_left_backward, ring_setting[1], ring_setting[2])
-        rotor_right_backward = Cesar([ring_right[1], alphabet], rotor_centre_backward, ring_setting[2], 0)
+        rotor_right_backward = Cesar([ring_right[1], alphabet], rotor_centre_backward, ring_setting[2], 'A')
 
         switched_letter_backward = plugboard(rotor_right_backward, switches)                                                        # Process the encrypted letter through the plugboard
-        enc_text += switched_letter_backward                                                                                          # Attache the encrypted letter to the ciphertext
+        enc_text += switched_letter_backward                                                                                        # Attache the encrypted letter to the ciphertext
 
         if DEBUG:
             print(f'Keyboard input: {i}')
@@ -206,36 +210,20 @@ def Enigma_process(text, rotors, ring_setting, start_positions, reflector_type, 
             print(f'Plugboard: {switched_letter_backward} <- {rotor_right_backward}')
             print(f'Lampboard output: {switched_letter_backward}\n')
             
-    return ' '.join([enc_text[i:i + 5] for i in range(0, len(enc_text), 5)])                                                            # Return cipher in groups of 5 letters
-
-
-  def check_text(text):                                                                                                             # Control if the plaintext only contains letters, if not, throw an assertion error
-    if DEBUG:
-        for i, j in enumerate(text):
-            if not j.isalpha():
-                print(f'The char {j} at position {i} not a letter')
-    assert(text.isalpha())
+    return ' '.join([enc_text[i:i + 5] for i in range(0, len(enc_text), 5)])                                                        # Return cipher in groups of 5 letters
 
 
 def prep_text(text):                                                                                                                # Replace common puctuation with letters
     text = text.replace(' ', 'X')
     text = text.replace(',', 'QQ')
-    text = text.replace('\n', '')
-    text = text.replace('\r', '')
     for p in punctuation:
         text = text.replace(p, '')
-    check_text(text)
+    assert(text.isalpha())
     return text
   
   
-def main():
-    text = input('Type your text (no digits): ')
-    text = prep_text(text)
-    
-    rotors, ring_setting, start_positions, reflector_type, switches = setup()                                                       # Load the setup of the device
+if __name__ == '__main__':
+    text = prep_text(TEXT)    
+    rotors, ring_setting, start_positions, reflector_type, switches = setup()                                                      
     enc_text = Enigma_process(text.upper(), rotors, ring_setting, start_positions, reflector_type, switches)
     print(f'\nCiphertext: {enc_text}')
-    
-
-if __name__ == '__main__':
-    main()
