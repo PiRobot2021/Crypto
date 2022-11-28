@@ -24,7 +24,7 @@ AZ = list(string.ascii_uppercase)                                       # Create
 
 def encrypt(key, plaintext):
     enc_text = ''
-    for i, j in enumerate(plaintext):
+    for i, l in enumerate(plaintext):
         key_rot = key[i % len(key)]                                       # Apply key rotation syncronized with the index "i" of the letter in the plaintext
         if l in az:
             enc_text += az[(i + key_rot) % len(az)]                       # Apply the key rotation to the letter in the alphabet (lower ascii)
@@ -37,7 +37,7 @@ def encrypt(key, plaintext):
 
 if __name__ == '__main__':
     # Encryption
-    key = [secrets.randint(1, len(az)) for i in range(LEN_KEY)]            # I limited the random key within the modulus, excluding rotation 0
+    key = [secrets.randbelow(len(az)) for i in range(LEN_KEY)]            # I limited the random key within the modulus, but still includes rotation 0
     print(f'Random key: {key}')
     
     enc_text = encrypt(key, TEXT)
