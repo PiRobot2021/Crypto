@@ -17,7 +17,7 @@ def encrypt(text, key):
     return ''.join([chr(text[i] ^ key[i]) for i in range(len(key))]).encode()           # Merge the XOR values into an encoded string 
         
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     text = text.replace(' ', '').lower()
 
@@ -26,6 +26,3 @@ def main():
     
     enc_text = encrypt(text.encode(), key.encode())
     print(f'\nCiphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
