@@ -86,9 +86,9 @@ if __name__ == '__main__':
         TEXT = TEXT.replace(i, '')
     assert(TEXT.isalpha())                                                      # Classic Playfair variations only encrypt letters
     
-    key1 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])               # Generate random letters with defined length
+    key1 = ''.join([secrets.choice(list(az)) for i in range(LEN_KEYS)])         # Generate random letters with defined length
     print(f'First random key: {key1}')
-    key2 = ''.join([secrets.choice(az) for i in range(LEN_KEYS)])
+    key2 = ''.join([secrets.choice(list(az)) for i in range(LEN_KEYS)])
     print(f'Second random key: {key2}')
     
     enc_text = encrypt(TEXT.lower(), key1, key2)
