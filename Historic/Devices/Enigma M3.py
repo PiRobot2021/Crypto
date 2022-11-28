@@ -20,7 +20,7 @@ DW AO QT           Plugboard switches (in this examples D to W, A to O and Q to 
 A F J              Initial position of the rotors
 """
 
-import secrets, random
+import secrets
 from collections import deque
 from string import ascii_uppercase as AZ
 from string import punctuation
@@ -45,10 +45,10 @@ REFLECTOR = {'UKW_B':'YRUHQSLDPXNGOKMIEBFZCWVJAT',   # The letters in the reflec
              'UKW_C':'FVPJIAOYEDRZXWGCTKUQSBNMHL'}
 
 TURN_NOTCH = {1:'Q',                                 # If rotor steps from Q to R, the next rotor is advanced
-              2:'E',	                             # If rotor steps from E to F, the next rotor is advanced
-              3:'V',	                             # If rotor steps from V to W, the next rotor is advanced
-              4:'J',	                             # If rotor steps from J to K, the next rotor is advanced
-              5:'Z',	                             # If rotor steps from Z to A, the next rotor is advanced
+              2:'E',	                               # If rotor steps from E to F, the next rotor is advanced
+              3:'V',	                               # If rotor steps from V to W, the next rotor is advanced
+              4:'J',	                               # If rotor steps from J to K, the next rotor is advanced
+              5:'Z',	                               # If rotor steps from Z to A, the next rotor is advanced
               6:['Z', 'M'],                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
               7:['Z', 'M'],                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
               8:['Z', 'M']}                          # If rotor steps from Z to A, or from M to N the next rotor is advanced
@@ -68,24 +68,25 @@ DEBUG = False
 
 def setup():
     if MANUAL_SETUP:
-        rotor = (1, 2, 3)                                                         # Chose the rotors to use, from 1 to 8. A rotor can be set only once.
-        switches = [('A', 'B')]                                                   # List up to 13 pairs of letters to simulate the plugboard, represented as tuples. A letter can be used only once.                                     
-        start = ('A', 'D', 'U')                                                   # Three letter values, setting the start positions of the rotors.
-        ring_setting = ('A', 'A', 'A')                                            # Internal shift of the ring against the start positions. Each value varies from 0 to 25 (equivalent of A to Z).
-        reflector = 'UKW_B'                                                       # The reflector type: Can be either UKW_B or UKW_C.
-    else:                                                                         # Switch to automatic mode, setup is randomly generated      
-        rotor = tuple(random.sample(range(1, 9), k=3))                            # Rotors: random sample of three unique values from 1 to 8
-        ring_setting = tuple(secrets.choice(AZ) for i in range(3))                             # Ring settings: Tuple of 3 random letters from the alphabet AZ
-        start = tuple(secrets.choice(AZ) for i in range(3))                       # Start positions: Tuple of 3 random letters from the alphabet AZ        
-        reflector = secrets.choice(list(REFLECTOR.keys()))                                     # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
+        rotor = (1, 2, 3)                                                                               # Chose the rotors to use, from 1 to 8. A rotor can be set only once.
+        switches = [('A', 'B')]                                                                         # List up to 13 pairs of letters to simulate the plugboard, represented as tuples. A letter can be used only once.                                     
+        start = ('A', 'D', 'U')                                                                         # Three letter values, setting the start positions of the rotors.
+        ring_setting = ('A', 'A', 'A')                                                                  # Internal shift of the ring against the start positions. Each value varies from 0 to 25 (equivalent of A to Z).
+        reflector = 'UKW_B'                                                                             # The reflector type: Can be either UKW_B or UKW_C.
+    else:                                                                                               # Switch to automatic mode, setup is randomly generated      
+        rotors = list(range(1, 9))
+        rotor = tuple(rotors.pop(rotors.index(secrets.choice(rotors))) for i in range(3))               # Rotors: random sample of three unique values from 1 to 8
+        ring_setting = tuple(secrets.choice(AZ) for i in range(3))                                      # Ring settings: Tuple of 3 random letters from the alphabet AZ
+        start = tuple(secrets.choice(AZ) for i in range(3))                                             # Start positions: Tuple of 3 random letters from the alphabet AZ        
+        reflector = secrets.choice(list(REFLECTOR.keys()))                                              # Reflector type: Chose randomly between the two keys assigned to REFLECTOR dictionary
         
         switches = []
-        first_letters = random.sample(AZ, k=10)                                   # Generate 10 random unique letters
-        second_letters = ''.join(set(copy(AZ)).difference(set(first_letters)))    # Create a string the all the remaining letters of the alphabet AZ
-        for i in first_letters:                                                   # For each letter in the list of 10 randomly generated:
-            j = random.sample(second_letters, k=1)[0]                             # Chose a random letter from the string of remaining letters
-            switches.append((i, j))                                               # Append it to the first letter to form a tuple
-            second_letters = second_letters.replace(f'{j}', '')                   # Remove the appended letter from the remaining letters 
+        alphabet = list(AZ)
+        first_letters = set(alphabet.pop(alphabet.index(secrets.choice(alphabet))) for i in range(10))  # Generate 10 random unique letters
+        second_letters = list(set(copy(AZ)).difference(first_letters))                                  # Create a string the all the remaining letters of the alphabet AZ
+        for i in first_letters:                                                                         # For each letter in the list of 10 randomly generated:
+            switches.append((i, second_letters.pop(second_letters.index(secrets.choice(second_letters)))))                                                                     
+
     assert(check_setup(rotor, switches, start, ring_setting, reflector)) 
     print(f'Rotors: {ROTOR_NAME[rotor[0]]}, {ROTOR_NAME[rotor[1]]}, {ROTOR_NAME[rotor[2]]}')
     print(f'Ring settings: {ring_setting[0]}, {ring_setting[1]}, {ring_setting[2]}')
