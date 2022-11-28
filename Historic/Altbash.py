@@ -18,9 +18,6 @@ def encrypt_decrypt(text):
     print(reverse.translate(rotation_tab).replace(' ', ''))
 
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     encrypt_decrypt(text)                                           # Being a simple reverse, encryption and decryption proceed with the same function
-    
-if __name__ == '__main__':
-    main()
