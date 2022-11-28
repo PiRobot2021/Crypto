@@ -12,7 +12,7 @@ import pandas as pd
 import string
 from collections import deque
 
-SHUFFLED= True
+SHUFFLED = True
 
 def create_Gronsfeld():                                                                                 # Function to create a Gronsfeld table
     alphabet = deque(string.ascii_lowercase)                                                            # I use a deque to rotate the alphabet
@@ -41,13 +41,10 @@ def encrypt(text):
     return enc_text
 
 
-def main():
+if __name__ == '__main__':
     text = input('Type your text (letters only): ')
     text = text.replace(' ', '').lower()
     assert(text.isalpha())
 
     enc_text = encrypt(text)
     print(f'\nCiphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
