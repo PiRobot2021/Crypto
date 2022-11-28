@@ -81,11 +81,8 @@ def geometric_encrypt(text):                                              # I cr
         return cipher
 
     
-def main():
+if __name__ == '__main__':
     text = input('Type your text: ')
     # Encryption
     enc_text = geometric_encrypt(text)
     print(f'\nCiphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
