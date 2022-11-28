@@ -16,6 +16,8 @@ then rebuilding the plaintext by concatenating the letter in the proper diagonal
 from collections import deque
 
 
+TEXT = 'Type your text here...'
+
 N = 5               # Number of rails. It must be lower than the length of the text.
 assert(N > 1)
 
@@ -123,10 +125,8 @@ def decrypt(enc_text, N):
         
         
 if __name__ == '__main__':
-    text = input('Type your text: ')
-    
     # Encryption
-    enc_text = encrypt(text, N)
+    enc_text = encrypt(TEXT, N)
     print(f'\nCiphertext: {enc_text}')
 
     # Decryption
