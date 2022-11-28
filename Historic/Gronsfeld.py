@@ -12,6 +12,7 @@ import pandas as pd
 import string
 from collections import deque
 
+TEXT = 'Type your text here...'
 SHUFFLED = True
 
 def create_Gronsfeld():                                                                                 # Function to create a Gronsfeld table
@@ -42,9 +43,9 @@ def encrypt(text):
 
 
 if __name__ == '__main__':
-    text = input('Type your text (letters only): ')
-    text = text.replace(' ', '').lower()
-    assert(text.isalpha())
+    for i in ''.join([string.punctuation, ' ']):
+        TEXT = TEXT.replace(i, '')
+    assert(TEXT.isalpha())
 
-    enc_text = encrypt(text)
+    enc_text = encrypt(TEXT)
     print(f'\nCiphertext: {enc_text}')
