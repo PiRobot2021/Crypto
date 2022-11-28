@@ -1,7 +1,7 @@
 #/usr/bin/env python3
 """
 ENIGMA MODEL M3
-
+https://cryptomuseum.com/crypto/enigma/m3/index.htm
 
 """
 
