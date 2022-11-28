@@ -24,8 +24,10 @@ This cipher disrupts the letter and word frequencies by encrypting letters by pa
 
 import pandas as pd                                                                       # I decided to use pandas, for two square and four square variations I use numpy to compare the codes
 import string
-import random
+import secrets
 
+
+TEXT = 'Type your text here...'
 PADDING_CHAR = 'z'
 
 
@@ -100,8 +102,9 @@ def encrypt(text, key):
             
 
 if __name__ == '__main__':
-    text = input('Type your text: ')
-    text = text.replace(' ', '').lower()                                                   # Playfair cipher does not allow spaces between words
+    text = TEXT.replace(' ', '').lower()                                                   # Playfair cipher does not allow spaces between words
+    for i in ''.join([string.punctuation, ' ']):
+        text = text.replace(i, '')
     if SQUARE_SIZE == 5:
         assert(text.isalpha())                                                             # Playfair 5x5 can only encrypt letters 
     
