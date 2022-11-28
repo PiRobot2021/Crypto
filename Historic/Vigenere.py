@@ -21,6 +21,7 @@ import pandas as pd
 from collections import deque
 
 
+TEXT = 'Type your text here...'
 KEY_LENGTH = 5
 
 # This piece of code is required to run classic encryption and decryption functions.
@@ -96,13 +97,12 @@ def decrypt(key, enc_text):
 
 
 if __name__ == '__main__':
-    text = input('Type your text: ')
     key = ''.join([secrets.choice(string.ascii_lowercase) for i in range(KEY_LENGTH)])                # This Vigenre variation using a random key is also called "running key cipher"
     print(f'Random key: {key}')
     #print(f'Vigenere table:\n{tabula}')
     
     # Encryption
-    enc_text = encrypt_classic(key, text)                               
+    enc_text = encrypt_classic(key, TEXT)                               
     print(f'\nCiphertext: {enc_text}')
     enc_text = encrypt(key, text)
     print(f'Ciphertext: {enc_text}')
