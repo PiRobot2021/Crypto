@@ -12,8 +12,11 @@ This is sometimes called "route cipher".
 """
 
 import math
-import random
+import secrets
 import pandas as pd
+
+
+TEXT = 'Type your text here...'
 
 # Setup values for padding                                              # I have chosen to square the text before encryption to avoid exposing the tail as plaintext
 PADDING_CHAR = '_'                                                      # Select the char for the padding
@@ -22,13 +25,12 @@ REMOVE_PADDING = True                                                   # If Tru
 
 
 def squaring(text):
-    text = text.replace(' ', '')                                        # Remove spaces between words
     side = math.sqrt(len(text))                                         # Approximate the side of the squared text from its length
     if not side.is_integer():                                           # If the text does not produce a perfect square, adjust the side and add padding
         side = int(side) + 1
         while len(text) < pow(side, 2):                                 # Pad until the text is long enough for a perfect square
             if RANDOM_PADDING:
-                index = random.randint(0, len(text))                    # Produce a random index in the text
+                index = secrets.randbelow(len(text))                    # Produce a random index in the text
                 text = text[:index] + PADDING_CHAR + text[index:]       # Add the pad
             else:
                 text += PADDING_CHAR
@@ -73,16 +75,16 @@ def diagonal(text):
 
 
 def geometric_encrypt(text):                                              # I created two examples, one following diagonal path, the other snaking through from left to right
-    cipher = diagonal(text)                                             
-    cipher = snake(cipher)
+    enc_text = diagonal(text)                                             
+    enc_text = snake(cipher)
     if REMOVE_PADDING:
-        return cipher.replace(PADDING_CHAR, '')
+        return enc_text.replace(PADDING_CHAR, '')
     else:
-        return cipher
+        return enc_text
 
     
 if __name__ == '__main__':
-    text = input('Type your text: ')
     # Encryption
-    enc_text = geometric_encrypt(text)
+    TEXT = TEXT.replace(' ', '')                                        # Remove spaces between words
+    enc_text = geometric_encrypt(TEXT)
     print(f'\nCiphertext: {enc_text}')
