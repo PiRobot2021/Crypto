@@ -13,48 +13,50 @@ Note that the extra wheel is not driven by the wheel to its right, so it never m
 
 """
 
-import random
+import secrets
 from collections import deque
 from string import ascii_uppercase as AZ
 from string import punctuation
 from copy import copy
 
 
-INNER_RING= {1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
-             2:'AJDKSIRUXBLHWTMCQGZNPYFVOE',
-             3:'BDFHJLCPRTXVZNYEIWGAKMUSQO',
-             4:'ESOVPZJAYQUIRHXLNFTGKDCMWB',
-             5:'VZBRGITYUPSDNHLXAWMJQOFECK',
-             6:'JPGVOUMFYQBENHZRDKASXLICTW',
-             7:'NZJHGRCXMYSWBOUFAIVLPEKQDT',
-             8:'FKQHTLXOCBJSPDZRAMEWNIUYGV'}
+TEXT = 'Type your text here...'
 
-REFLECTOR= {'B_Thin':'ENKQAUYWJICOPBLMDXZVFTHRGS',		
-            'C_Thin':'RDOBJNTKVEHMLFCWZAXGYIPSUQ'}
+INNER_RING = {1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
+              2:'AJDKSIRUXBLHWTMCQGZNPYFVOE',
+              3:'BDFHJLCPRTXVZNYEIWGAKMUSQO',
+              4:'ESOVPZJAYQUIRHXLNFTGKDCMWB',
+              5:'VZBRGITYUPSDNHLXAWMJQOFECK',
+              6:'JPGVOUMFYQBENHZRDKASXLICTW',
+              7:'NZJHGRCXMYSWBOUFAIVLPEKQDT',
+              8:'FKQHTLXOCBJSPDZRAMEWNIUYGV'}
 
-ADDITIONAL_WHEEL= {'Beta':'LEYJVCNIXWPBQMDRTAKZGFUHOS',
-                   'Gamma':'FSOKANUERHMBTIYCWLQPZXVGJD'}
+REFLECTOR = {'B_Thin':'ENKQAUYWJICOPBLMDXZVFTHRGS',		
+             'C_Thin':'RDOBJNTKVEHMLFCWZAXGYIPSUQ'}
 
-TURN_NOTCH= {1:'Q',           # If rotor steps from Q to R, the next rotor is advanced
-             2:'E',	          # If rotor steps from E to F, the next rotor is advanced
-             3:'V',	          # If rotor steps from V to W, the next rotor is advanced
-             4:'J',	          # If rotor steps from J to K, the next rotor is advanced
-             5:'Z',	          # If rotor steps from Z to A, the next rotor is advanced
-             6:['Z', 'M'],    # If rotor steps from Z to A, or from M to N the next rotor is advanced
-             7:['Z', 'M'],    # If rotor steps from Z to A, or from M to N the next rotor is advanced
-             8:['Z', 'M']}    # If rotor steps from Z to A, or from M to N the next rotor is advanced
+ADDITIONAL_WHEEL = {'Beta':'LEYJVCNIXWPBQMDRTAKZGFUHOS',
+                    'Gamma':'FSOKANUERHMBTIYCWLQPZXVGJD'}
 
-ROTOR_NAME= {1:'I',
-             2:'II', 
-             3:'III',
-             4:'IV',
-             5:'V',
-             6:'VI',
-             7:'VII',
-             8:'VIII'}
+TURN_NOTCH = {1:'Q',           # If rotor steps from Q to R, the next rotor is advanced
+              2:'E',	          # If rotor steps from E to F, the next rotor is advanced
+              3:'V',	          # If rotor steps from V to W, the next rotor is advanced
+              4:'J',	          # If rotor steps from J to K, the next rotor is advanced
+              5:'Z',	          # If rotor steps from Z to A, the next rotor is advanced
+              6:['Z', 'M'],    # If rotor steps from Z to A, or from M to N the next rotor is advanced
+              7:['Z', 'M'],    # If rotor steps from Z to A, or from M to N the next rotor is advanced
+              8:['Z', 'M']}    # If rotor steps from Z to A, or from M to N the next rotor is advanced
 
-MANUAL_SETUP= False
-DEBUG= True
+ROTOR_NAME = {1:'I',
+              2:'II', 
+              3:'III',
+              4:'IV',
+              5:'V',
+              6:'VI',
+              7:'VII',
+              8:'VIII'}
+
+MANUAL_SETUP = False
+DEBUG = False
 
 def setup():
     if MANUAL_SETUP:
@@ -188,20 +190,20 @@ def Enigma_process(text):
         
         switched_letter_forward = plugboard(i, switches)
         
-        rotor_right_forward = Cesar([alphabet, ring_right[1]], switched_letter_forward, 0, ring_setting[3])
+        rotor_right_forward = Cesar([alphabet, ring_right[1]], switched_letter_forward, 'A', ring_setting[3])
         rotor_centre_forward = Cesar([ring_right[0], ring_centre[1]], rotor_right_forward, ring_setting[3], ring_setting[2])
         rotor_left_forward = Cesar([ring_centre[0], ring_left[1]], rotor_centre_forward, ring_setting[2], ring_setting[1])
         
         additional_wheel_forward = Cesar([ring_left[0], thin_wheel[1]], rotor_left_forward, ring_setting[1], ring_setting[0])
         
-        reflector_in = Cesar([thin_wheel[0], alphabet], additional_wheel_forward, ring_setting[0], 0)
-        reflector_out = Cesar([deque(REFLECTOR[reflector_type]), thin_wheel[0]], reflector_in, 0, ring_setting[0])
+        reflector_in = Cesar([thin_wheel[0], alphabet], additional_wheel_forward, ring_setting[0], 'A')
+        reflector_out = Cesar([deque(REFLECTOR[reflector_type]), thin_wheel[0]], reflector_in, 'A', ring_setting[0])
         
         additional_wheel_backward = Cesar([thin_wheel[1], ring_left[0]], reflector_out, ring_setting[0], ring_setting[1])
         
         rotor_left_backward = Cesar([ring_left[1], ring_centre[0]], additional_wheel_backward, ring_setting[1], ring_setting[2])
         rotor_centre_backward = Cesar([ring_centre[1], ring_right[0]], rotor_left_backward, ring_setting[2], ring_setting[3])
-        rotor_right_backward = Cesar([ring_right[1], alphabet], rotor_centre_backward, ring_setting[3], 0)
+        rotor_right_backward = Cesar([ring_right[1], alphabet], rotor_centre_backward, ring_setting[3], 'A')
         
         switched_letter_backward = plugboard(rotor_right_backward, switches)
         enc_text += switched_letter_backward
@@ -230,20 +232,13 @@ def check_text(text):
 def prep_text(text):
     text = text.replace(' ', 'X')
     text = text.replace(',', 'QQ')
-    text = text.replace('\n', '')
-    text = text.replace('\r', '')
     for p in punctuation:
         text= text.replace(p, '')
     check_text(text)
     return text
 
 
-def main():
-    text = input('Type your text (no digits): ')
-    text = prep_text(text)
-
+if __name__ == '__main__':
+    text = prep_text(TEXT)
     enc_text = Enigma_process(text.upper())
     print(f'\nCiphertext: {enc_text}')
-
-if __name__ == '__main__':
-    main()
