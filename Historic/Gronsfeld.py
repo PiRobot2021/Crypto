@@ -12,6 +12,7 @@ import pandas as pd
 import string
 from collections import deque
 
+
 TEXT = 'Type your text here...'
 SHUFFLED = True
 
