@@ -1,3 +1,5 @@
+
+#!/usr/bin/env python3
 """
 ADFGX and ADFGVX CIPHERS
 
@@ -25,6 +27,7 @@ import pandas as pd
 TEXT = 'Type your text here...'
 LEN_KEY = 5                                                                         # Key length used in the random generator for the columnar encryption
 PADDING_CHAR = '_'                                                                  # Used in the columnar encryption to fit the text in a matrix
+
 
 def create_square():                                                                # Creates a 6x6 Polybius square containing shuffled lower ascii letters and digits
     linear_values = list(string.digits + string.ascii_lowercase)
@@ -93,11 +96,8 @@ def encrypt(text, key):
 
 
 if __name__ == '__main__':
-    text = input('Type your text (only letters, digits and spaces): ')
-    text = text.replace(' ', '').lower()
-    assert(text.isalnum())
-
-    key = random.choices(string.ascii_lowercase, k=LEN_KEY)
-    
-    enc_text = encrypt(text, key)
+    for i in ''.join([string.punctuation, ' ']):
+        TEXT = TEXT.replace(i, '')
+    key = ''.join([secrets.choice(string.ascii_lowercase) for i in range(LEN_KEY)])
+    enc_text = encrypt(TEXT.lower(), key)
     print(f'\nCiphertext: {enc_text}')
